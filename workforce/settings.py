@@ -68,6 +68,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # Requird when using MEDIA_URL in template
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -123,7 +125,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+# used for static folders within apps
+# my_app/static/my_app/example.jpg
 STATIC_URL = '/static/'
+# For main static file not tied up to app and in base_dir/Required for base.css
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+# This will add the file to the media folder and not to another url
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
