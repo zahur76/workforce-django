@@ -7,6 +7,8 @@
 
 
 {% block content %}
-    <h1>home page</h1>
-    <img src="{{ MEDIA_URL }}storm.png"> 
+    {% if request.user.is_authenticated %}
+    {% else %}
+        <div class="text-center h1 text-dark login-text">Please login</div>
+    {% endif %}   
 {% endblock %}
