@@ -33,6 +33,22 @@ input {
     height: 30px;    
 }
 
+/* Flash messages */
+.flash-message {
+    position: absolute;
+    top: 30px;
+    right: -30px;
+}
+
+.box {    
+    border: solid 1px rgb(0, 0, 0);
+    background: rgba(177, 171, 171,0.5);
+    align-items: center;
+    border-radius: 5px;
+    color:rgb(92, 136, 202);
+}
+
+
 /* Media screen */
 @media screen and (max-width: 768px){
 
