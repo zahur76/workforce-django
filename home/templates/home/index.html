@@ -8,7 +8,16 @@
 
 {% block content %}
     {% if request.user.is_authenticated %}
-        <h1 class="text-danger">{{ user.username }}</h1>
+        <div class="row m-0">
+            <div class="col-12 p-3">
+                <a class="button" href="#">Staff Management</a>               
+            </div>
+        </div>        
+        <div class="row m-0">
+            <div class="col-12 p-3">
+                <a class="button" href="#">Pay Management</a>
+            </div>
+        </div>         
     {% else %}
         <div class="text-center h1 text-dark login-text">Please login</div>
     {% endif %}   

@@ -7,3 +7,14 @@
    padding-top: 200px;
 }
 
+.button {    
+    background: black;
+    color: white;
+    border-radius: 0;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.button:hover {   
+    color: rgb(59, 56, 56);   
+}

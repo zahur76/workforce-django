@@ -30,13 +30,13 @@
         </nav>            
         <!-- Message template -->  
         {% if messages %}
-            <ul class="p-2 flash-message text-success m-0 p-5">
+            <ul class="flash-message text-success">
                 {% for message in messages %}
                     {% with message.level as level %}
                         {% if level == 40 %}   
-                            <div class="box text-center h5 p-3">{{ message }}</div>
+                            <div class="box text-center h5 p-3 m-0">{{ message }}</div>
                         {% else%}
-                            <div class="box text-center h5 p-3">{{ message }}</div>
+                            <div class="box text-center h5 p-3 m-0">{{ message }}</div>
                         {% endif %}
                     {% endwith %}
                 {% endfor %}
@@ -49,7 +49,7 @@
         </div>   
 
         <footer class="footer text-danger text-center h6 m-0">            
-            <div class="pb-2 bg-dark text-info">Workforce</div>
+            <div class="p-2 bg-dark text-info">Workforce</div>
         </footer>
 
         {% block corejs %} 

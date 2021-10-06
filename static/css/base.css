@@ -14,7 +14,9 @@ nav a {
     flex: 1;              
 }
 
-.button {    
+.
+
+.button {        
     background: black;
     color: white;
     border-radius: 0;
@@ -36,11 +38,11 @@ input {
 /* Flash messages */
 .flash-message {
     position: absolute;
-    top: 30px;
-    right: -30px;
+    top: 75px;
+    right: 10px;
 }
 
-.box {    
+.box {     
     border: solid 1px rgb(0, 0, 0);
     background: rgba(177, 171, 171,0.5);
     align-items: center;
