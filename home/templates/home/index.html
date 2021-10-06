@@ -8,6 +8,7 @@
 
 {% block content %}
     {% if request.user.is_authenticated %}
+        <h1 class="text-danger">{{ user.username }}</h1>
     {% else %}
         <div class="text-center h1 text-dark login-text">Please login</div>
     {% endif %}   

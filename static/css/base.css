@@ -14,9 +14,50 @@ nav a {
     flex: 1;              
 }
 
-.button {
-    border: rgb(255, 255, 255);
+.button {    
     background: black;
     color: white;
+    border-radius: 0;
 }
 
+/* Modal */
+
+.modal { 
+    width: 40%;      
+    left: 30%;
+    top: 25%; 
+    z-index: 1;          
+}
+
+input {
+    height: 30px;    
+}
+
+/* Media screen */
+@media screen and (max-width: 768px){
+
+    .modal { 
+        width: 60% !important;      
+        left: 20%;        
+    }   
+}
+
+@media screen and (max-width: 560px){    
+    .modal { 
+        width: 90% !important;      
+        left: 5%;        
+    }
+    
+    .button {
+        font-size: 12px;
+    }
+
+    .modal-title {
+        font-size: 14px;
+    }
+
+    input {
+        height: 25px;
+        font-size: 14px !important;
+    }
+}
