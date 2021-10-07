@@ -5,6 +5,7 @@ $(document).ready(function(){
         $("#loginModal").show();                          
     });
 
+
     $(".close").click(function(){        
         $("#loginModal").hide();        
     });
@@ -13,5 +14,5 @@ $(document).ready(function(){
     setTimeout(function(){
         $(".flash-message").hide("slow");
     }, 3000 ); // 5 secs
-    
+
 });
