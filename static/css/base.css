@@ -18,6 +18,11 @@ nav a {
     background: black;
     color: white;
     border-radius: 0;
+    text-decoration: none;    
+}
+
+.button:hover {  
+    color: rgb(187, 184, 184) !important;   
 }
 
 /* Modal */
