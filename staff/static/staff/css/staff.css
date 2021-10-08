@@ -33,11 +33,16 @@ img {
 }
 
 .form-control {
-    color: #aab7c4;    
+    color: #000000;    
 }
 
 .addStaff #div_id_image {
     display: none !important;
+}
+
+.input-group-text {
+    margin-top: 4px;
+    border-radius: 0;
 }
 
 /* media screen repoonsive design */

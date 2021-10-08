@@ -1,6 +1,6 @@
 from django import forms
 from .models import Staff
-
+from bootstrap_datepicker_plus import DatePickerInput
 
 class add_staffForm(forms.ModelForm):
     class Meta:
@@ -36,14 +36,20 @@ class add_staffForm(forms.ModelForm):
 
         self.fields['first_name'].widget.attrs['autofocus'] = True
         for field in self.fields:
-            if field != 'gender' and field != 'management_level':                
+            if field != 'gender' and field != 'management_level':                 
                 self.fields[field].widget.attrs[
                     'placeholder'] = placeholders[field]
-                    
-            self.fields[field].widget.attrs[
-                'class'] = 'border-dark m-1 rounded-0 mx-auto add_staff-form-input'
-                       
+            
+            if field in ['birth_date', 'entry_date', 'termination_date']:                  
+                self.fields[field].widget = DatePickerInput()
+                self.fields[field].widget.attrs[
+                'class'] = 'border-dark rounded-0 mx-auto add_staff-form-input m-1' 
+            else:
+                self.fields[field].widget.attrs[
+                'class'] = 'border-dark m-1 rounded-0 mx-auto add_staff-form-input' 
+                        
             if field == 'image':
                 self.fields['image'].label = 'Upload Image'
             else:                       
                 self.fields[field].label = False
+                
