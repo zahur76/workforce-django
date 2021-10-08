@@ -32,3 +32,11 @@ def staff_details(request, staff_id):
         }
     
     return render(request, 'staff/staff_details.html', context)
+
+
+def add_staff(request):
+    """ A view to return staff details """
+    
+    
+    
+    return render(request, 'staff/staff.html')
