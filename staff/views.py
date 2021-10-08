@@ -60,6 +60,30 @@ def add_staff(request):
 
 def update_staff(request, staff_id):
     """ A view to update staff details"""
-    print(staff_id)
+
+    if not request.user.is_superuser:
+            messages.error(request, 'Access Denied!')
+            return redirect(reverse('home'))
     
-    return render(request, 'staff/staff.html')
+    else:
+        staff = get_object_or_404(Staff, id=staff_id)
+        if request.method == 'POST':        
+            form = add_staffForm(request.POST, request.FILES, instance=staff)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Staff updated!')
+                return redirect(reverse('staff_details', args=[staff_id]))
+            else:
+                messages.error(
+                    request, 'Staff could not be added. \
+                        Please ensure the form is valid.')
+                return redirect(reverse('update_staff', args={staff_id}))
+        else:          
+            form = add_staffForm(instance=staff)
+
+            context = {
+                'form': form,
+                'staff': staff,
+                }
+
+    return render(request, 'staff/update_staff.html', context)

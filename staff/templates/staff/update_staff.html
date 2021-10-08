@@ -9,7 +9,7 @@
 {% block content %}
     <div class="text-center h1 mb-2">Update Staff</div>
     <div class="col-12 mx-auto mb-2 add-staff-form w-25">
-        <form id="mystaffForm" action="#" method="POST" enctype="multipart/form-data" class="addStaff">
+        <form id="mystaffForm" action="{% url 'update_staff' staff_id=staff.id %}" method="POST" enctype="multipart/form-data" class="addStaff">
             {% csrf_token %}
             {% crispy form %}
             <div class="row">
