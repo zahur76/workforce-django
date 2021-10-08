@@ -47,7 +47,7 @@ input {
 
 .box {     
     border: solid 1px rgb(0, 0, 0);
-    background: rgba(177, 171, 171,0.5);
+    background: rgba(177, 171, 171,0.9);
     align-items: center;
     border-radius: 5px;
     color:rgb(92, 136, 202);

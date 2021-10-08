@@ -8,12 +8,14 @@
 
 {% block content %}
     <div class="text-center h1 mb-2">Staff Management</div>
-      <a href="{% url 'add_staff' %}" class="btn button p-2 links mb-2">+ staff</a>
-      <a href="#" class="btn button p-2 links mb-2">+ Sick Leave</a>
-      <a href="#" class="btn button p-2 links mb-2">+ Annual Leave</a>    
+    <a href="{% url 'add_staff' %}" class="btn button p-2 links mb-2">+ staff</a>
+    <a href="#" class="btn button p-2 links mb-2">+ Sick Leave</a>
+    <a href="#" class="btn button p-2 links mb-2">+ Annual Leave</a>    
     <div class="row m-0 border-top">
         {% for staff in staff %} 
-            <a href="{% url 'staff_details' staff.id %}" class="col-12 mb-2 staff-name mt-1">{{ staff.id }}.{{ staff.first_name }} {{ staff.last_name }}</a>
+            <div class="col-12 p-2">
+                <a href="{% url 'staff_details' staff.id %}" class="text-dark mb-2 staff-name mt-1">{{ staff.id }}.{{ staff.first_name }} {{ staff.last_name }}</a>
+            </div>
         {% endfor %}
     </div>   
 {% endblock %}

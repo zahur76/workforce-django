@@ -11,6 +11,10 @@
     margin-left: 10px;
 }
 
+.staff-name:hover {
+    color: rgb(151, 147, 147) !important;
+}
+
 img {
     width: 150px;
 }
