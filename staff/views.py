@@ -36,11 +36,23 @@ def staff_details(request, staff_id):
 
 
 def add_staff(request):
-    """ A view to return staff details """
-    form = add_staffForm()
+    """ A view to add staff details"""
+    if request.method == 'POST':
+        form = add_staffForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Staff Added!')
+            return redirect(reverse('staff'))
+        else:
+            messages.error(
+                request, 'Staff could not be added. \
+                    Please ensure the form is valid.')
+            return redirect(reverse('add_staff'))
+    else: 
+        form = add_staffForm()
 
-    context = {
-        'form': form,        
-        }    
+        context = {
+            'form': form,        
+            }    
     
     return render(request, 'staff/add_staff.html', context)
