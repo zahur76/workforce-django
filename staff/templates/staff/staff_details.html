@@ -70,7 +70,7 @@
                 <div class="col-12 bg-dark text-center text-light delete">Do you want to delete {{ staff.first_name }}?</div>                       
             </div>              
             <div class="row w-25 mx-auto text-center mt-3">
-                <a href="#" class="col-12 confirm btn btn-dark border border-light text-light">Confirm</a>            
+                <a href="{% url 'delete_staff' staff_id=staff.id %}" class="col-12 confirm btn btn-dark border border-light text-light">Confirm</a>            
             </div>
         </div>    
     </div>     

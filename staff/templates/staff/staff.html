@@ -10,10 +10,19 @@
     <div class="text-center h1 mb-2">Staff Management</div>
     <a href="{% url 'add_staff' %}" class="btn button p-2 links mb-2">+ staff</a>
     <a href="#" class="btn button p-2 links mb-2">+ Sick Leave</a>
-    <a href="#" class="btn button p-2 links mb-2">+ Annual Leave</a>    
-    <div class="row m-0 border-top">
+    <a href="#" class="btn button p-2 links mb-2">+ Annual Leave</a>      
+    <div class="row m-0 border-top d-flex justify-content-left">
+        <div class="col-10 col-xs-6 col-md-4 col-lg-3 mt-2">
+            <form action="{% url 'staff' %}" method="GET" id="characterForm">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="search" class="form-control custom-select rounded-0 border-2 border-dark" name="q" placeholder="Search Staff">
+                    <button class="btn btn-outline-dark bg-dark text-light rounded-0 input-group-append ml-auto search-button" type="submit"><div class="text">Search</div></button>
+                </div>                
+            </form> 
+        </div>  
         {% for staff in staff %} 
-            <div class="col-12 p-2">
+            <div class="col-12 p-3">
                 <a href="{% url 'staff_details' staff.id %}" class="text-dark mb-2 staff-name mt-1">{{ staff.id }}.{{ staff.first_name }} {{ staff.last_name }}</a>
             </div>
         {% endfor %}

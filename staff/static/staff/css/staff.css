@@ -27,6 +27,22 @@ img {
     background: rgb(51, 168, 47);
 }
 
+.search-button {
+    height: 30px;
+}
+
+.search-button:hover {
+    background: rgb(90, 88, 88) !important;
+}
+
+.search-button .text {
+    line-height: 10px;
+}
+
+.custom-select {
+    height: 30px;
+}
+
 /* forms */
 .add_staff-form-input::placeholder {
     color: #aab7c4;
