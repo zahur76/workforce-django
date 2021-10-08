@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}  
+    <link rel="stylesheet" href="{% static 'staff/css/staff.css' %}">          
+{% endblock %}
+
+
+{% block content %}
+    <div class="text-center h1 mb-2">Add Staff</div>
+    <div class="col-12 mx-auto mb-2 add-staff-form w-25">
+        <form id="mystaffForm" action="#" method="POST" enctype="multipart/form-data" class="addStaff">
+            {% csrf_token %}
+            {% crispy form %}
+            <div class="row">
+                <div class="col-4">
+                    <button class="upload-image btn button">+ Image</button>
+                </div>
+                <div class="col-8">
+                    <div class="image-filename my-auto"></div>
+                </div>
+            </div>
+            <div class="col-12">
+                <button class="btn button mt-2" type="submit" form="mystaffForm">submit</button>
+            </div>             
+        </form>
+    </div> 
+{% endblock %}
+
+{% block extra_js %}              
+    <script src="{% static 'staff/js/staff.js' %}" type="text/javascript"></script>
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from .models import Staff
+from .forms import add_staffForm
 
 
 # Create your views here
@@ -36,7 +37,10 @@ def staff_details(request, staff_id):
 
 def add_staff(request):
     """ A view to return staff details """
+    form = add_staffForm()
+
+    context = {
+        'form': form,        
+        }    
     
-    
-    
-    return render(request, 'staff/staff.html')
+    return render(request, 'staff/add_staff.html', context)

@@ -1,5 +1,6 @@
 .content {
-    background: lightcyan;
+    background: url('/media/sky.jpg') no-repeat center center;
+    background-size: cover;
 }
 
 .staff-name {
@@ -21,3 +22,42 @@ img {
 .update {
     background: rgb(51, 168, 47);
 }
+
+/* forms */
+.add_staff-form-input::placeholder {
+    color: #aab7c4;
+}
+
+.form-control {
+    color: #aab7c4;    
+}
+
+.addStaff #div_id_image {
+    display: none !important;
+}
+
+/* media screen repoonsive design */
+@media screen and (max-width: 992px){
+    .add-staff-form {
+        width: 40% !important;
+    }    
+} 
+
+@media screen and (max-width: 768px){   
+    .add-staff-form {
+        width: 60% !important;
+    }
+    
+} 
+
+@media screen and (max-width: 576px){    
+    .add-staff-form {
+        width: 75% !important;
+    }
+
+    .form-control {
+        font-size: 14px;        
+    }
+}
+    
+

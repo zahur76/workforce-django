@@ -45,8 +45,6 @@ INSTALLED_APPS = [
     'home',
     'login',
     'staff',
-
-    
 ]
 
 MIDDLEWARE = [
@@ -61,7 +59,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'workforce.urls'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 TEMPLATES = [
     {

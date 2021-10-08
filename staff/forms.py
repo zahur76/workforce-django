@@ -23,12 +23,13 @@ class add_staffForm(forms.ModelForm):
             'entry_date': 'Date of entry',
             'termination_date': 'Date of termination', 
             'position_held': 'Position held',
-            'basic_salary ': 'Basic Salary',
+            'basic_salary': 'Basic Salary',
             'transport_allowance': 'Transport allowance',
             'annual_leave': 'Annual Leave', 
             'annual_leave_remaining': 'Annual Leave Remaining',
             'sick_leave': 'Sick Leave', 
-            'sick_leave_remaining': 'Sick Leave Remaining',              
+            'sick_leave_remaining': 'Sick Leave Remaining',
+            'image': 'Image',              
         }
 
         self.fields['first_name'].widget.attrs['autofocus'] = True
@@ -38,7 +39,7 @@ class add_staffForm(forms.ModelForm):
                     'placeholder'] = placeholders[field]
                     
             self.fields[field].widget.attrs[
-                'class'] = 'border-black rounded-0 mx-auto add_staff-form-input'
+                'class'] = 'border-dark m-1 rounded-0 mx-auto add_staff-form-input'
                        
             if field == 'image':
                 self.fields['image'].label = 'Upload Image'

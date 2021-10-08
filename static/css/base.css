@@ -9,7 +9,8 @@ nav a {
     text-decoration: none !important;
 }
 
-.content { 
+.content {    
+    background: url('/media/office.jpg') no-repeat center center;  
     flex: 1;              
 }
 
