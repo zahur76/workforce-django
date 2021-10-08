@@ -13,7 +13,16 @@
             {% csrf_token %}
             {% crispy form %}
             <div class="row">
-                <div class="col-4">
+                {% if staff.image %}
+                    <div class="col-12">
+                        <img class="image-icon" src="{{ staff.image.url }}" alt="{{ staff.name }}">
+                    </div>
+                {% else %}
+                    <div class="col-12">
+                        <img class="image-icon" src="{{ MEDIA_URL }}noimage.png" alt="{{ staff.name }}">
+                    </div>
+                {% endif %}
+                <div class="col-4 mt-2">
                     <button class="upload-image btn button">+Image</button>
                 </div>
                 <div class="col-8">

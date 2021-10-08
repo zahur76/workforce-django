@@ -29,6 +29,16 @@ $(document).ready(function(){
     $('#id_birth_date').change(function(){
         $('#id_birth_date').css('color', 'black');  
     });
+    
+    // change colour of dropdown menu selected items
+    let gender = $('#id_gender').val();
+    if(gender!=""){
+        $('#id_gender').css('color', 'black');
+    }
+    let level = $('#id_management_level').val();
+    if(level!=""){
+        $('#id_management_level').css('color', 'black');
+    }
 
     // feature to open upload image button
     $('.upload-image').click(function(){                       

@@ -45,6 +45,11 @@ img {
     border-radius: 0;
 }
 
+.image-icon {
+    height: 50px;
+    width: 50px;
+}
+
 /* media screen repoonsive design */
 @media screen and (max-width: 992px){
     .add-staff-form {
