@@ -50,6 +50,15 @@ img {
     width: 50px;
 }
 
+/* modal */
+.close-modal {
+    height: 20px;
+    text-align: right;
+}
+.confirm-modal {
+    opacity: 0.9;
+}
+
 /* media screen repoonsive design */
 @media screen and (max-width: 992px){
     .add-staff-form {

@@ -51,4 +51,15 @@ $(document).ready(function(){
         console.log(filename)        
         $('.image-filename').html(filename[2]);      
     });
+
+    // open delete modal    
+    $('.open-modal').click(function(){
+        openModal = $(this).attr("id");
+        requiredModal = 'delete' + openModal.split('open')[1];
+        $("#" + requiredModal).show();        
+    })
+
+    $('.close-modal').click(function(){
+        $('.confirm-modal').hide();
+    })
 });

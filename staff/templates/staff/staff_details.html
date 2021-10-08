@@ -9,7 +9,7 @@
 {% block content %}
     <div class="col-12 text-left p-2 h1 text-uppercase">{{ staff.first_name }} {{ staff.last_name }}</div>
     <div class="mt-1 col-12 p-2 border-bottom">
-        <a href="#" class="btn button delete text-dark p-1 mb-2">+ Delete</a>
+        <a href="#" class="btn open-modal button delete text-dark p-1 mb-2" id="open-modal-{{ staff.id }}">+ Delete</a>
         <a href="{% url 'update_staff' staff_id=staff.id %}" class="btn button update text-dark p-1 mb-2">+ Update</a>
         <a href="{% url 'staff' %}" class="btn bg-dark text-light button update p-1 mb-2">Back</a>  
     </div>
@@ -59,9 +59,23 @@
                 <div class="col-12 pb-1"><b class="">REMANING SICK LEAVE: </b>{{ staff.sick_leave_remaining}}</div>
             </div>
         </div>      
-    </div>      
+    </div>
+    <!-- Confirm staff deletion modal -->
+    <div id="delete-modal-{{ staff.id }}" class="modal confirm-modal mx-auto">
+        <div class="modal-content mt-2 bg-dark pb-2 pt-1">
+            <div class="row m-0">  
+                <div class="col-12 close-modal"><div class="btn p-0 text-danger">X</div></div>
+            </div> 
+            <div class="row m-0">                                 
+                <div class="col-12 bg-dark text-center text-light delete">Do you want to delete {{ staff.first_name }}?</div>                       
+            </div>              
+            <div class="row w-25 mx-auto text-center mt-3">
+                <a href="#" class="col-12 confirm btn btn-dark border border-light text-light">Confirm</a>            
+            </div>
+        </div>    
+    </div>     
 {% endblock %}
 
 {% block extra_js %}              
-    <!-- <script src="{% static 'home/js/home.js' %}" type="text/javascript"></script> -->
+    <script src="{% static 'staff/js/staff.js' %}" type="text/javascript"></script>
 {% endblock %}
