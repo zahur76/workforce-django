@@ -56,3 +56,10 @@ def add_staff(request):
             }    
     
     return render(request, 'staff/add_staff.html', context)
+
+
+def update_staff(request, staff_id):
+    """ A view to update staff details"""
+    print(staff_id)
+    
+    return render(request, 'staff/staff.html')
