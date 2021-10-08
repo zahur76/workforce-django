@@ -7,10 +7,11 @@
 
 
 {% block content %}
-    <div class="col-12 text-left p-2 h1 text-uppercase">{{ staff.first_name }}</div>
+    <div class="col-12 text-left p-2 h1 text-uppercase">{{ staff.first_name }} {{ staff.last_name }}</div>
     <div class="mt-1 col-12 p-2 border-bottom">
         <a href="#" class="btn button delete text-dark p-1 mb-2">+ Delete</a>
-        <a href="#" class="btn button update text-dark p-1 mb-2">+ Update</a> 
+        <a href="#" class="btn button update text-dark p-1 mb-2">+ Update</a>
+        <a href="{% url 'staff' %}" class="btn bg-dark text-light button update p-1 mb-2">Back</a>  
     </div>
     <div class="row m-0 mt-2">
         {% if staff.image %}
@@ -28,6 +29,8 @@
                  <div class="col-12 p-0 pb-1"><b class="">FIRST NAME: </b>{{ staff.first_name }}</div>
                  <div class="col-12 p-0 pb-1"><b class="">SURNAME NAME: </b>{{ staff.last_name }}</div>
                  <div class="col-12 p-0 pb-1"><b class="">BIRTH DATE: </b>{{ staff.birth_date }}</div>
+                 <div class="col-12 p-0 pb-1"><b class="">PHONE NO: </b>{{ staff.phone_number }}</div>
+                 <div class="col-12 p-0 pb-1"><b class="">ADDRESS: </b>{{ staff.address }}</div>
                  <div class="col-12 p-0 pb-1"><b class="">GENDER: </b>{{ staff.gender}}</div>
                  <div class="col-12 p-0 pb-1"><b class="">EMAIL ADDRESS: </b>{{ staff.email_address }}</div>
              </div>

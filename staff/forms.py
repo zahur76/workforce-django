@@ -17,6 +17,8 @@ class add_staffForm(forms.ModelForm):
             'first_name': 'First Name',
             'last_name': 'Last Name',
             'email_address': 'Email Address',
+            'phone_number': 'Phone Number',
+            'address': 'Home address',
             'birth_date': 'Birthday',
             'gender': 'Gender', 
             'management_level': 'Management Level',

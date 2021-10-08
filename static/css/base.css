@@ -18,7 +18,8 @@ nav a {
     background: black;
     color: white;
     border-radius: 0;
-    text-decoration: none;    
+    text-decoration: none;
+    min-width: 70px;    
 }
 
 .button:hover {  

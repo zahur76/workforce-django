@@ -9,6 +9,8 @@ class Staff(models.Model):
     first_name = models.CharField(max_length=254)
     last_name = models.CharField(max_length=254)
     email_address = models.EmailField()
+    phone_number = models.IntegerField(max_length=7)
+    address = models.CharField(max_length=254)
     birth_date = models.DateField()  
     GENDER = [
                 ('Male', 'Male'),
