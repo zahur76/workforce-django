@@ -7,8 +7,12 @@
 
 
 {% block content %}
-    <div class="text-center h1 text-uppercase">{{ staff.first_name }}</div>
-    <div class="row m-0">
+    <div class="col-12 text-left p-2 h1 text-uppercase">{{ staff.first_name }}</div>
+    <div class="mt-1 col-12 p-2 border-bottom">
+        <a href="#" class="btn button delete text-dark p-1 mb-2">+ Delete</a>
+        <a href="#" class="btn button update text-dark p-1 mb-2">+ Update</a> 
+    </div>
+    <div class="row m-0 mt-2">
         {% if staff.image %}
             <div class="col-12 col-sm-4 col-md-3 col-lg-2">
                 <img src="{{ staff.image.url }}" alt="{{ staff.name }}">
@@ -52,7 +56,7 @@
                 <div class="col-12 pb-1"><b class="">REMANING SICK LEAVE: </b>{{ staff.sick_leave_remaining}}</div>
             </div>
         </div>      
-    </div>  
+    </div>      
 {% endblock %}
 
 {% block extra_js %}              

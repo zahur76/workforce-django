@@ -13,3 +13,11 @@
 img {
     width: 150px;
 }
+
+.delete {
+    background: red;
+}
+
+.update {
+    background: rgb(51, 168, 47);
+}
