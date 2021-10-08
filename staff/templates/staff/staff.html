@@ -7,11 +7,11 @@
 
 
 {% block content %}
-    <div class="text-center h1 text-info mb-2">Staff Management</div>
-    <a href="#" class="btn button p-2 links mb-2">+ staff</a>
-    <div class="row m-0">
+    <div class="text-center h1 mb-2">Staff Management</div>
+    <a href="#" class="btn button p-2 links mb-2">+ staff</a>    
+    <div class="row m-0 border-top">
         {% for staff in staff %} 
-            <a href="#" class="col-12 mb-2 staff-name">{{ staff.id }}.{{ staff.first_name }} {{ staff.last_name }}</a>
+            <a href="{% url 'staff_details' staff.id %}" class="col-12 mb-2 staff-name mt-1">{{ staff.id }}.{{ staff.first_name }} {{ staff.last_name }}</a>
         {% endfor %}
     </div>   
 {% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}  
+    <link rel="stylesheet" href="{% static 'staff/css/staff.css' %}">          
+{% endblock %}
+
+
+{% block content %}
+    <div class="text-center h1 text-uppercase">{{ staff.first_name }}</div>
+    <div class="row m-0">
+        {% if staff.image %}
+            <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+                <img src="{{ staff.image.url }}" alt="{{ staff.name }}">
+            </div>
+        {% else %}
+            <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+                <img src="{{ MEDIA_URL }}noimage.png" alt="{{ staff.name }}">
+            </div>
+        {% endif %}
+        <div class="col-12 col-sm-8 col-md-9 col-lg-10">
+             <div class="row m-0">
+                <div class="col-12 p-0 pb-1"><b class="">EMPLOYEE No: </b>{{ staff.id }}</div>
+                 <div class="col-12 p-0 pb-1"><b class="">FIRST NAME: </b>{{ staff.first_name }}</div>
+                 <div class="col-12 p-0 pb-1"><b class="">SURNAME NAME: </b>{{ staff.last_name }}</div>
+                 <div class="col-12 p-0 pb-1"><b class="">BIRTH DATE: </b>{{ staff.birth_date }}</div>
+                 <div class="col-12 p-0 pb-1"><b class="">GENDER: </b>{{ staff.gender}}</div>
+                 <div class="col-12 p-0 pb-1"><b class="">EMAIL ADDRESS: </b>{{ staff.email_address }}</div>
+             </div>
+        </div>
+    </div>
+    <div class="row m-0 mt-2 border-top">
+        <div class="col-12 col-md-4 p-0">
+            <div class="row m-0">
+                <div class="col-12 pb-1 mt-2"><b class="">MANAGEMENT LEVEL: </b>{{ staff.management_level }}</div>
+                <div class="col-12 pb-1"><b class="">POSITION: </b>{{ staff.position_held}}</div>
+                <div class="col-12 pb-1"><b class="">ENTRY DATE: </b>{{ staff.entry_date }}</div>
+                <div class="col-12 pb-1"><b class="">TERMINATION DATE: </b>{{ staff.termination_date }}</div> 
+            </div>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+            <div class="row m-0">
+                <div class="col-12 pb-1 mt-2"><b class="">BASIC SALARY: </b>{{ staff.basic_salary}}</div>
+                <div class="col-12 pb-1"><b class="">TRANSPORT ALLOWANCE: </b>{{ staff.transport_allowance}}</div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 p-0">            
+            <div class="row m-0">
+                <div class="col-12 pb-1 mt-2"><b class="">ANNUAL LEAVE: </b>{{ staff.annual_leave}}</div>
+                <div class="col-12 pb-1"><b class="">REMAINING LEAVE: </b>{{ staff.annual_leave_remaining}}</div>
+                <div class="col-12 pb-1"><b class="">SICK LEAVE: </b>{{ staff.sick_leave}}</div>
+                <div class="col-12 pb-1"><b class="">REMANING SICK LEAVE: </b>{{ staff.sick_leave_remaining}}</div>
+            </div>
+        </div>      
+    </div>  
+{% endblock %}
+
+{% block extra_js %}              
+    <!-- <script src="{% static 'home/js/home.js' %}" type="text/javascript"></script> -->
+{% endblock %}
