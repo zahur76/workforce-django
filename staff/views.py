@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
-from .models import Staff
-from .forms import add_staffForm
+from .models import SickLeave, Staff
+from .forms import add_staffForm, add_sick_leaveForm
 from django.db.models import Q
 
 
@@ -38,8 +38,7 @@ def staff_details(request, staff_id):
         messages.error(request, 'Permision Denied!.')
         return redirect(reverse('home')) 
     else:
-        staff = get_object_or_404(Staff, id=staff_id)
-        print(staff)
+        staff = get_object_or_404(Staff, id=staff_id)        
         context = {
             'staff': staff,
         }
@@ -112,3 +111,24 @@ def delete_staff(request, staff_id):
         staff.delete()
         messages.success(request, 'Staff record deleted!')
         return redirect(reverse('staff'))
+
+
+def sick_leave(request, staff_id):
+    """ A view to input sick leave details"""
+    if not request.user.is_superuser:
+            messages.error(request, 'Access Denied!')
+            return redirect(reverse('home'))
+    else:
+        # staff = SickLeave.objects.all()
+        # staff = staff.filter(staff__id=staff_id)
+        staff=get_object_or_404(Staff, id=staff_id)
+        print(staff)
+        form = add_sick_leaveForm()
+
+        context = {
+            'form': form,
+            'staff': staff,        
+            }
+
+    return render(request, 'staff/sick_leave.html', context)
+    

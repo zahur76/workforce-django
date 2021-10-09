@@ -9,7 +9,7 @@ class Staff(models.Model):
     first_name = models.CharField(max_length=254)
     last_name = models.CharField(max_length=254)
     email_address = models.EmailField()
-    phone_number = models.IntegerField(max_length=7)
+    phone_number = models.IntegerField()
     address = models.CharField(max_length=254)
     birth_date = models.DateField()  
     GENDER = [
@@ -37,5 +37,19 @@ class Staff(models.Model):
     image = models.ImageField(null=True, blank=True)
 
     def __str__(self):
-        return self.first_name    
-    
+        return self.first_name  
+
+  
+class SickLeave(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Sick leave"
+
+    staff = models.ForeignKey(
+            'Staff', null=False, blank=False, on_delete=models.CASCADE,
+            related_name='sickleave')
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    def __str__(self):
+        return self.staff.first_name

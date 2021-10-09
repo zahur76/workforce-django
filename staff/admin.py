@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Staff
+from .models import Staff, SickLeave
 # Register your models here.
 
 
@@ -14,3 +14,4 @@ class StaffAdmin(admin.ModelAdmin):
     ordering = ('id',)
 
 admin.site.register(Staff, StaffAdmin)
+admin.site.register(SickLeave)
