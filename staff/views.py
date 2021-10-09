@@ -159,5 +159,12 @@ def sick_leave_taken(request, staff_id):
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
-    else:        
-        return render(request, 'staff/sick_leave_taken.html')
+    else:
+        staff = get_object_or_404(Staff, id=staff_id)
+        sick_leave = SickLeave.objects.all()
+        sick_leave = sick_leave.filter(staff__id=staff_id)
+        context = {
+            'staff': staff,
+            'sick_leave': sick_leave,
+        }        
+        return render(request, 'staff/sick_leave_taken.html', context)

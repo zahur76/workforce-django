@@ -8,7 +8,24 @@
 
 {% block content %}
     <div class="text-center h1 mb-2">Sick leave: {{ staff.first_name }}</div>
-     
+    <div class="col-12 text-center">Sick Leave Remaining: {{ staff.sick_leave_remaining }}</div>   
+    <a href="{% url 'staff_details' staff_id=staff.id %}" class="btn bg-dark text-light sick-back-button button mb-2">Back</a>
+    <div class="row m-0 text-center mt-3">
+        <div class="col-1">No</div>
+        <div class="col-4 col-md-2">Start date</div>
+        <div class="col-4 col-md-2">End date</div>
+        <div class="col-2"></div>
+        <div class="col-1 col-md-5"></div>
+    </div> 
+    {% for leave in sick_leave %}
+        <div class="row m-0 text-center mt-1 pt-2 sick-table-text border-top border-dark">
+            <div class="col-1">{{ forloop.counter }}</div>
+            <div class="col-4 col-md-2">{{ leave.start_date }}</div>
+            <div class="col-4 col-md-2">{{ leave.end_date }}</div>
+            <div class="col-2">Modify</div>
+            <div class="col-1 col-md-5"></div>
+        </div>        
+    {% endfor %}
 {% endblock %}
 
 {% block extra_js %}              

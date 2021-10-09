@@ -71,6 +71,15 @@ img {
     width: 50px;
 }
 
+/*sick leave table */
+.sick-table-text {
+    font-size: 16px;
+}
+
+.sick-back-button {
+    margin-left: 10px;
+}
+
 /* modal */
 .close-modal {
     height: 20px;
@@ -91,13 +100,17 @@ img {
     .add-staff-form {
         width: 60% !important;
     }
+
+    .sick-table-text {
+        font-size: 14px;
+    }
     
 } 
 
 @media screen and (max-width: 576px){    
     .add-staff-form {
         width: 75% !important;
-    }
+    }    
 }
     
 
