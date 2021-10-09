@@ -73,7 +73,11 @@ img {
 
 /*sick leave table */
 .sick-table-text {
-    font-size: 16px;
+    font-size: 16px;    
+}
+ 
+.sick-table-text a {    
+    text-decoration: none !important;
 }
 
 .sick-back-button {
@@ -110,7 +114,11 @@ img {
 @media screen and (max-width: 576px){    
     .add-staff-form {
         width: 75% !important;
-    }    
+    }
+    
+    .sick-table-text {
+        font-size: 12px;    
+    }
 }
     
 

@@ -10,4 +10,5 @@ urlpatterns = [
     path('delete_staff/<int:staff_id>', views.delete_staff, name='delete_staff'),
     path('sick_leave/<int:staff_id>', views.sick_leave, name='sick_leave'),
     path('sick_leave_taken/<int:staff_id>', views.sick_leave_taken, name='sick_leave_taken'),
+    path('sick_modify/<int:sick_id>', views.sick_modify, name='sick_modify'),
 ]

@@ -133,11 +133,11 @@ def sick_leave(request, staff_id):
                     staff.sick_leave_remaining = staff.sick_leave_remaining - difference 
                     staff.save()                                     
                     sick.staff = staff
+                    sick.days = difference
                     sick.save()                    
                     messages.success(request, 'Sick leave added!')
                     return redirect(reverse('staff_details', args=[staff_id]))
-            else:
-                print(form)
+            else:                
                 messages.error(
                     request, 'Sick leave could not be added. \
                         Please ensure the form is invalid.')
@@ -168,3 +168,44 @@ def sick_leave_taken(request, staff_id):
             'sick_leave': sick_leave,
         }        
         return render(request, 'staff/sick_leave_taken.html', context)
+
+
+
+def sick_modify(request, sick_id):
+    """ A view for sick leave taken"""
+
+    if not request.user.is_superuser:
+            messages.error(request, 'Access Denied!')
+            return redirect(reverse('home'))
+    else:
+        sick = get_object_or_404(SickLeave, id=sick_id)
+        staff = get_object_or_404(Staff, first_name=sick.staff.first_name)        
+        original_difference = (sick.end_date - sick.start_date).days + 1        
+        if request.method == 'POST':
+            form = add_sick_leaveForm(request.POST, instance=sick)
+            if form.is_valid():
+                modified_sick = form.save(commit=False)
+                if modified_sick.end_date<modified_sick.start_date:
+                    messages.error(request, 'Dates incorrect!')
+                    return redirect(reverse('staff_details', args=[sick.staff_id]))
+                else:
+                    modified_difference = (modified_sick.end_date - modified_sick.start_date).days + 1                 
+                    staff.sick_leave_remaining = staff.sick_leave_remaining + original_difference - modified_difference 
+                    staff.save()
+                    modified_sick.days = modified_difference                    
+                    modified_sick.save()
+                    return redirect(reverse('sick_leave_taken', args={sick.staff.id}))
+            else:
+                messages.error(
+                    request, 'Sick leave could not be modified. \
+                        Please ensure the form is invalid.')
+                return redirect(reverse('sick_leave_taken', args={sick.staff.id}))
+
+        else:          
+            
+            form = add_sick_leaveForm(instance=sick) 
+            context = {
+                'sick':sick,
+                'form': form,            
+            }        
+        return render(request, 'staff/sick_modify.html', context)

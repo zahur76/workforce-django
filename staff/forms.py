@@ -57,7 +57,7 @@ class add_staffForm(forms.ModelForm):
 class add_sick_leaveForm(forms.ModelForm):
     class Meta:
         model = SickLeave
-        exclude = ('staff',)
+        exclude = ('staff', 'days',)
             
     def __init__(self, *args, **kwargs):
         """
