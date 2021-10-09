@@ -17,7 +17,7 @@ $(document).ready(function(){
     /* Allow password to become visible*/ 
     $("body").on('click', '.eye-icon', function() {
         $(this).toggleClass("fa-eye fa-eye-slash");
-        let input = $("#password");
+        input = $("#password");
         if (input.attr("type") === "password") {
           input.attr("type", "text");
         } else {

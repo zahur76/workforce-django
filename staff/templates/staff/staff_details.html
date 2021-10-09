@@ -8,7 +8,7 @@
 
 {% block content %}
     <div class="col-12 text-left p-2 h1 text-uppercase">{{ staff.first_name }} {{ staff.last_name }}</div>
-    <div class="mt-1 col-12 p-2 border-bottom">
+    <div class="mt-1 col-12 p-2 border-bottom border-dark">
         <a href="#" class="btn open-modal button delete text-dark p-1 mb-2" id="open-modal-{{ staff.id }}">+ Delete</a>
         <a href="{% url 'update_staff' staff_id=staff.id %}" class="btn button update text-dark p-1 mb-2">+ Update</a>
         <a href="{% url 'staff' %}" class="btn bg-dark text-light button update p-1 mb-2">Back</a>  
@@ -36,7 +36,7 @@
              </div>
         </div>
     </div>
-    <div class="row m-0 mt-2 border-top">
+    <div class="row m-0 mt-2 border-top border-dark">
         <div class="col-12 col-md-4 p-0">
             <div class="row m-0">
                 <div class="col-12 pb-1 mt-2"><b class="">MANAGEMENT LEVEL: </b>{{ staff.management_level }}</div>

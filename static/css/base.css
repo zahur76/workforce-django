@@ -30,7 +30,7 @@ nav a {
     width: 100% !important;
 }
 
-.input-group-append {
+.append-eye {
     text-align: right;
     border: 1px solid #ced4da;
     border-left: none;
@@ -96,7 +96,7 @@ input {
         font-size: 14px !important;
     }
 
-    .input-group-append {        
+    .append-eye {        
         height: 25px;
         line-height: 18px;
     } 
