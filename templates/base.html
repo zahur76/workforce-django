@@ -12,6 +12,7 @@
         <!-- CSS for datepicker -->
         <link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/ui-lightness/jquery-ui.css'
           rel='stylesheet'>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link rel="shortcut icon" href="#">
         {% block extra_css %}            
@@ -81,10 +82,13 @@
                             <input type="text" class="form-control w-100 rounded-0" id="username" name="username" 
                                     placeholder="username" autocomplete="on"/ required>
                         </div>
-                        <div class="form-group mb-3">                      
-                            <input type="password" class="form-control w-100 rounded-0" name="password" id="password" 
-                                    placeholder="Password" autocomplete="on"/ required>
-                        </div>       
+                        <div class="input-group">
+                            <div class="form-group mb-3 w-75">                      
+                                <input type="password" class="form-control rounded-0" name="password" id="password" 
+                                        placeholder="Password" autocomplete="on"/ required>
+                            </div>
+                            <div class="input-group-append w-25 bg-light"><i class="eye-icon btn m-0 p-0 fas fa-eye"></i></div> 
+                        </div>                                                    
                         <button type="submit" class="btn button p-1 p-md-2">Submit</button>
                         <button type="button" class="btn button close p-1 p-md-2">Close</button>
                     </form>                                                     
