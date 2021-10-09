@@ -7,8 +7,10 @@ $(document).ready(function(){
     $('#id_termination_date').attr('placeholder', 'Date of termination');    
     $('#id_gender option:first-child').css('display', 'none');  
     $('#id_management_level option:first-child').html('Management Level'); 
-    $('#id_management_level option:first-child').css('display', 'none');  
-
+    $('#id_management_level option:first-child').css('display', 'none');
+        
+    $('#id_start_date').attr('placeholder', 'Start date');
+    $('#id_end_date').attr('placeholder', 'End_date');
     
     $('#id_gender').click(function(){
         $('#id_gender').css('color', 'black');   

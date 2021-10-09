@@ -77,7 +77,7 @@ def update_staff(request, staff_id):
             return redirect(reverse('home'))
     
     else:
-        staff = get_object_or_404(Staff, id=staff_id)
+        staff = get_object_or_404(Staff, id=staff_id)          
         if request.method == 'POST':        
             form = add_staffForm(request.POST, request.FILES, instance=staff)
             if form.is_valid():
@@ -89,7 +89,7 @@ def update_staff(request, staff_id):
                     request, 'Staff could not be added. \
                         Please ensure the form is valid.')
                 return redirect(reverse('update_staff', args={staff_id}))
-        else:          
+        else:                    
             form = add_staffForm(instance=staff)
 
             context = {
@@ -117,18 +117,30 @@ def sick_leave(request, staff_id):
     """ A view to input sick leave details"""
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
-            return redirect(reverse('home'))
-    else:
-        # staff = SickLeave.objects.all()
-        # staff = staff.filter(staff__id=staff_id)
-        staff=get_object_or_404(Staff, id=staff_id)
-        print(staff)
-        form = add_sick_leaveForm()
+            return redirect(reverse('home'))    
+    else:        
+        staff = get_object_or_404(Staff, id=staff_id)        
+        if request.method == 'POST':                    
+            form = add_sick_leaveForm(request.POST)            
+            if form.is_valid():                
+                sick = form.save(commit=False)
+                sick.staff = staff
+                sick.save()
+                messages.success(request, 'Sick leave added!')
+                return redirect(reverse('staff_details', args=[staff_id]))
+            else:
+                print(form)
+                messages.error(
+                    request, 'Sick leave could not be added. \
+                        Please ensure the form is invalid.')
+                return redirect(reverse('staff_details', args={staff_id}))
+        else:          
+            form = add_sick_leaveForm(instance=staff)
 
-        context = {
-            'form': form,
-            'staff': staff,        
-            }
+            context = {
+                'form': form,
+                'staff': staff,
+                }
 
     return render(request, 'staff/sick_leave.html', context)
     

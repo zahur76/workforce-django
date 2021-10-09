@@ -71,13 +71,9 @@ class add_sick_leaveForm(forms.ModelForm):
         }
 
         self.fields['start_date'].widget.attrs['autofocus'] = True
-        for field in self.fields:           
-            if field in ['end_date', 'start_date']:                  
-                self.fields[field].widget = DatePickerInput()
-                self.fields[field].widget.attrs[
-                'class'] = 'border-dark rounded-0 mx-auto add_leave-form-input m-1' 
-            else:                
-                self.fields[field].widget.attrs[
-                'class'] = 'border-dark m-1 rounded-0 mx-auto add_staff-form-input'                   
-                                   
+        for field in self.fields:                          
+            self.fields[field].widget = DatePickerInput()
+            self.fields[field].widget.attrs[
+            'class'] = 'border-dark rounded-0 mx-auto add_leave-form-input m-1' 
+                              
             self.fields[field].label = False

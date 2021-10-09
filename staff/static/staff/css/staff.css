@@ -44,6 +44,11 @@ img {
 }
 
 /* forms */
+.add_staff-form-input, .add_leave-form-input {
+    height: 30px;
+    line-height: 15px;
+}
+
 .add_staff-form-input::placeholder {
     color: #aab7c4;
 }
@@ -92,10 +97,6 @@ img {
 @media screen and (max-width: 576px){    
     .add-staff-form {
         width: 75% !important;
-    }
-
-    .form-control {
-        font-size: 14px;        
     }
 }
     
