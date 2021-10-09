@@ -3,6 +3,7 @@ from django.contrib import messages
 from .models import SickLeave, Staff
 from .forms import add_staffForm, add_sick_leaveForm
 from django.db.models import Q
+import datetime
 
 
 # Create your views here
@@ -122,12 +123,19 @@ def sick_leave(request, staff_id):
         staff = get_object_or_404(Staff, id=staff_id)        
         if request.method == 'POST':                    
             form = add_sick_leaveForm(request.POST)            
-            if form.is_valid():                
+            if form.is_valid():                                
                 sick = form.save(commit=False)
-                sick.staff = staff
-                sick.save()
-                messages.success(request, 'Sick leave added!')
-                return redirect(reverse('staff_details', args=[staff_id]))
+                if sick.end_date<sick.start_date:
+                    messages.error(request, 'Dates incorrect!')
+                    return redirect(reverse('staff_details', args=[staff_id]))
+                else:
+                    difference = (sick.end_date - sick.start_date).days + 1                                       
+                    staff.sick_leave_remaining = staff.sick_leave_remaining - difference 
+                    staff.save()                                     
+                    sick.staff = staff
+                    sick.save()                    
+                    messages.success(request, 'Sick leave added!')
+                    return redirect(reverse('staff_details', args=[staff_id]))
             else:
                 print(form)
                 messages.error(
@@ -143,4 +151,13 @@ def sick_leave(request, staff_id):
                 }
 
     return render(request, 'staff/sick_leave.html', context)
-    
+
+
+def sick_leave_taken(request, staff_id):
+    """ A view for sick leave taken"""
+
+    if not request.user.is_superuser:
+            messages.error(request, 'Access Denied!')
+            return redirect(reverse('home'))
+    else:        
+        return render(request, 'staff/sick_leave_taken.html')

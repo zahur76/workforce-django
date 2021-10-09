@@ -13,7 +13,9 @@
         <a href="{% url 'update_staff' staff_id=staff.id %}" class="btn button update text-dark p-1 mb-2">+ Update</a>
         <a href="{% url 'staff' %}" class="btn bg-dark text-light button update p-1 mb-2">Back</a><br>
         <a href="{% url 'sick_leave' staff_id=staff.id %}" class="btn button p-1">+ Sick Leave</a>
-        <a href="#" class="btn button p-1">+ Annual Leave</a>   
+        <a href="{% url 'sick_leave_taken' staff_id=staff.id %}" class="btn p-1"><i class="fas fa-eye h4"></i></a><br>
+        <a href="{% url 'sick_leave' staff_id=staff.id %}" class="btn button p-1 mt-2">+ Annual Leave</a>
+        <a href="#" class="btn p-1 mt-2"><i class="fas fa-eye h4"></i></a>    
     </div>
     <div class="row m-0 mt-2">
         {% if staff.image %}
