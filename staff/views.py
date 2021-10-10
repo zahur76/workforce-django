@@ -209,3 +209,18 @@ def sick_modify(request, sick_id):
                 'form': form,            
             }        
         return render(request, 'staff/sick_modify.html', context)
+
+
+def sick_delete(request, sick_id):
+    """ A view to delete sick leave"""
+
+    if not request.user.is_superuser:
+            messages.error(request, 'Access Denied!')
+            return redirect(reverse('home'))
+    else:
+        sick = get_object_or_404(SickLeave, id=sick_id)
+        staff = get_object_or_404(Staff, first_name=sick.staff.first_name)       
+        staff.sick_leave_remaining = staff.sick_leave_remaining + sick.days
+        staff.save()
+        sick.delete()
+        return redirect(reverse('sick_leave_taken', args={sick.staff.id}))
