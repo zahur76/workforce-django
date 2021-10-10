@@ -120,23 +120,30 @@ def sick_leave(request, staff_id):
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))    
     else:        
-        staff = get_object_or_404(Staff, id=staff_id)        
+        staff = get_object_or_404(Staff, id=staff_id)
+        leave_periods =  SickLeave.objects.all().filter(staff__id=staff_id)        
+        print(leave_periods)       
         if request.method == 'POST':                    
             form = add_sick_leaveForm(request.POST)            
             if form.is_valid():                                
                 sick = form.save(commit=False)
-                if sick.end_date<sick.start_date:
-                    messages.error(request, 'Dates incorrect!')
-                    return redirect(reverse('staff_details', args=[staff_id]))
-                else:
-                    difference = (sick.end_date - sick.start_date).days + 1                                       
-                    staff.sick_leave_remaining = staff.sick_leave_remaining - difference 
-                    staff.save()                                     
-                    sick.staff = staff
-                    sick.days = difference
-                    sick.save()                    
-                    messages.success(request, 'Sick leave added!')
-                    return redirect(reverse('staff_details', args=[staff_id]))
+                for leave in leave_periods:
+                    if leave.start_date <= sick.start_date <= leave.end_date or leave.start_date <= sick.end_date <= leave.end_date:
+                        messages.error(request, 'Error dates Overlap!')
+                        return redirect(reverse('staff_details', args=[staff_id]))
+                    else:
+                        if sick.end_date<sick.start_date:
+                            messages.error(request, 'Dates incorrect!')
+                            return redirect(reverse('staff_details', args=[staff_id]))
+                        else:
+                            difference = (sick.end_date - sick.start_date).days + 1                                       
+                            staff.sick_leave_remaining = staff.sick_leave_remaining - difference 
+                            staff.save()                                     
+                            sick.staff = staff
+                            sick.days = difference
+                            sick.save()                    
+                            messages.success(request, 'Sick leave added!')
+                            return redirect(reverse('staff_details', args=[staff_id]))
             else:                
                 messages.error(
                     request, 'Sick leave could not be added. \
