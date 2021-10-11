@@ -4,6 +4,9 @@ from .models import SickLeave, Staff
 from .forms import add_staffForm, add_sick_leaveForm
 from django.db.models import Q
 import datetime
+from django.core import serializers
+import json
+import datetime
 
 
 # Create your views here
@@ -143,7 +146,7 @@ def sick_leave(request, staff_id):
                         return redirect(reverse('staff_details', args=[staff_id]))
                     else:
                         if sick.end_date<sick.start_date:
-                            messages.error(request, 'Dates incorrect!')
+                            messages.error(request, 'Start date Incorrect')
                             return redirect(reverse('staff_details', args=[staff_id]))
                         else:
                             difference = (sick.end_date - sick.start_date).days + 1                                       
@@ -156,7 +159,7 @@ def sick_leave(request, staff_id):
                             return redirect(reverse('staff_details', args=[staff_id]))
                 else:
                     if sick.end_date<sick.start_date:
-                            messages.error(request, 'Dates incorrect!')
+                            messages.error(request, 'Start date Incorrect!')
                             return redirect(reverse('staff_details', args=[staff_id]))
                     else:
                         difference = (sick.end_date - sick.start_date).days + 1                                       
@@ -231,11 +234,11 @@ def sick_modify(request, sick_id):
                             count += 0                                          
                     if count !=0:
                         messages.error(request, 'Error Duplicate dates!')
-                        return redirect(reverse('sick_leave_taken', args=[sick.staff_id]))
+                        return redirect(reverse('sick_leave_taken', args=[sick.staff.id]))
                     else:                        
                         if modified_sick.end_date<modified_sick.start_date:
-                            messages.error(request, 'Dates incorrect!')
-                            return redirect(reverse('sick_leave_taken', args=[sick.staff_id]))
+                            messages.error(request, 'Start date Incorrect!')
+                            return redirect(reverse('sick_leave_taken', args=[sick.staff.id]))
                         else:
                             modified_difference = (modified_sick.end_date - modified_sick.start_date).days + 1                 
                             staff.sick_leave_remaining = staff.sick_leave_remaining + original_difference - modified_difference 
@@ -245,8 +248,8 @@ def sick_modify(request, sick_id):
                             return redirect(reverse('sick_leave_taken', args={sick.staff.id}))
                 else:
                     if modified_sick.end_date<modified_sick.start_date:
-                            messages.error(request, 'Dates incorrect!')
-                            return redirect(reverse('sick_leave_taken', args=[sick.staff_id]))
+                            messages.error(request, 'Start date Incorrect!')
+                            return redirect(reverse('sick_leave_taken', args=[sick.staff.id]))
                     else:
                         modified_difference = (modified_sick.end_date - modified_sick.start_date).days + 1                 
                         staff.sick_leave_remaining = staff.sick_leave_remaining + original_difference - modified_difference 
@@ -284,3 +287,22 @@ def sick_delete(request, sick_id):
         staff.save()
         sick.delete()
         return redirect(reverse('sick_leave_taken', args={sick.staff.id}))
+
+
+def sick_data(request):
+    """ A view to for sick data"""
+    if not request.user.is_superuser:
+            messages.error(request, 'Access Denied!')
+            return redirect(reverse('home'))
+    else:
+        all_sick = SickLeave.objects.all()
+        sick_data = {'Jan':0, 'Feb':0, 'Mar':0, 'Apr':0, 'May':0, 'Jun':0, 'Jul':0, 'Aug':0, "Sep":0, 'Oct':0, 'Nov':0, "Dec":0}        
+        for sick in all_sick:
+            sick_month = sick.start_date                                 
+            sick_data[sick_month.strftime("%b")]+=sick.days
+            with open('data/sick/data.json', 'w') as f:
+                json.dump(sick_data, f)
+        context = {
+            'all_sick': all_sick,            
+        }
+        return render(request, 'staff/sick_data.html', context)

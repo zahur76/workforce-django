@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}  
+    <link rel="stylesheet" href="{% static 'staff/css/staff.css' %}">          
+{% endblock %}
+
+
+{% block content %}
+    <div class="text-center h1 mb-2">Sick Data</div>
+    <a href="{% url 'staff' %}" class="btn bg-dark text-light sick-back-button button mb-2">Back</a>
+    {{ sick_json }}
+    <div class="row m-0 mb-2 text-center border-bottom border-dark">
+        <div class="col-1"></div>
+        <div class="col-1"></div>
+        <div class="col-3 col-md-2">Name</div>
+        <div class="col-5 col-md-3 col-lg-2">Start date</div>
+        <div class="col-1">Sick days</div>
+        <div class="col-1 col-md-4 col-lg-5"></div>
+    </div>
+    <div class="row m-0 text-center">
+        {% for sick in all_sick %}
+            <div class="col-1"></div>
+            <div class="col-1">{{ forloop.counter }}</div>
+            <div class="col-3 col-md-2">{{ sick.staff.first_name }}</div>
+            <div class="col-5 col-md-3 col-lg-2">{{ sick.start_date }}</div>
+            <div class="col-1">{{ sick.days}}</div>
+            <div class="col-1 col-md-4 col-lg-5"></div>
+        {% endfor %}
+    </div>
+    
+{% endblock %}
+
+{% block extra_js %}              
+    <script src="{% static 'staff/js/staff.js' %}" type="text/javascript"></script>    
+{% endblock %}
