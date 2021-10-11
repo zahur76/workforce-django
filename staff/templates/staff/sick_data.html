@@ -9,7 +9,7 @@
 {% block content %}
     <div class="text-center h1 mb-2">Sick Data</div>
     <a href="{% url 'staff' %}" class="btn bg-dark text-light sick-back-button button mb-2">Back</a>
-    {{ sick_json }}
+    <div class="btn bg-dark text-light sick-back-button button mb-2 show-data">Data</div>   
     <div class="row m-0 mb-2 text-center border-bottom border-dark">
         <div class="col-1"></div>
         <div class="col-1"></div>
@@ -28,9 +28,11 @@
             <div class="col-1 col-md-4 col-lg-5"></div>
         {% endfor %}
     </div>
-    
+    <script>
+        var sickData = JSON.parse('{{ sick_data | escapejs }}');
+    </script>    
 {% endblock %}
 
-{% block extra_js %}              
-    <script src="{% static 'staff/js/staff.js' %}" type="text/javascript"></script>    
+{% block extra_js %}                 
+    <script src="{% static 'staff/js/staff.js' %}" type="text/javascript"></script>     
 {% endblock %}

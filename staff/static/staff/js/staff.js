@@ -64,4 +64,10 @@ $(document).ready(function(){
     $('.close-modal').click(function(){
         $('.confirm-modal').hide();
     })
+
+    // sick data view     
+    
+    $('.show-data').click(function(){        
+        console.log(sickData)
+    })      
 });
