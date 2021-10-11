@@ -63,11 +63,43 @@ $(document).ready(function(){
 
     $('.close-modal').click(function(){
         $('.confirm-modal').hide();
-    })
-
-    // sick data view     
+    })   
     
-    $('.show-data').click(function(){        
-        console.log(sickData)
+    
+    // Sick leave charts 
+
+    $(".close-data").hide();
+    $('.close-data').click(function(){
+        console.log('zahur')
+        $('#myChart').hide();
+        $(".close-data").hide();
+    })  
+       
+    $('.show-data').click(function(){
+        $(".close-data").show();
+        $('#myChart').show();
+        console.log(sickData)  
+        let month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', "Sep", 'Oct', 'Nov', "Dec"];        
+        let days = [sickData['Jan'], sickData['Feb'], sickData['Mar'], sickData['Apr'], sickData['May'], sickData['Jun'], sickData['Jul'], sickData['Aug'], sickData['Sep'], sickData['Oct'], sickData['Nov'], sickData['Dec']]
+        var barColors = ["blue"];
+        console.log(days) 
+        new Chart("myChart", {
+            type: "bar",
+            data: {
+              labels: month,
+              datasets: [{
+                backgroundColor: barColors,
+                data: days
+              }]
+            },
+            options: {
+              legend: {display: false},
+              title: {
+                display: true,
+                text: "Sick Leave 2021"
+              }
+            }
+        });
+
     })      
 });
