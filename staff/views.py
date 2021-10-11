@@ -291,11 +291,17 @@ def sick_delete(request, sick_id):
 
 def sick_data(request):
     """ A view to send json sick data to template"""
+    year = 2021
+    if 'q' in request.GET:
+        query = request.GET['q']
+    else:
+        query="2021"
+    
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
-    else:
-        all_sick = SickLeave.objects.all()
+    else:        
+        all_sick = SickLeave.objects.all().filter(start_date__year=query)        
         sick_data = {'Jan':0, 'Feb':0, 'Mar':0, 'Apr':0, 'May':0, 'Jun':0, 'Jul':0, 'Aug':0, "Sep":0, 'Oct':0, 'Nov':0, "Dec":0}        
         for sick in all_sick:
             sick_month = sick.start_date                                 
@@ -303,7 +309,8 @@ def sick_data(request):
         json_data = json.dumps(sick_data)
         context = {
             'sick_data': json_data,
-            'all_sick': all_sick,                      
+            'all_sick': all_sick,
+            'year': query,                      
         }
         return render(request, 'staff/sick_data.html', context)
 
