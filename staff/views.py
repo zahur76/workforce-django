@@ -121,15 +121,27 @@ def sick_leave(request, staff_id):
             return redirect(reverse('home'))    
     else:        
         staff = get_object_or_404(Staff, id=staff_id)
-        leave_periods =  SickLeave.objects.all().filter(staff__id=staff_id)        
-        print(leave_periods)       
+        leave_periods =  SickLeave.objects.all().filter(staff__id=staff_id)                 
         if request.method == 'POST':                    
             form = add_sick_leaveForm(request.POST)            
             if form.is_valid():                                
                 sick = form.save(commit=False)
-                for leave in leave_periods:
-                    if leave.start_date <= sick.start_date <= leave.end_date or leave.start_date <= sick.end_date <= leave.end_date:
-                        messages.error(request, 'Error dates Overlap!')
+                if leave_periods:
+                    count =0
+                    day_list = []
+                    for leave in leave_periods:
+                        sick_days = (leave.end_date-leave.start_date).days + 1                        
+                        for x in range(0, sick_days):
+                            day_list.append(leave.start_date + datetime.timedelta(days = x))
+                            print(day_list)                            
+                    for x in range (0,(sick.end_date-sick.start_date).days+1):                        
+                        if (sick.start_date + datetime.timedelta(days = x)) in day_list:
+                            print(sick.start_date + datetime.timedelta(days = x))
+                            count += 1                           
+                        else:
+                            count += 0                                          
+                    if count !=0:
+                        messages.error(request, 'Error Duplicate dates!')
                         return redirect(reverse('staff_details', args=[staff_id]))
                     else:
                         if sick.end_date<sick.start_date:
@@ -144,6 +156,20 @@ def sick_leave(request, staff_id):
                             sick.save()                    
                             messages.success(request, 'Sick leave added!')
                             return redirect(reverse('staff_details', args=[staff_id]))
+                else:
+                    if sick.end_date<sick.start_date:
+                            messages.error(request, 'Dates incorrect!')
+                            return redirect(reverse('staff_details', args=[staff_id]))
+                    else:
+                        difference = (sick.end_date - sick.start_date).days + 1                                       
+                        staff.sick_leave_remaining = staff.sick_leave_remaining - difference 
+                        staff.save()                                     
+                        sick.staff = staff
+                        sick.days = difference
+                        sick.save()                    
+                        messages.success(request, 'Sick leave added!')
+                        return redirect(reverse('staff_details', args=[staff_id]))
+
             else:                
                 messages.error(
                     request, 'Sick leave could not be added. \
@@ -155,7 +181,7 @@ def sick_leave(request, staff_id):
             context = {
                 'form': form,
                 'staff': staff,
-                }
+            }
 
     return render(request, 'staff/sick_leave.html', context)
 
