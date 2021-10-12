@@ -220,7 +220,7 @@ def annual_leave(request, staff_id):
                             return redirect(reverse('staff_details', args=[staff_id]))
                         else:
                             difference = (annual.end_date - annual.start_date).days + 1                                       
-                            staff.sick_leave_remaining = staff.sick_leave_remaining - difference 
+                            staff.annual_leave_remaining = staff.annual_leave_remaining - difference 
                             staff.save()                                     
                             annual.staff = staff
                             annual.days = difference
@@ -233,7 +233,7 @@ def annual_leave(request, staff_id):
                             return redirect(reverse('staff_details', args=[staff_id]))
                     else:
                         difference = (annual.end_date - annual.start_date).days + 1                                       
-                        staff.sick_leave_remaining = staff.sick_leave_remaining - difference 
+                        staff.annual_leave_remaining = staff.annual_leave_remaining - difference 
                         staff.save()                                     
                         annual.staff = staff
                         annual.days = difference
@@ -272,6 +272,24 @@ def sick_leave_taken(request, staff_id):
             'sick_leave': sick_leave,
         }        
         return render(request, 'staff/sick_leave_taken.html', context)
+
+
+def annual_leave_taken(request, staff_id):
+    """ A view for sick leave taken"""
+
+    if not request.user.is_superuser:
+            messages.error(request, 'Access Denied!')
+            return redirect(reverse('home'))
+    else:
+        staff = get_object_or_404(Staff, id=staff_id)
+        annual_leave = AnnualLeave.objects.all()
+        print(annual_leave)
+        annual_leave = annual_leave.filter(staff__id=staff_id)
+        context = {
+            'staff': staff,
+            'annual_leave': annual_leave,
+        }        
+        return render(request, 'staff/annual_leave_taken.html', context)
 
 
 
@@ -342,6 +360,75 @@ def sick_modify(request, sick_id):
                 'form': form,            
             }        
         return render(request, 'staff/sick_modify.html', context)
+
+
+def annual_modify(request, annual_id):
+    """ A view for sick leave taken"""
+
+    if not request.user.is_superuser:
+            messages.error(request, 'Access Denied!')
+            return redirect(reverse('home'))
+    else:
+        annual = get_object_or_404(AnnualLeave, id=annual_id)        
+        staff = get_object_or_404(Staff, first_name=annual.staff.first_name)        
+        original_difference = (annual.end_date - annual.start_date).days + 1
+        leave_periods =  AnnualLeave.objects.all().filter(staff__id=staff.id).exclude(id=annual_id)              
+        if request.method == 'POST':
+            form = add_annual_leaveForm(request.POST, instance=annual)
+            if form.is_valid():
+                modified_annual = form.save(commit=False)
+                if leave_periods:
+                    count =0
+                    day_list = []
+                    for leave in leave_periods:
+                        annual_days = (leave.end_date-leave.start_date).days + 1                        
+                        for x in range(0, annual_days):
+                            day_list.append(leave.start_date + datetime.timedelta(days = x))                                                       
+                    for x in range (0,(modified_annual.end_date-modified_annual.start_date).days+1):                        
+                        if (annual.start_date + datetime.timedelta(days = x)) in day_list:                            
+                            count += 1                           
+                        else:
+                            count += 0                                          
+                    if count !=0:
+                        messages.error(request, 'Error Duplicate dates!')
+                        return redirect(reverse('annual_leave_taken', args=[annual.staff.id]))
+                    else:                        
+                        if modified_annual.end_date<modified_annual.start_date:
+                            messages.error(request, 'Start date Incorrect!')
+                            return redirect(reverse('annual_leave_taken', args=[annual.staff.id]))
+                        else:
+                            modified_difference = (modified_annual.end_date - modified_annual.start_date).days + 1                 
+                            staff.annual_leave_remaining = staff.annual_leave_remaining + original_difference - modified_difference 
+                            staff.save()
+                            modified_annual.days = modified_difference                    
+                            modified_annual.save()
+                            return redirect(reverse('annual_leave_taken', args={annual.staff.id}))
+                else:
+                    if modified_annual.end_date<modified_annual.start_date:
+                            messages.error(request, 'Start date Incorrect!')
+                            return redirect(reverse('annual_leave_taken', args=[annual.staff.id]))
+                    else:
+                        modified_difference = (modified_annual.end_date - modified_annual.start_date).days + 1                 
+                        staff.annual_leave_remaining = staff.annual_leave_remaining + original_difference - modified_difference 
+                        staff.save()
+                        modified_annual.days = modified_difference                    
+                        modified_annual.save()
+                        return redirect(reverse('annual_leave_taken', args={annual.staff.id}))
+
+            else:
+                messages.error(
+                    request, 'Annual leave could not be modified. \
+                        Please ensure the form is invalid.')
+                return redirect(reverse('annual_leave_taken', args={annual.staff.id}))
+
+        else:          
+            
+            form = add_annual_leaveForm(instance=annual) 
+            context = {
+                'annual':annual,
+                'form': form,            
+            }        
+        return render(request, 'staff/annual_modify.html', context)
 
 
 def sick_delete(request, sick_id):
