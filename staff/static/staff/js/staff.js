@@ -84,6 +84,11 @@ $(document).ready(function(){
     let dataYear = $('#data-year').attr('placeholder');    
     $('#data-year option:selected').html(dataYear);
 
+    let dataMonth = $('#month').attr('placeholder');
+    let monthArray =  {1:'Jan', 2:'Feb', 3:'Mar', 4:'Apr', 5:'May', 6:'Jun', 7:'Jul', 8:'Aug', 9:"Sep", 10:'Oct', 11:'Nov', 12:"Dec"}
+    $('#month option:selected').html(monthArray[dataMonth]);
+    $('#month option:selected').val(dataMonth);
+
     $('.show-data').click(function(){
         $(".close-data").show();
         $('#myChart').show();        
@@ -174,10 +179,10 @@ $(document).ready(function(){
               legend: {display: false},
               title: {
                 display: true,
-                text: `Leave Planner`
+                text: `Leave Planner ${monthArray[dataMonth]} ${dataYear}`
               },
               scales: {                
-                yAxes: [{ticks: {min: 0, max:5}}],
+                yAxes: [{ticks: {stepSize: 1, min: 0, max:5}}],
               }
             }
         });
