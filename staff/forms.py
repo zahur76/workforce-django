@@ -1,5 +1,5 @@
 from django import forms
-from .models import Staff, SickLeave
+from .models import Staff, SickLeave, AnnualLeave
 from bootstrap_datepicker_plus import DatePickerInput
 
 class add_staffForm(forms.ModelForm):
@@ -77,3 +77,30 @@ class add_sick_leaveForm(forms.ModelForm):
             'class'] = 'border-dark rounded-0 mx-auto add_leave-form-input m-1' 
                               
             self.fields[field].label = False
+
+
+class add_annual_leaveForm(forms.ModelForm):
+    class Meta:
+        model = AnnualLeave
+        exclude = ('staff', 'days',)
+            
+    def __init__(self, *args, **kwargs):
+        """
+        Add placeholders and classes, remove auto-generated
+        labels and set autofocus on first field
+        """
+        super().__init__(*args, **kwargs)
+        placeholders = {            
+            'start_date': 'Start date',
+            'end_date': 'End date',                         
+        }
+
+        self.fields['start_date'].widget.attrs['autofocus'] = True
+        for field in self.fields:                          
+            self.fields[field].widget = DatePickerInput()
+            self.fields[field].widget.attrs[
+            'class'] = 'border-dark rounded-0 mx-auto add_leave-form-input m-1' 
+                              
+            self.fields[field].label = False
+
+

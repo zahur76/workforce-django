@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}  
+    <link rel="stylesheet" href="{% static 'staff/css/staff.css' %}">          
+{% endblock %}
+
+
+{% block content %}
+    <div class="text-center h1 mb-2">Annual leave: {{ staff.first_name }}</div>
+    <div class="col-12 mx-auto mb-2 add-staff-form w-25">
+        <form id="mystaffForm" action="{% url 'annual_leave' staff_id=staff.id %}" method="POST" enctype="multipart/form-data" class="addStaff">
+            {% csrf_token %}
+            {% crispy form %}
+            <div>
+                <button class="btn button mt-2" type="submit" form="mystaffForm">submit</button>
+                <a href="{% url 'staff_details' staff_id=staff.id %}" class="btn button mt-2">Back</a>
+            </div>             
+        </form>
+    </div> 
+{% endblock %}
+
+{% block extra_js %}              
+    <script src="{% static 'staff/js/staff.js' %}" type="text/javascript"></script>
+{% endblock %}

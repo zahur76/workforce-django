@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
-from .models import SickLeave, Staff
-from .forms import add_staffForm, add_sick_leaveForm
+from .models import AnnualLeave, SickLeave, Staff
+from .forms import add_staffForm, add_sick_leaveForm, add_annual_leaveForm
 from django.db.models import Q
 import datetime
 from django.core import serializers
@@ -185,6 +185,76 @@ def sick_leave(request, staff_id):
             }
 
     return render(request, 'staff/sick_leave.html', context)
+
+
+def annual_leave(request, staff_id):
+    """ A view to input annual leave details"""
+    if not request.user.is_superuser:
+            messages.error(request, 'Access Denied!')
+            return redirect(reverse('home'))    
+    else:        
+        staff = get_object_or_404(Staff, id=staff_id)
+        leave_periods =  AnnualLeave.objects.all().filter(staff__id=staff_id)                 
+        if request.method == 'POST':                    
+            form = add_annual_leaveForm(request.POST)            
+            if form.is_valid():                                
+                annual = form.save(commit=False)
+                if leave_periods:
+                    count =0
+                    day_list = []
+                    for leave in leave_periods:
+                        annual_days = (leave.end_date-leave.start_date).days + 1                        
+                        for x in range(0, annual_days):
+                            day_list.append(leave.start_date + datetime.timedelta(days = x))                                                       
+                    for x in range (0,(annual.end_date-annual.start_date).days+1):                        
+                        if (annual.start_date + datetime.timedelta(days = x)) in day_list:                            
+                            count += 1                           
+                        else:
+                            count += 0                                          
+                    if count !=0:
+                        messages.error(request, 'Error Duplicate dates!')
+                        return redirect(reverse('staff_details', args=[staff_id]))
+                    else:
+                        if annual.end_date<annual.start_date:
+                            messages.error(request, 'Start date Incorrect')
+                            return redirect(reverse('staff_details', args=[staff_id]))
+                        else:
+                            difference = (annual.end_date - annual.start_date).days + 1                                       
+                            staff.sick_leave_remaining = staff.sick_leave_remaining - difference 
+                            staff.save()                                     
+                            annual.staff = staff
+                            annual.days = difference
+                            annual.save()                    
+                            messages.success(request, 'Annnual leave added!')
+                            return redirect(reverse('staff_details', args=[staff_id]))
+                else:
+                    if annual.end_date<annual.start_date:
+                            messages.error(request, 'Start date Incorrect!')
+                            return redirect(reverse('staff_details', args=[staff_id]))
+                    else:
+                        difference = (annual.end_date - annual.start_date).days + 1                                       
+                        staff.sick_leave_remaining = staff.sick_leave_remaining - difference 
+                        staff.save()                                     
+                        annual.staff = staff
+                        annual.days = difference
+                        annual.save()                    
+                        messages.success(request, 'Annual leave added!')
+                        return redirect(reverse('staff_details', args=[staff_id]))
+
+            else:                
+                messages.error(
+                    request, 'Sick leave could not be added. \
+                        Please ensure the form is invalid.')
+                return redirect(reverse('staff_details', args={staff_id}))
+        else:          
+            form = add_annual_leaveForm(instance=staff)
+
+            context = {
+                'form': form,
+                'staff': staff,
+            }
+
+    return render(request, 'staff/annual_leave.html', context)
 
 
 def sick_leave_taken(request, staff_id):
