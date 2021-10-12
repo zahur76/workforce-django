@@ -124,18 +124,23 @@ def sick_leave(request, staff_id):
             return redirect(reverse('home'))    
     else:        
         staff = get_object_or_404(Staff, id=staff_id)
-        leave_periods =  SickLeave.objects.all().filter(staff__id=staff_id)                 
+        sick_leave_periods =  SickLeave.objects.all().filter(staff__id=staff_id)
+        annual_leave_periods =  AnnualLeave.objects.all().filter(staff__id=staff_id)                      
         if request.method == 'POST':                    
             form = add_sick_leaveForm(request.POST)            
             if form.is_valid():                                
                 sick = form.save(commit=False)
-                if leave_periods:
+                if sick_leave_periods or annual_leave_periods:
                     count =0
                     day_list = []
-                    for leave in leave_periods:
+                    for leave in sick_leave_periods:
                         sick_days = (leave.end_date-leave.start_date).days + 1                        
                         for x in range(0, sick_days):
-                            day_list.append(leave.start_date + datetime.timedelta(days = x))                                                       
+                            day_list.append(leave.start_date + datetime.timedelta(days = x)) 
+                    for leave in annual_leave_periods:
+                        annual_days = (leave.end_date-leave.start_date).days + 1                        
+                        for x in range(0, annual_days):
+                            day_list.append(leave.start_date + datetime.timedelta(days = x))                                                      
                     for x in range (0,(sick.end_date-sick.start_date).days+1):                        
                         if (sick.start_date + datetime.timedelta(days = x)) in day_list:                            
                             count += 1                           
@@ -194,18 +199,23 @@ def annual_leave(request, staff_id):
             return redirect(reverse('home'))    
     else:        
         staff = get_object_or_404(Staff, id=staff_id)
-        leave_periods =  AnnualLeave.objects.all().filter(staff__id=staff_id)                 
+        sick_leave_periods =  SickLeave.objects.all().filter(staff__id=staff_id)
+        annual_leave_periods =  AnnualLeave.objects.all().filter(staff__id=staff_id)                  
         if request.method == 'POST':                    
             form = add_annual_leaveForm(request.POST)            
             if form.is_valid():                                
                 annual = form.save(commit=False)
-                if leave_periods:
+                if sick_leave_periods or annual_leave_periods:
                     count =0
                     day_list = []
-                    for leave in leave_periods:
+                    for leave in sick_leave_periods:
                         annual_days = (leave.end_date-leave.start_date).days + 1                        
                         for x in range(0, annual_days):
-                            day_list.append(leave.start_date + datetime.timedelta(days = x))                                                       
+                            day_list.append(leave.start_date + datetime.timedelta(days = x)) 
+                    for leave in annual_leave_periods:
+                        annual_days = (leave.end_date-leave.start_date).days + 1                        
+                        for x in range(0, annual_days):
+                            day_list.append(leave.start_date + datetime.timedelta(days = x))                                                      
                     for x in range (0,(annual.end_date-annual.start_date).days+1):                        
                         if (annual.start_date + datetime.timedelta(days = x)) in day_list:                            
                             count += 1                           
@@ -302,16 +312,21 @@ def sick_modify(request, sick_id):
     else:
         sick = get_object_or_404(SickLeave, id=sick_id)        
         staff = get_object_or_404(Staff, first_name=sick.staff.first_name)        
-        original_difference = (sick.end_date - sick.start_date).days + 1
-        leave_periods =  SickLeave.objects.all().filter(staff__id=staff.id).exclude(id=sick_id)              
+        original_difference = (sick.end_date - sick.start_date).days + 1        
+        sick_leave_periods =  SickLeave.objects.all().filter(staff__id=staff.id).exclude(id=sick_id)
+        annual_leave_periods =  AnnualLeave.objects.all().filter(staff__id=staff.id)              
         if request.method == 'POST':
             form = add_sick_leaveForm(request.POST, instance=sick)
             if form.is_valid():
                 modified_sick = form.save(commit=False)
-                if leave_periods:
+                if sick_leave_periods or annual_leave_periods:
                     count =0
                     day_list = []
-                    for leave in leave_periods:
+                    for leave in sick_leave_periods:
+                        sick_days = (leave.end_date-leave.start_date).days + 1                        
+                        for x in range(0, sick_days):
+                            day_list.append(leave.start_date + datetime.timedelta(days = x))
+                    for leave in annual_leave_periods:
                         sick_days = (leave.end_date-leave.start_date).days + 1                        
                         for x in range(0, sick_days):
                             day_list.append(leave.start_date + datetime.timedelta(days = x))                                                       
@@ -371,19 +386,24 @@ def annual_modify(request, annual_id):
     else:
         annual = get_object_or_404(AnnualLeave, id=annual_id)        
         staff = get_object_or_404(Staff, first_name=annual.staff.first_name)        
-        original_difference = (annual.end_date - annual.start_date).days + 1
-        leave_periods =  AnnualLeave.objects.all().filter(staff__id=staff.id).exclude(id=annual_id)              
+        original_difference = (annual.end_date - annual.start_date).days + 1        
+        sick_leave_periods =  SickLeave.objects.all().filter(staff__id=staff.id)
+        annual_leave_periods =  AnnualLeave.objects.all().filter(staff__id=staff.id).exclude(id=annual_id)              
         if request.method == 'POST':
             form = add_annual_leaveForm(request.POST, instance=annual)
             if form.is_valid():
                 modified_annual = form.save(commit=False)
-                if leave_periods:
+                if sick_leave_periods or annual_leave_periods:
                     count =0
                     day_list = []
-                    for leave in leave_periods:
+                    for leave in annual_leave_periods:
                         annual_days = (leave.end_date-leave.start_date).days + 1                        
                         for x in range(0, annual_days):
-                            day_list.append(leave.start_date + datetime.timedelta(days = x))                                                       
+                            day_list.append(leave.start_date + datetime.timedelta(days = x))
+                    for leave in sick_leave_periods:
+                        annual_days = (leave.end_date-leave.start_date).days + 1                        
+                        for x in range(0, annual_days):
+                            day_list.append(leave.start_date + datetime.timedelta(days = x))                                                        
                     for x in range (0,(modified_annual.end_date-modified_annual.start_date).days+1):                        
                         if (annual.start_date + datetime.timedelta(days = x)) in day_list:                            
                             count += 1                           
