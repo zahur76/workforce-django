@@ -7,6 +7,7 @@ import datetime
 from django.core import serializers
 import json
 import datetime
+from calendar import monthrange
 
 
 # Create your views here
@@ -510,27 +511,37 @@ def annual_leave_data(request):
     """ A view to send json leave data to template"""    
     if 'q' in request.GET:
         query = request.GET['q']
+        int_query = int(query)
     else:
         query="2021"
+        int_query = int(query)
     if 'month' in request.GET:
-        month = request.GET['month']
+        month = int(request.GET['month'])
     else:
         month=1       
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
-    else:        
+    else:             
         all_leave = AnnualLeave.objects.all().filter(start_date__year=query).order_by('start_date') 
         month_leave = AnnualLeave.objects.all().filter(start_date__month=month, start_date__year=query).order_by('start_date')
         month_dates = {}
         for x in range(1,32):
-            month_dates[x]=0                
+            month_dates[x]=0 
+        print(month_dates)
+        print(month_leave)               
         for leave in month_leave:
             start = int(leave.start_date.strftime("%d"))
+            print(start)            
             end = int(leave.end_date.strftime("%d"))
-            month_list = [*range(start,end+1)]            
-            for x in range(0,end):
-                month_dates[x+1]+=1
+            if end < start:                
+                end=monthrange(int_query, month)[1] 
+            else:
+                end = int(leave.end_date.strftime("%d"))
+            print(end)                              
+            for x in range(start,end+1):
+                month_dates[x]+=1
+        print(month_dates)
         json_month_data = json.dumps(month_dates)        
         leave_data = {'Jan':0, 'Feb':0, 'Mar':0, 'Apr':0, 'May':0, 'Jun':0, 'Jul':0, 'Aug':0, "Sep":0, 'Oct':0, 'Nov':0, "Dec":0}        
         for leave in all_leave:
