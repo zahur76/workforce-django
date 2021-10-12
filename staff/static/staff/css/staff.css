@@ -3,6 +3,14 @@
     background-size: cover;
 }
 
+.staff-column a {
+    text-decoration: none;
+}
+
+.bg-secondary {
+    background-color: rgb(170, 168, 168) !important;
+}
+
 .staff-name {
     text-decoration: none;
 }

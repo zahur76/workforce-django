@@ -23,11 +23,61 @@
             </form> 
         </div>      
     </div>
-    <div class="row m-0 mt-3">
-        {% for staff in staff %} 
-            <div class="col-12 col-md-4 col-lg-3 p-3">
-                <a href="{% url 'staff_details' staff.id %}" class="text-dark mb-2 staff-name mt-1">{{ staff.id }}.{{ staff.first_name }} {{ staff.last_name }}</a>
-            </div>
+    <div class="row m-0 mt-3 bg-dark text-light">
+        <div class="col-1">                
+        </div> 
+        <div class="col-3 col-md-2 text-center">
+            Employee No
+        </div>
+        <div class="col-8 col-md-3">
+            <div>Name</div>
+        </div>
+        <div class="d-none d-md-block col-md-3">
+            Email
+        </div>
+        <div class="d-none d-md-block col-md-2">
+            Phone No
+        </div>
+        <div class="d-none d-md-block col-md-1">                    
+        </div>
+    </div>    
+    <div class="row m-0 mt-3 staff-column">
+        {% for staff in staff %}
+            {% if forloop.counter|divisibleby:2 %}
+                <div class="col-1">                
+                </div> 
+                <div class="col-3 col-md-2 text-center">
+                    {{  staff.id }}
+                </div>
+                <div class="col-8 col-md-3">
+                    <a href="{% url 'staff_details' staff_id=staff.id %}">{{  staff.first_name }} {{  staff.last_name }}</a>
+                </div>
+                <div class="d-none d-md-block col-md-3">
+                    {{  staff.email_address }}
+                </div>
+                <div class="d-none d-md-block col-md-2">
+                    {{ staff.phone_number }}
+                </div>
+                <div class="d-none d-md-block col-md-1">                    
+                </div>
+            {% else %}
+                <div class="col-1">                
+                </div> 
+                <div class="col-3 col-md-2 bg-secondary text-center">
+                    {{  staff.id }}
+                </div>
+                <div class="col-8 col-md-3 bg-secondary">
+                    <a href="{% url 'staff_details' staff_id=staff.id %}">{{  staff.first_name }} {{  staff.last_name }}</a>
+                </div>
+                <div class="d-none d-md-block col-md-3 bg-secondary">
+                    {{  staff.email_address }}
+                </div>
+                <div class="d-none d-md-block col-md-2 bg-secondary">
+                    {{ staff.phone_number }}
+                </div>
+                <div class="d-none d-md-block col-md-1">                    
+                </div>
+            {% endif %}            
         {% endfor %}   
     </div>    
 {% endblock %}

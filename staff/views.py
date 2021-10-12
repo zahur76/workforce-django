@@ -276,7 +276,7 @@ def sick_leave_taken(request, staff_id):
     else:
         staff = get_object_or_404(Staff, id=staff_id)
         sick_leave = SickLeave.objects.all()
-        sick_leave = sick_leave.filter(staff__id=staff_id)
+        sick_leave = sick_leave.filter(staff__id=staff_id).order_by('start_date') 
         context = {
             'staff': staff,
             'sick_leave': sick_leave,
@@ -292,9 +292,8 @@ def annual_leave_taken(request, staff_id):
             return redirect(reverse('home'))
     else:
         staff = get_object_or_404(Staff, id=staff_id)
-        annual_leave = AnnualLeave.objects.all()
-        print(annual_leave)
-        annual_leave = annual_leave.filter(staff__id=staff_id)
+        annual_leave = AnnualLeave.objects.all()       
+        annual_leave = annual_leave.filter(staff__id=staff_id).order_by('start_date') 
         context = {
             'staff': staff,
             'annual_leave': annual_leave,
@@ -493,7 +492,7 @@ def sick_data(request):
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
     else:        
-        all_sick = SickLeave.objects.all().filter(start_date__year=query)        
+        all_sick = SickLeave.objects.all().filter(start_date__year=query).order_by('start_date')        
         sick_data = {'Jan':0, 'Feb':0, 'Mar':0, 'Apr':0, 'May':0, 'Jun':0, 'Jul':0, 'Aug':0, "Sep":0, 'Oct':0, 'Nov':0, "Dec":0}        
         for sick in all_sick:
             sick_month = sick.start_date                                 
@@ -519,7 +518,7 @@ def annual_leave_data(request):
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
     else:        
-        all_leave = AnnualLeave.objects.all().filter(start_date__year=query)        
+        all_leave = AnnualLeave.objects.all().filter(start_date__year=query).order_by('start_date')         
         leave_data = {'Jan':0, 'Feb':0, 'Mar':0, 'Apr':0, 'May':0, 'Jun':0, 'Jul':0, 'Aug':0, "Sep":0, 'Oct':0, 'Nov':0, "Dec":0}        
         for leave in all_leave:
             leave_month = leave.start_date                                 
