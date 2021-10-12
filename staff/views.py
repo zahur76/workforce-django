@@ -512,13 +512,24 @@ def annual_leave_data(request):
     if 'q' in request.GET:
         query = request.GET['q']
     else:
-        query="2021"
-    
+        query="2021"    
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
     else:        
-        all_leave = AnnualLeave.objects.all().filter(start_date__year=query).order_by('start_date')         
+        all_leave = AnnualLeave.objects.all().filter(start_date__year=query).order_by('start_date') 
+        month_leave = AnnualLeave.objects.all().filter(start_date__month=5).order_by('start_date')
+        month_dates = {}
+        for x in range(1,32):
+            month_dates[x]=0                
+        for leave in month_leave:
+            start = int(leave.start_date.strftime("%d"))
+            end = int(leave.end_date.strftime("%d"))
+            month_list = [*range(start,end+1)]            
+            for x in range(0,end):
+                month_dates[x+1]+=1
+        json_month_data = json.dumps(month_dates)
+        print(month_dates)
         leave_data = {'Jan':0, 'Feb':0, 'Mar':0, 'Apr':0, 'May':0, 'Jun':0, 'Jul':0, 'Aug':0, "Sep":0, 'Oct':0, 'Nov':0, "Dec":0}        
         for leave in all_leave:
             leave_month = leave.start_date                                 
@@ -526,6 +537,7 @@ def annual_leave_data(request):
         json_data = json.dumps(leave_data)
         context = {
             'leave_data': json_data,
+            'month_leave_data': json_month_data,
             'all_leave': all_leave,
             'year': query,                      
         }

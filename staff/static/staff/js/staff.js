@@ -73,6 +73,7 @@ $(document).ready(function(){
         $('#myChart').hide();
         $(".close-data").hide();
         $('#myChartLeave').hide();
+        $('#myChartLeavePlanner').hide();
     }) 
     
     form = $('#data-year')
@@ -110,9 +111,11 @@ $(document).ready(function(){
             }
         });
     })
-    
+
+    // Annual leave charts     
     $('.show-leave-data').click(function(){
         $(".close-data").show();
+        $('#myChartLeavePlanner').hide();
         $('#myChartLeave').show();        
         let month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', "Sep", 'Oct', 'Nov', "Dec"];        
         let days = [leaveData['Jan'], leaveData['Feb'], leaveData['Mar'], leaveData['Apr'], leaveData['May'], leaveData['Jun'], leaveData['Jul'], leaveData['Aug'], leaveData['Sep'], leaveData['Oct'], leaveData['Nov'], leaveData['Dec']]
@@ -134,6 +137,47 @@ $(document).ready(function(){
               title: {
                 display: true,
                 text: `Annual Leave ${dataYear}`
+              }
+            }
+        });
+    })
+
+    // Leave Planning
+    $('.leave-planner-data').click(function(){
+        $(".close-data").show();
+        $('#myChartLeave').hide();
+        $('#myChartLeavePlanner').show();        
+        let leaveDays = [];
+        for (i=1; i<=31; i++){
+            leaveDays.push(i)
+        }
+        console.log(leaveDays)
+        let persons = []
+        for (i=1; i<=31; i++){
+            persons.push(monthLeaveData[i])
+        }
+        console.log(persons)
+        let barColors = [];
+        for (let i=0; i<=31; i++){
+            barColors.push("blue"); 
+        }               
+        new Chart("myChartLeavePlanner", {
+            type: "bar",
+            data: {
+              labels: leaveDays,
+              datasets: [{
+                backgroundColor: barColors,
+                data: persons
+              }]
+            },
+            options: {
+              legend: {display: false},
+              title: {
+                display: true,
+                text: `Leave Planner`
+              },
+              scales: {                
+                yAxes: [{ticks: {min: 0, max:5}}],
               }
             }
         });

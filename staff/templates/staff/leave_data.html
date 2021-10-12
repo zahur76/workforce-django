@@ -8,6 +8,7 @@
 
 {% block content %}
     <canvas id="myChartLeave"></canvas>
+    <canvas id="myChartLeavePlanner"></canvas>
     <div class="text-center h1 mb-2">Leave Data</div>
     <a href="{% url 'staff' %}" class="btn bg-dark text-light sick-back-button button mb-2">Back</a>
     
@@ -23,7 +24,8 @@
                 <option value="2024">2024</option>
                 <option value="2025">2025</option>
             </select>            
-            <div class="btn bg-dark text-light sick-back-button button show-leave-data">Graph</div>                       
+            <div class="btn bg-dark text-light sick-back-button button show-leave-data">Graph</div>
+            <div class="btn bg-dark text-light sick-back-button button leave-planner-data">Leave Planner</div>                        
         </form>
         <div class="text-dark text-center h2">{{ year }}</div>  
    </div>      
@@ -56,6 +58,7 @@
     </div>
     <script>
         var leaveData = JSON.parse('{{ leave_data | escapejs }}');
+        var monthLeaveData = JSON.parse('{{ month_leave_data | escapejs }}');
     </script>    
 {% endblock %}
 
