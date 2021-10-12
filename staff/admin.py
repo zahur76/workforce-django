@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Staff, SickLeave
+from .models import AnnualLeave, Staff, SickLeave
 # Register your models here.
 
 
@@ -15,3 +15,4 @@ class StaffAdmin(admin.ModelAdmin):
 
 admin.site.register(Staff, StaffAdmin)
 admin.site.register(SickLeave)
+admin.site.register(AnnualLeave)

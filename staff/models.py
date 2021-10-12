@@ -54,3 +54,19 @@ class SickLeave(models.Model):
 
     def __str__(self):
         return self.staff.first_name
+
+
+class AnnualLeave(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Annual leave"
+
+    staff = models.ForeignKey(
+            'Staff', null=False, blank=False, on_delete=models.CASCADE,
+            related_name='annuallleave')
+    start_date = models.DateField()
+    end_date = models.DateField()
+    days = models.IntegerField()
+
+    def __str__(self):
+        return self.staff.first_name

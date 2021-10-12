@@ -88,7 +88,10 @@ $(document).ready(function(){
         $('#myChart').show();        
         let month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', "Sep", 'Oct', 'Nov', "Dec"];        
         let days = [sickData['Jan'], sickData['Feb'], sickData['Mar'], sickData['Apr'], sickData['May'], sickData['Jun'], sickData['Jul'], sickData['Aug'], sickData['Sep'], sickData['Oct'], sickData['Nov'], sickData['Dec']]
-        var barColors = ["blue"];        
+        let barColors = [];
+        for (let i=0; i<=month.length; i++){
+            barColors.push("blue"); 
+        }               
         new Chart("myChart", {
             type: "bar",
             data: {
