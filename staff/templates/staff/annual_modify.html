@@ -16,7 +16,7 @@
             <div>
                 <button class="btn button mt-2" type="submit" form="mystaffForm">submit</button>
                 <a href="{% url 'annual_leave_taken' staff_id=annual.staff.id %}" class="btn button mt-2">Back</a>
-                <a href="#" class="btn button bg-danger mt-2">Delete</a>
+                <a href="{% url 'annual_delete' annual_id=annual.id %}" class="btn button bg-danger mt-2">Delete</a>
             </div>             
         </form>
     </div> 

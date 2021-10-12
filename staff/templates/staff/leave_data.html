@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}  
+    <link rel="stylesheet" href="{% static 'staff/css/staff.css' %}">          
+{% endblock %}
+
+
+{% block content %}
+    <canvas id="myChartLeave"></canvas>
+    <div class="text-center h1 mb-2">Leave Data</div>
+    <a href="{% url 'staff' %}" class="btn bg-dark text-light sick-back-button button mb-2">Back</a>
+    
+    <div class="btn bg-dark text-light sick-back-button button mb-2 close-data">Close</div>
+    <div class="year-form p-2">   
+        <form action="{% url 'annual_leave_data' %}" method="GET" class="border-dark rounded-0 mx-auto" id="data-year" placeholder="{{ year }}">            
+            <select id="year" name="q">
+                <option>year</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+            </select>            
+            <div class="btn bg-dark text-light sick-back-button button mb-2 show-leave-data">Graph</div>                       
+        </form>
+        <div class="text-dark text-center h2">{{ year }}</div>  
+   </div>      
+    <div class="row m-0 mb-2 text-center border-bottom border-dark">
+        <div class="col-1"></div>
+        <div class="col-1"></div>
+        <div class="col-3 col-md-2">Name</div>
+        <div class="col-5 col-md-3 col-lg-2">Start date</div>
+        <div class="col-1">Days</div>
+        <div class="col-1 col-md-4 col-lg-5"></div>
+    </div>
+    <div class="row m-0 text-center">
+        {% for leave in all_leave %}
+            {% if forloop.counter|divisibleby:2 %}
+                <div class="col-1"></div>
+                <div class="col-1">{{ forloop.counter }}</div>
+                <div class="col-3 col-md-2">{{ leave.staff.first_name }}</div>
+                <div class="col-5 col-md-3 col-lg-2">{{ leave.start_date }}</div>
+                <div class="col-1">{{ leave.days}}</div>
+                <div class="col-1 col-md-4 col-lg-5"></div>
+            {% else %}
+                <div class="col-1"></div>
+                <div class="col-1 bg-secondary">{{ forloop.counter }}</div>
+                <div class="col-3 col-md-2 bg-secondary">{{ leave.staff.first_name }}</div>
+                <div class="col-5 col-md-3 col-lg-2 bg-secondary">{{ leave.start_date }}</div>
+                <div class="col-1 bg-secondary">{{ leave.days}}</div>
+                <div class="col-1 col-md-4 col-lg-5"></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <script>
+        var leaveData = JSON.parse('{{ leave_data | escapejs }}');
+    </script>    
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>                 
+    <script src="{% static 'staff/js/staff.js' %}" type="text/javascript"></script>     
+{% endblock %}

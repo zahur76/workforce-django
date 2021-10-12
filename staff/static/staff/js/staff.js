@@ -69,10 +69,10 @@ $(document).ready(function(){
     // Sick leave charts 
 
     $(".close-data").hide();
-    $('.close-data').click(function(){
-        console.log('zahur')
+    $('.close-data').click(function(){       
         $('#myChart').hide();
         $(".close-data").hide();
+        $('#myChartLeave').hide();
     }) 
     
     form = $('#data-year')
@@ -105,10 +105,37 @@ $(document).ready(function(){
               legend: {display: false},
               title: {
                 display: true,
-                text: "Sick Leave 2021"
+                text: `Sick Leave ${dataYear}`
               }
             }
         });
-
-    })      
+    })
+    
+    $('.show-leave-data').click(function(){
+        $(".close-data").show();
+        $('#myChartLeave').show();        
+        let month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', "Sep", 'Oct', 'Nov', "Dec"];        
+        let days = [leaveData['Jan'], leaveData['Feb'], leaveData['Mar'], leaveData['Apr'], leaveData['May'], leaveData['Jun'], leaveData['Jul'], leaveData['Aug'], leaveData['Sep'], leaveData['Oct'], leaveData['Nov'], leaveData['Dec']]
+        let barColors = [];
+        for (let i=0; i<=month.length; i++){
+            barColors.push("blue"); 
+        }               
+        new Chart("myChartLeave", {
+            type: "bar",
+            data: {
+              labels: month,
+              datasets: [{
+                backgroundColor: barColors,
+                data: days
+              }]
+            },
+            options: {
+              legend: {display: false},
+              title: {
+                display: true,
+                text: `Annual Leave ${dataYear}`
+              }
+            }
+        });
+    })
 });

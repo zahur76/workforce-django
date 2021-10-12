@@ -446,6 +446,21 @@ def sick_delete(request, sick_id):
         return redirect(reverse('sick_leave_taken', args={sick.staff.id}))
 
 
+def annual_delete(request, annual_id):
+    """ A view to delete sick leave"""
+
+    if not request.user.is_superuser:
+            messages.error(request, 'Access Denied!')
+            return redirect(reverse('home'))
+    else:
+        annual = get_object_or_404(AnnualLeave, id=annual_id)
+        staff = get_object_or_404(Staff, first_name=annual.staff.first_name)       
+        staff.annual_leave_remaining = staff.annual_leave_remaining + annual.days
+        staff.save()
+        annual.delete()
+        return redirect(reverse('annual_leave_taken', args={annual.staff.id}))
+
+
 def sick_data(request):
     """ A view to send json sick data to template"""
     year = 2021
@@ -470,4 +485,31 @@ def sick_data(request):
             'year': query,                      
         }
         return render(request, 'staff/sick_data.html', context)
+
+
+def annual_leave_data(request):
+    """ A view to send json leave data to template"""
+    year = 2021
+    if 'q' in request.GET:
+        query = request.GET['q']
+    else:
+        query="2021"
+    
+    if not request.user.is_superuser:
+            messages.error(request, 'Access Denied!')
+            return redirect(reverse('home'))
+    else:        
+        all_leave = AnnualLeave.objects.all().filter(start_date__year=query)        
+        leave_data = {'Jan':0, 'Feb':0, 'Mar':0, 'Apr':0, 'May':0, 'Jun':0, 'Jul':0, 'Aug':0, "Sep":0, 'Oct':0, 'Nov':0, "Dec":0}        
+        for leave in all_leave:
+            leave_month = leave.start_date                                 
+            leave_data[leave_month.strftime("%b")]+=leave.days            
+        json_data = json.dumps(leave_data)
+        context = {
+            'leave_data': json_data,
+            'all_leave': all_leave,
+            'year': query,                      
+        }
+        return render(request, 'staff/leave_data.html', context)
+
 
