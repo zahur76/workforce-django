@@ -597,10 +597,16 @@ def annual_leave_data(request):
 
 
 def sick_reset(request):
-    staff_sick = Staff.objects.all()
-    all_sick_leave =  SickLeave.objects.all()
-    print((all_sick_leave).count())  
+    staff_sick = Staff.objects.all()      
     for sick in staff_sick:        
         sick.sick_leave_remaining = sick.sick_leave        
         sick.save()    
     return redirect(reverse('sick_data'))
+
+
+def leave_reset(request):
+    staff_leave = Staff.objects.all()       
+    for leave in staff_leave:        
+        leave.annual_leave_remaining = leave.annual_leave        
+        leave.save()    
+    return redirect(reverse('annual_leave_data'))

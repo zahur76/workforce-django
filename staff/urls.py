@@ -19,4 +19,5 @@ urlpatterns = [
     path('sick_data', views.sick_data, name='sick_data'),
     path('annual_leave_data', views.annual_leave_data, name='annual_leave_data'),
     path('sick_reset', views.sick_reset, name='sick_reset'),
+    path('leave_reset', views.leave_reset, name='leave_reset'),
 ]

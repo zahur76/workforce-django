@@ -11,6 +11,7 @@
     <canvas id="myChartLeavePlanner"></canvas>
     <div class="text-center h1 mb-2">Leave Data</div>
     <a href="{% url 'staff' %}" class="btn bg-dark text-light sick-back-button button mb-2">Back</a>
+    <a href="#" class="btn bg-danger text-light sick-back-button button mb-2 reset-leave">Reset leave</a>
     
     <div class="btn bg-dark text-light sick-back-button button mb-2 close-data">Close</div>
     <div class="year-form p-2">   
@@ -78,7 +79,21 @@
     <script>
         var leaveData = JSON.parse('{{ leave_data | escapejs }}');
         var monthLeaveData = JSON.parse('{{ month_leave_data | escapejs }}');
-    </script>     
+    </script>
+    <!-- Confirm staff sick reset modal -->
+    <div id="reset-leave-modal" class="modal confirm-modal mx-auto">
+        <div class="modal-content mt-2 bg-danger pb-2 pt-1">
+            <div class="row m-0">  
+                <div class="col-12 close-modal"><div class="btn p-0 text-light">X</div></div>
+            </div> 
+            <div class="row m-0">                                 
+                <div class="col-12 bg-danger text-center text-light delete">Reset to be done on the 1st Jan!</div>                       
+            </div>              
+            <div class="row w-25 mx-auto text-center mt-3">
+                <a href="{% url 'leave_reset' %}" class="col-12 confirm btn button border border-dark text-light">Confirm</a>            
+            </div>
+        </div>    
+    </div>     
 {% endblock %}
 
 {% block extra_js %}

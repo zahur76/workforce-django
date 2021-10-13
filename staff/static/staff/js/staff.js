@@ -191,6 +191,8 @@ $(document).ready(function(){
     // Reset sick
     $('.reset-sick').click(function(){                       
       $('#reset-sick-modal').show();     
-  });
-
+    });
+    $('.reset-leave').click(function(){                       
+      $('#reset-leave-modal').show();     
+    });
 });
