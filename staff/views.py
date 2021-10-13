@@ -323,7 +323,7 @@ def sick_modify(request, sick_id):
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
     else:
-        sick = get_object_or_404(SickLeave, id=sick_id)        
+        sick = get_object_or_404(SickLeave, id=sick_id)       
         staff = get_object_or_404(Staff, first_name=sick.staff.first_name)        
         original_difference = (sick.end_date - sick.start_date).days + 1        
         sick_leave_periods =  SickLeave.objects.all().filter(staff__id=staff.id).exclude(id=sick_id)
@@ -580,8 +580,13 @@ def annual_leave_data(request):
 
 
 def sick_reset(request):
-    all_sick = Staff.objects.all()    
-    for sick in all_sick:        
-        sick.sick_leave_remaining = sick.sick_leave
+    staff_sick = Staff.objects.all()
+    all_sick_leave =  SickLeave.objects.all()
+    print((all_sick_leave).count())  
+    for sick in staff_sick:        
+        sick.sick_leave_remaining = sick.sick_leave        
+        sick.save()
+    for sick in all_sick_leave:        
+        sick.sick_reset = True
         sick.save()
     return redirect(reverse('sick_data'))

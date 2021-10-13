@@ -37,7 +37,11 @@
             <div class="col-4 col-md-2">{{ leave.start_date }}</div>
             <div class="col-4 col-md-2">{{ leave.end_date }}</div>
             <div  class="col-1">{{ leave.days }}</div>
-            <a href="{% url 'sick_modify' sick_id=leave.id %}" class="col-2 col-md-3">Modify</a>
+            {% if leave.sick_reset %} 
+                <div class="col-2 col-md-3"></div>               
+            {% else %}
+                <a href="{% url 'sick_modify' sick_id=leave.id %}" class="col-2 col-md-3">Modify</a>
+            {% endif %}
             <div  class="d-none col-md-3">{{ leave.days }}</div>
         </div>        
     {% endfor %}
