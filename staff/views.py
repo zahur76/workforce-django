@@ -130,30 +130,50 @@ def sick_leave(request, staff_id):
         if request.method == 'POST':                    
             form = add_sick_leaveForm(request.POST)            
             if form.is_valid():                                
-                sick = form.save(commit=False)
-                if sick_leave_periods or annual_leave_periods:
-                    count =0
-                    day_list = []
-                    for leave in sick_leave_periods:
-                        sick_days = (leave.end_date-leave.start_date).days + 1                        
-                        for x in range(0, sick_days):
-                            day_list.append(leave.start_date + datetime.timedelta(days = x)) 
-                    for leave in annual_leave_periods:
-                        annual_days = (leave.end_date-leave.start_date).days + 1                        
-                        for x in range(0, annual_days):
-                            day_list.append(leave.start_date + datetime.timedelta(days = x))                                                      
-                    for x in range (0,(sick.end_date-sick.start_date).days+1):                        
-                        if (sick.start_date + datetime.timedelta(days = x)) in day_list:                            
-                            count += 1                           
+                sick = form.save(commit=False)                
+                actual_year = datetime.datetime.now().strftime("%y")
+                sick_start_year = sick.start_date.strftime("%y")                
+                sick_end_year = sick.end_date.strftime("%y")                
+                if actual_year != sick_start_year or actual_year != sick_end_year:
+                    messages.error(request, f'Entry allowed for 20{actual_year} only!')
+                    return redirect(reverse('staff_details', args=[staff_id]))
+                else:
+                    if sick_leave_periods or annual_leave_periods:
+                        count =0
+                        day_list = []
+                        for leave in sick_leave_periods:
+                            sick_days = (leave.end_date-leave.start_date).days + 1                        
+                            for x in range(0, sick_days):
+                                day_list.append(leave.start_date + datetime.timedelta(days = x)) 
+                        for leave in annual_leave_periods:
+                            annual_days = (leave.end_date-leave.start_date).days + 1                        
+                            for x in range(0, annual_days):
+                                day_list.append(leave.start_date + datetime.timedelta(days = x))                                                      
+                        for x in range (0,(sick.end_date-sick.start_date).days+1):                        
+                            if (sick.start_date + datetime.timedelta(days = x)) in day_list:                            
+                                count += 1                           
+                            else:
+                                count += 0                                          
+                        if count !=0:
+                            messages.error(request, 'Error Duplicate dates!')
+                            return redirect(reverse('staff_details', args=[staff_id]))
                         else:
-                            count += 0                                          
-                    if count !=0:
-                        messages.error(request, 'Error Duplicate dates!')
-                        return redirect(reverse('staff_details', args=[staff_id]))
+                            if sick.end_date<sick.start_date:
+                                messages.error(request, 'Start date Incorrect')
+                                return redirect(reverse('staff_details', args=[staff_id]))
+                            else:
+                                difference = (sick.end_date - sick.start_date).days + 1                                       
+                                staff.sick_leave_remaining = staff.sick_leave_remaining - difference 
+                                staff.save()                                     
+                                sick.staff = staff
+                                sick.days = difference
+                                sick.save()                    
+                                messages.success(request, 'Sick leave added!')
+                                return redirect(reverse('staff_details', args=[staff_id]))
                     else:
                         if sick.end_date<sick.start_date:
-                            messages.error(request, 'Start date Incorrect')
-                            return redirect(reverse('staff_details', args=[staff_id]))
+                                messages.error(request, 'Start date Incorrect!')
+                                return redirect(reverse('staff_details', args=[staff_id]))
                         else:
                             difference = (sick.end_date - sick.start_date).days + 1                                       
                             staff.sick_leave_remaining = staff.sick_leave_remaining - difference 
@@ -163,19 +183,6 @@ def sick_leave(request, staff_id):
                             sick.save()                    
                             messages.success(request, 'Sick leave added!')
                             return redirect(reverse('staff_details', args=[staff_id]))
-                else:
-                    if sick.end_date<sick.start_date:
-                            messages.error(request, 'Start date Incorrect!')
-                            return redirect(reverse('staff_details', args=[staff_id]))
-                    else:
-                        difference = (sick.end_date - sick.start_date).days + 1                                       
-                        staff.sick_leave_remaining = staff.sick_leave_remaining - difference 
-                        staff.save()                                     
-                        sick.staff = staff
-                        sick.days = difference
-                        sick.save()                    
-                        messages.success(request, 'Sick leave added!')
-                        return redirect(reverse('staff_details', args=[staff_id]))
 
             else:                
                 messages.error(
@@ -275,12 +282,18 @@ def sick_leave_taken(request, staff_id):
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
     else:
+        if 'q' in request.GET:
+            query = request.GET['q']
+        else:
+            query="2021"
+
         staff = get_object_or_404(Staff, id=staff_id)
         sick_leave = SickLeave.objects.all()
-        sick_leave = sick_leave.filter(staff__id=staff_id).order_by('start_date') 
+        sick_leave = sick_leave.filter(staff__id=staff_id, start_date__year=query).order_by('start_date') 
         context = {
             'staff': staff,
             'sick_leave': sick_leave,
+            'year': query,
         }        
         return render(request, 'staff/sick_leave_taken.html', context)
 
@@ -319,29 +332,49 @@ def sick_modify(request, sick_id):
             form = add_sick_leaveForm(request.POST, instance=sick)
             if form.is_valid():
                 modified_sick = form.save(commit=False)
-                if sick_leave_periods or annual_leave_periods:
-                    count =0
-                    day_list = []
-                    for leave in sick_leave_periods:
-                        sick_days = (leave.end_date-leave.start_date).days + 1                        
-                        for x in range(0, sick_days):
-                            day_list.append(leave.start_date + datetime.timedelta(days = x))
-                    for leave in annual_leave_periods:
-                        sick_days = (leave.end_date-leave.start_date).days + 1                        
-                        for x in range(0, sick_days):
-                            day_list.append(leave.start_date + datetime.timedelta(days = x))                                                       
-                    for x in range (0,(modified_sick.end_date-modified_sick.start_date).days+1):                        
-                        if (sick.start_date + datetime.timedelta(days = x)) in day_list:                            
-                            count += 1                           
-                        else:
-                            count += 0                                          
-                    if count !=0:
-                        messages.error(request, 'Error Duplicate dates!')
-                        return redirect(reverse('sick_leave_taken', args=[sick.staff.id]))
-                    else:                        
-                        if modified_sick.end_date<modified_sick.start_date:
-                            messages.error(request, 'Start date Incorrect!')
+                actual_year = datetime.datetime.now().strftime("%y")
+                sick_applied_year_start = modified_sick.start_date.strftime("%y")
+                print(sick_applied_year_start)
+                sick_applied_year_end = modified_sick.end_date.strftime("%y")
+                print(sick_applied_year_end)
+                if actual_year != sick_applied_year_start or actual_year != sick_applied_year_end:
+                    messages.error(request, f'Entry allowed for 20{actual_year} only!')
+                    return redirect(reverse('staff_details', args=[sick.staff_id]))
+                else:                    
+                    if sick_leave_periods or annual_leave_periods:
+                        count =0
+                        day_list = []
+                        for leave in sick_leave_periods:
+                            sick_days = (leave.end_date-leave.start_date).days + 1                        
+                            for x in range(0, sick_days):
+                                day_list.append(leave.start_date + datetime.timedelta(days = x))
+                        for leave in annual_leave_periods:
+                            sick_days = (leave.end_date-leave.start_date).days + 1                        
+                            for x in range(0, sick_days):
+                                day_list.append(leave.start_date + datetime.timedelta(days = x))                                                       
+                        for x in range (0,(modified_sick.end_date-modified_sick.start_date).days+1):                        
+                            if (sick.start_date + datetime.timedelta(days = x)) in day_list:                            
+                                count += 1                           
+                            else:
+                                count += 0                                          
+                        if count !=0:
+                            messages.error(request, 'Error Duplicate dates!')
                             return redirect(reverse('sick_leave_taken', args=[sick.staff.id]))
+                        else:                        
+                            if modified_sick.end_date<modified_sick.start_date:
+                                messages.error(request, 'Start date Incorrect!')
+                                return redirect(reverse('sick_leave_taken', args=[sick.staff.id]))
+                            else:
+                                modified_difference = (modified_sick.end_date - modified_sick.start_date).days + 1                 
+                                staff.sick_leave_remaining = staff.sick_leave_remaining + original_difference - modified_difference 
+                                staff.save()
+                                modified_sick.days = modified_difference                    
+                                modified_sick.save()
+                                return redirect(reverse('sick_leave_taken', args={sick.staff.id}))
+                    else:
+                        if modified_sick.end_date<modified_sick.start_date:
+                                messages.error(request, 'Start date Incorrect!')
+                                return redirect(reverse('sick_leave_taken', args=[sick.staff.id]))
                         else:
                             modified_difference = (modified_sick.end_date - modified_sick.start_date).days + 1                 
                             staff.sick_leave_remaining = staff.sick_leave_remaining + original_difference - modified_difference 
@@ -349,17 +382,6 @@ def sick_modify(request, sick_id):
                             modified_sick.days = modified_difference                    
                             modified_sick.save()
                             return redirect(reverse('sick_leave_taken', args={sick.staff.id}))
-                else:
-                    if modified_sick.end_date<modified_sick.start_date:
-                            messages.error(request, 'Start date Incorrect!')
-                            return redirect(reverse('sick_leave_taken', args=[sick.staff.id]))
-                    else:
-                        modified_difference = (modified_sick.end_date - modified_sick.start_date).days + 1                 
-                        staff.sick_leave_remaining = staff.sick_leave_remaining + original_difference - modified_difference 
-                        staff.save()
-                        modified_sick.days = modified_difference                    
-                        modified_sick.save()
-                        return redirect(reverse('sick_leave_taken', args={sick.staff.id}))
 
             else:
                 messages.error(
@@ -482,8 +504,7 @@ def annual_delete(request, annual_id):
 
 
 def sick_data(request):
-    """ A view to send json sick data to template"""
-    year = 2021
+    """ A view to send json sick data to template"""    
     if 'q' in request.GET:
         query = request.GET['q']
     else:
@@ -557,9 +578,10 @@ def annual_leave_data(request):
         }
         return render(request, 'staff/leave_data.html', context)
 
+
 def sick_reset(request):
-    all_sick = Staff.objects.all()
-    for sick_leave in all_sick:
-        sick_leave.sick_leave_remaining = sick_leave.sick_leave
-        sick_leave.save()
-        return redirect(reverse('sick_data'))
+    all_sick = Staff.objects.all()    
+    for sick in all_sick:        
+        sick.sick_leave_remaining = sick.sick_leave
+        sick.save()
+    return redirect(reverse('sick_data'))

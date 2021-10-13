@@ -41,14 +41,14 @@
             {% if forloop.counter|divisibleby:2 %}
                 <div class="col-1"></div>
                 <div class="col-1">{{ forloop.counter }}</div>
-                <div class="col-3 col-md-2">{{ sick.staff.first_name }}</div>
+                <a href="{% url 'sick_leave_taken' sick.staff.id %}" class="col-3 col-md-2">{{ sick.staff.first_name }}</a>
                 <div class="col-5 col-md-3 col-lg-2">{{ sick.start_date }}</div>
                 <div class="col-1">{{ sick.days}}</div>
                 <div class="col-1 col-md-4 col-lg-5"></div>
             {% else %}
                 <div class="col-1"></div>
                 <div class="col-1 bg-secondary">{{ forloop.counter }}</div>
-                <div class="col-3 col-md-2 bg-secondary">{{ sick.staff.first_name }}</div>
+                <a href="{% url 'sick_leave_taken' sick.staff.id %}" class="col-3 col-md-2 bg-secondary">{{ sick.staff.first_name }}</a>
                 <div class="col-5 col-md-3 col-lg-2 bg-secondary">{{ sick.start_date }}</div>
                 <div class="col-1 bg-secondary">{{ sick.days}}</div>
                 <div class="col-1 col-md-4 col-lg-5"></div>
@@ -68,7 +68,7 @@
                 <div class="col-12 bg-danger text-center text-light delete">Do you want to reset all sick leave?</div>                       
             </div>              
             <div class="row w-25 mx-auto text-center mt-3">
-                <a href="{% url 'sick_reset' %}" class="col-12 confirm btn btn-dark border border-light text-light">Confirm</a>            
+                <a href="{% url 'sick_reset' %}" class="col-12 confirm btn button border border-dark text-light">Confirm</a>            
             </div>
         </div>    
     </div>      
