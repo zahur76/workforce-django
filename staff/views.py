@@ -313,15 +313,21 @@ def annual_leave_taken(request, staff_id):
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
-    else:
+    else:        
+        if 'q' in request.GET:
+            query = request.GET['q']
+        else:
+            query="2021"
+
         staff = get_object_or_404(Staff, id=staff_id)
         annual_leave = AnnualLeave.objects.all()       
-        annual_leave = annual_leave.filter(staff__id=staff_id).order_by('start_date') 
+        annual_leave = annual_leave.filter(staff__id=staff_id, start_date__year=query).order_by('start_date') 
         actual_year = datetime.datetime.now().strftime("%y")        
         context = {
             'staff': staff,
             'annual_leave': annual_leave,
             'actual_year': actual_year,
+            'year': query,
         }        
         return render(request, 'staff/annual_leave_taken.html', context)
 

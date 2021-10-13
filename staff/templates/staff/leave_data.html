@@ -62,14 +62,14 @@
             {% if forloop.counter|divisibleby:2 %}
                 <div class="col-1"></div>
                 <div class="col-1">{{ forloop.counter }}</div>
-                <div class="col-3 col-md-2">{{ leave.staff.first_name }}</div>
+                <a href="{% url 'annual_leave_taken' leave.staff.id %}" class="col-3 col-md-2">{{ leave.staff.first_name }}</a>
                 <div class="col-5 col-md-3 col-lg-2">{{ leave.start_date }}</div>
                 <div class="col-1">{{ leave.days}}</div>
                 <div class="col-1 col-md-4 col-lg-5"></div>
             {% else %}
                 <div class="col-1"></div>
                 <div class="col-1 bg-secondary">{{ forloop.counter }}</div>
-                <div class="col-3 col-md-2 bg-secondary">{{ leave.staff.first_name }}</div>
+                <a href="{% url 'annual_leave_taken' leave.staff.id %}" class="bg-secondary col-3 col-md-2">{{ leave.staff.first_name }}</a>
                 <div class="col-5 col-md-3 col-lg-2 bg-secondary">{{ leave.start_date }}</div>
                 <div class="col-1 bg-secondary">{{ leave.days}}</div>
                 <div class="col-1 col-md-4 col-lg-5"></div>
