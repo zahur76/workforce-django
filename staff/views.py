@@ -557,4 +557,9 @@ def annual_leave_data(request):
         }
         return render(request, 'staff/leave_data.html', context)
 
-
+def sick_reset(request):
+    all_sick = Staff.objects.all()
+    for sick_leave in all_sick:
+        sick_leave.sick_leave_remaining = sick_leave.sick_leave
+        sick_leave.save()
+        return redirect(reverse('sick_data'))

@@ -18,4 +18,5 @@ urlpatterns = [
     path('annual_delete/<int:annual_id>', views.annual_delete, name='annual_delete'),
     path('sick_data', views.sick_data, name='sick_data'),
     path('annual_leave_data', views.annual_leave_data, name='annual_leave_data'),
+    path('sick_reset', views.sick_reset, name='sick_reset'),
 ]

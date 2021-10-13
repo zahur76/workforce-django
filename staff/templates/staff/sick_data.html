@@ -10,6 +10,7 @@
     <canvas id="myChart"></canvas>
     <div class="text-center h1 mb-2">Sick Data</div>
     <a href="{% url 'staff' %}" class="btn bg-dark text-light sick-back-button button mb-2">Back</a>
+    <a href="#" class="btn bg-dark text-light sick-back-button button mb-2 reset-sick">Reset Sick</a>
     
     <div class="btn bg-dark text-light sick-back-button button mb-2 close-data">Close</div>
     <div class="year-form p-2">   
@@ -56,7 +57,21 @@
     </div>
     <script>
         var sickData = JSON.parse('{{ sick_data | escapejs }}');
-    </script>    
+    </script>
+    <!-- Confirm staff sick reset modal -->
+    <div id="reset-sick-modal" class="modal confirm-modal mx-auto">
+        <div class="modal-content mt-2 bg-danger pb-2 pt-1">
+            <div class="row m-0">  
+                <div class="col-12 close-modal"><div class="btn p-0 text-light">X</div></div>
+            </div> 
+            <div class="row m-0">                                 
+                <div class="col-12 bg-danger text-center text-light delete">Do you want to reset all sick leave?</div>                       
+            </div>              
+            <div class="row w-25 mx-auto text-center mt-3">
+                <a href="{% url 'sick_reset' %}" class="col-12 confirm btn btn-dark border border-light text-light">Confirm</a>            
+            </div>
+        </div>    
+    </div>      
 {% endblock %}
 
 {% block extra_js %}
