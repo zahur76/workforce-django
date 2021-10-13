@@ -50,8 +50,7 @@ class SickLeave(models.Model):
             related_name='sickleave')
     start_date = models.DateField()
     end_date = models.DateField()
-    days = models.IntegerField()
-    sick_reset = models.BooleanField(default=False)
+    days = models.IntegerField()    
 
     def __str__(self):
         return self.staff.first_name

@@ -297,10 +297,12 @@ def sick_leave_taken(request, staff_id):
         staff = get_object_or_404(Staff, id=staff_id)
         sick_leave = SickLeave.objects.all()
         sick_leave = sick_leave.filter(staff__id=staff_id, start_date__year=query).order_by('start_date') 
+        actual_year = datetime.datetime.now().strftime("%y") 
         context = {
             'staff': staff,
             'sick_leave': sick_leave,
             'year': query,
+            'actual_year':actual_year,
         }        
         return render(request, 'staff/sick_leave_taken.html', context)
 
@@ -315,9 +317,11 @@ def annual_leave_taken(request, staff_id):
         staff = get_object_or_404(Staff, id=staff_id)
         annual_leave = AnnualLeave.objects.all()       
         annual_leave = annual_leave.filter(staff__id=staff_id).order_by('start_date') 
+        actual_year = datetime.datetime.now().strftime("%y")        
         context = {
             'staff': staff,
             'annual_leave': annual_leave,
+            'actual_year': actual_year,
         }        
         return render(request, 'staff/annual_leave_taken.html', context)
 
@@ -598,8 +602,5 @@ def sick_reset(request):
     print((all_sick_leave).count())  
     for sick in staff_sick:        
         sick.sick_leave_remaining = sick.sick_leave        
-        sick.save()
-    for sick in all_sick_leave:        
-        sick.sick_reset = True
-        sick.save()
+        sick.save()    
     return redirect(reverse('sick_data'))
