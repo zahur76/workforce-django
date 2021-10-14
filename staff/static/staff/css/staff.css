@@ -10,8 +10,12 @@ a {
     text-decoration: none;
 }
 
-.bg-secondary {
+.bg-secondary, .text-custom{
     background-color: rgb(170, 168, 168) !important;
+}
+
+.text-custom {
+    color: rgb(170, 168, 168);
 }
 
 .staff-name {

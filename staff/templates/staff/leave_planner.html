@@ -11,7 +11,6 @@
     <canvas id="myChartLeavePlanner"></canvas>
     <div class="text-center h1 mb-2">Montly Leave Planner</div>
     <a href="{% url 'annual_leave_data' %}" class="btn bg-dark text-light sick-back-button button mb-2">Back</a>
-    
     <div class="btn bg-dark text-light sick-back-button button mb-2 close-data">Close</div>
     <div class="year-form p-2">   
         <form action="{% url 'leave_planner' %}" method="GET" class="border-dark rounded-0 mx-auto" id="data-year" placeholder="{{ year }}">            
