@@ -714,34 +714,46 @@ def sick_data(request):
     if 'q' in request.GET:
         query = request.GET['q']
     else:
-        query="2021"
+        query="All"
     
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
-    else:        
-        all_sick = SickLeave.objects.all().filter(start_date__year=query).order_by('start_date')        
-        sick_data = {'Jan':0, 'Feb':0, 'Mar':0, 'Apr':0, 'May':0, 'Jun':0, 'Jul':0, 'Aug':0, "Sep":0, 'Oct':0, 'Nov':0, "Dec":0}        
-        for sick in all_sick:
-            sick_month = sick.start_date                                 
-            sick_data[sick_month.strftime("%b")]+=sick.days            
-        json_data = json.dumps(sick_data)
-        context = {
-            'sick_data': json_data,
-            'all_sick': all_sick,
-            'year': query,                      
-        }
-        return render(request, 'staff/sick_data.html', context)
+    else:
+        if query != 'All':
+            all_sick = SickLeave.objects.all().filter(start_date__year=query).order_by('start_date')        
+            sick_data = {'Jan':0, 'Feb':0, 'Mar':0, 'Apr':0, 'May':0, 'Jun':0, 'Jul':0, 'Aug':0, "Sep":0, 'Oct':0, 'Nov':0, "Dec":0}        
+            for sick in all_sick:
+                sick_month = sick.start_date                                 
+                sick_data[sick_month.strftime("%b")]+=sick.days            
+            json_data = json.dumps(sick_data)
+            context = {
+                'sick_data': json_data,
+                'all_sick': all_sick,
+                'year': query,                      
+            }
+            return render(request, 'staff/sick_data.html', context)
+        else:
+            all_sick = SickLeave.objects.all().order_by('start_date')
+            json_data = {}       
+            context = {                
+                'all_sick': all_sick,
+                'year': query,
+                'sick_data': json_data,                   
+            }
+            return render(request, 'staff/sick_data.html', context)
 
 
 def annual_leave_data(request):
     """ A view to send json leave data to template"""    
     if 'q' in request.GET:
         query = request.GET['q']
-        int_query = int(query)
+        if query == 'All':
+            query = 'All'
+        else:
+            int_query = int(query)
     else:
-        query="2021"
-        int_query = int(query)
+        query="All"        
     if 'month' in request.GET:
         month = int(request.GET['month'])
     else:
@@ -749,40 +761,52 @@ def annual_leave_data(request):
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
-    else:             
-        all_leave = AnnualLeave.objects.all().filter(start_date__year=query).order_by('start_date') 
-        month_leave = AnnualLeave.objects.all().filter(start_date__month=month, start_date__year=query).order_by('start_date')
-        month_dates = {}
-        for x in range(1,32):
-            month_dates[x]=0 
-        print(month_dates)
-        print(month_leave)               
-        for leave in month_leave:
-            start = int(leave.start_date.strftime("%d"))
-            print(start)            
-            end = int(leave.end_date.strftime("%d"))
-            if end < start:                
-                end=monthrange(int_query, month)[1] 
-            else:
+    else:
+        if query != "All":             
+            all_leave = AnnualLeave.objects.all().filter(start_date__year=query).order_by('start_date') 
+            month_leave = AnnualLeave.objects.all().filter(start_date__month=month, start_date__year=query).order_by('start_date')
+            month_dates = {}
+            for x in range(1,32):
+                month_dates[x]=0 
+            print(month_dates)
+            print(month_leave)               
+            for leave in month_leave:
+                start = int(leave.start_date.strftime("%d"))
+                print(start)            
                 end = int(leave.end_date.strftime("%d"))
-            print(end)                              
-            for x in range(start,end+1):
-                month_dates[x]+=1
-        print(month_dates)
-        json_month_data = json.dumps(month_dates)        
-        leave_data = {'Jan':0, 'Feb':0, 'Mar':0, 'Apr':0, 'May':0, 'Jun':0, 'Jul':0, 'Aug':0, "Sep":0, 'Oct':0, 'Nov':0, "Dec":0}        
-        for leave in all_leave:
-            leave_month = leave.start_date                                 
-            leave_data[leave_month.strftime("%b")]+=leave.days            
-        json_data = json.dumps(leave_data)
-        context = {
-            'leave_data': json_data,
-            'month_leave_data': json_month_data,
-            'all_leave': all_leave,
-            'year': query,
-            'month': month,                     
-        }
-        return render(request, 'staff/leave_data.html', context)
+                if end < start:                
+                    end=monthrange(int_query, month)[1] 
+                else:
+                    end = int(leave.end_date.strftime("%d"))
+                print(end)                              
+                for x in range(start,end+1):
+                    month_dates[x]+=1        
+            json_month_data = json.dumps(month_dates)        
+            leave_data = {'Jan':0, 'Feb':0, 'Mar':0, 'Apr':0, 'May':0, 'Jun':0, 'Jul':0, 'Aug':0, "Sep":0, 'Oct':0, 'Nov':0, "Dec":0}        
+            for leave in all_leave:
+                leave_month = leave.start_date                                 
+                leave_data[leave_month.strftime("%b")]+=leave.days            
+            json_data = json.dumps(leave_data)
+            context = {
+                'leave_data': json_data,
+                'month_leave_data': json_month_data,
+                'all_leave': all_leave,
+                'year': query,
+                'month': month,                     
+            }
+            return render(request, 'staff/leave_data.html', context)
+        else:
+            all_leave = AnnualLeave.objects.all().order_by('start_date')
+            json_data = {}
+            json_month_data = {}
+            context = {
+                'leave_data': json_data,
+                'month_leave_data': json_month_data,               
+                'all_leave': all_leave,
+                'year': query,
+                'month': month,                     
+            }
+            return render(request, 'staff/leave_data.html', context)
 
 
 def sick_reset(request):

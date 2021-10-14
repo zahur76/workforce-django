@@ -75,12 +75,19 @@ $(document).ready(function(){
     
     form = $('#data-year')
     $('#data-year').change(function(){
-      form.submit();
-        
-    });  
+      form.submit();        
+    });    
+    
     let dataYear = $('#data-year').attr('placeholder');     
     console.log(dataYear)  
-    $(`select[name^="q"] option[value=${dataYear}]`).attr("selected","selected");     
+    $(`select[name^="q"] option[value=${dataYear}]`).attr("selected","selected"); 
+    
+    if (dataYear=='All'){
+      $('.show-data').hide();
+      $('.leave-planner-data').hide();
+      $('.show-leave-data').hide();
+      $('#month').hide();
+    }
 
     let dataMonth = $('#month').attr('placeholder');
     let monthArray =  {1:'Jan', 2:'Feb', 3:'Mar', 4:'Apr', 5:'May', 6:'Jun', 7:'Jul', 8:'Aug', 9:"Sep", 10:'Oct', 11:'Nov', 12:"Dec"}
