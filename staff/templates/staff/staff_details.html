@@ -29,37 +29,37 @@
         {% endif %}
         <div class="col-12 col-sm-8 col-md-9 col-lg-10">
              <div class="row m-0">
-                <div class="col-12 p-0 pb-1"><b class="">EMPLOYEE No: </b>{{ staff.id }}</div>
-                 <div class="col-12 p-0 pb-1"><b class="">FIRST NAME: </b>{{ staff.first_name }}</div>
-                 <div class="col-12 p-0 pb-1"><b class="">SURNAME NAME: </b>{{ staff.last_name }}</div>
-                 <div class="col-12 p-0 pb-1"><b class="">BIRTH DATE: </b>{{ staff.birth_date }}</div>
-                 <div class="col-12 p-0 pb-1"><b class="">PHONE NO: </b>{{ staff.phone_number }}</div>
-                 <div class="col-12 p-0 pb-1"><b class="">ADDRESS: </b>{{ staff.address }}</div>
-                 <div class="col-12 p-0 pb-1"><b class="">GENDER: </b>{{ staff.gender}}</div>
-                 <div class="col-12 p-0 pb-1"><b class="">EMAIL ADDRESS: </b>{{ staff.email_address }}</div>
+                <div class="col-12 p-0 pb-1 bg-secondary"><b>EMPLOYEE No: </b>{{ staff.id }}</div>                
+                <div class="col-12 p-0 pb-1"><b>FIRST NAME: </b>{{ staff.first_name }}</div>
+                <div class="col-12 p-0 pb-1 bg-secondary"><b class="">SURNAME NAME: </b>{{ staff.last_name }}</div>
+                <div class="col-12 p-0 pb-1"><b>BIRTH DATE: </b>{{ staff.birth_date }}</div>
+                <div class="col-12 p-0 pb-1 bg-secondary"><b class="">PHONE NO: </b>{{ staff.phone_number }}</div>
+                <div class="col-12 p-0 pb-1"><b>ADDRESS: </b>{{ staff.address }}</div>
+                <div class="col-12 p-0 pb-1 bg-secondary"><b class="">GENDER: </b>{{ staff.gender}}</div>
+                <div class="col-12 p-0 pb-1"><b>EMAIL ADDRESS: </b>{{ staff.email_address }}</div>
              </div>
         </div>
     </div>
     <div class="row m-0 mt-2 mb-4 border-top border-dark">
         <div class="col-12 col-md-4 p-0">
             <div class="row m-0">
-                <div class="col-12 pb-1 mt-2"><b class="">MANAGEMENT LEVEL: </b>{{ staff.management_level }}</div>
+                <div class="col-12 pb-1 mt-2 bg-secondary"><b class="">MANAGEMENT LEVEL: </b>{{ staff.management_level }}</div>
                 <div class="col-12 pb-1"><b class="">POSITION: </b>{{ staff.position_held}}</div>
-                <div class="col-12 pb-1"><b class="">ENTRY DATE: </b>{{ staff.entry_date }}</div>
+                <div class="col-12 pb-1 bg-secondary"><b class="">ENTRY DATE: </b>{{ staff.entry_date }}</div>
                 <div class="col-12 pb-1"><b class="">TERMINATION DATE: </b>{{ staff.termination_date }}</div> 
             </div>
         </div>
         <div class="col-12 col-md-4 p-0">
             <div class="row m-0">
-                <div class="col-12 pb-1 mt-2"><b class="">BASIC SALARY: </b>{{ staff.basic_salary}}</div>
+                <div class="col-12 pb-1 mt-2 bg-secondary"><b class="">BASIC SALARY: </b>{{ staff.basic_salary}}</div>
                 <div class="col-12 pb-1"><b class="">TRANSPORT ALLOWANCE: </b>{{ staff.transport_allowance}}</div>
             </div>
         </div>
         <div class="col-12 col-md-4 p-0">            
             <div class="row m-0">
-                <div class="col-12 pb-1 mt-2"><b class="">ANNUAL LEAVE: </b>{{ staff.annual_leave}}</div>
+                <div class="col-12 pb-1 mt-2 bg-secondary"><b class="">ANNUAL LEAVE: </b>{{ staff.annual_leave}}</div>
                 <div class="col-12 pb-1"><b class="">REMAINING LEAVE: </b>{{ staff.annual_leave_remaining}}</div>
-                <div class="col-12 pb-1"><b class="">SICK LEAVE: </b>{{ staff.sick_leave}}</div>
+                <div class="col-12 pb-1 bg-secondary"><b class="">SICK LEAVE: </b>{{ staff.sick_leave}}</div>
                 <div class="col-12 pb-1"><b class="">REMAINING SICK LEAVE: </b>{{ staff.sick_leave_remaining}}</div>
             </div>
         </div>      

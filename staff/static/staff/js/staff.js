@@ -83,10 +83,8 @@ $(document).ready(function(){
     $(`select[name^="q"] option[value=${dataYear}]`).attr("selected","selected"); 
     
     if (dataYear=='All'){
-      $('.show-data').hide();
-      $('.leave-planner-data').hide();
-      $('.show-leave-data').hide();
-      $('#month').hide();
+      $('.show-data').hide();      
+      $('.show-leave-data').hide();      
     }
 
     let dataMonth = $('#month').attr('placeholder');
