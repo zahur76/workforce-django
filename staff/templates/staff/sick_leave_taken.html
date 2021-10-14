@@ -8,7 +8,7 @@
 
 {% block content %}
     <div class="text-center h1 mb-2">Sick leave: {{ staff.first_name }}</div>
-    <div class="col-12 text-center">Sick Leave Remaining: {{ staff.sick_leave_remaining }}</div>   
+    <div class="col-12 text-center">Sick Leave Remaining for {{ year }}: {{ staff.sick_leave_remaining }}</div>   
     <a href="{% url 'staff_details' staff_id=staff.id %}" class="btn bg-dark text-light sick-back-button button mb-2">Back</a>
     <div class="year-form p-2">   
         <form action="#" method="GET" class="border-dark rounded-0 mx-auto" id="data-year" placeholder="{{ year }}">            

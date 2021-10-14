@@ -653,9 +653,7 @@ def annual_modify(request, annual_id):
                     request, 'Annual leave could not be modified. \
                         Please ensure the form is invalid.')
                 return redirect(reverse('annual_leave_taken', args={annual.staff.id}))
-
         else:          
-            
             form = add_annual_leaveForm(instance=annual) 
             context = {
                 'annual':annual,
@@ -666,32 +664,44 @@ def annual_modify(request, annual_id):
 
 def sick_delete(request, sick_id):
     """ A view to delete sick leave"""
-
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
     else:
+        actual_year = datetime.datetime.now().strftime("%y") 
         sick = get_object_or_404(SickLeave, id=sick_id)
-        staff = get_object_or_404(Staff, first_name=sick.staff.first_name)       
-        staff.sick_leave_remaining = staff.sick_leave_remaining + sick.days
-        staff.save()
-        sick.delete()
-        return redirect(reverse('sick_leave_taken', args={sick.staff.id}))
+        staff = get_object_or_404(Staff, first_name=sick.staff.first_name)
+        if sick.start_date.strftime("%y") == actual_year:       
+            staff.sick_leave_remaining = staff.sick_leave_remaining + sick.days
+            staff.save()
+            sick.delete()
+            messages.success(request, 'Sick deleted!')
+            return redirect(reverse('sick_leave_taken', args={sick.staff.id}))
+        else:
+            messages.success(request, 'Sick deleted!')
+            sick.delete()
+            return redirect(reverse('sick_leave_taken', args={sick.staff.id}))
 
 
 def annual_delete(request, annual_id):
     """ A view to delete sick leave"""
-
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
     else:
+        actual_year = datetime.datetime.now().strftime("%y") 
         annual = get_object_or_404(AnnualLeave, id=annual_id)
-        staff = get_object_or_404(Staff, first_name=annual.staff.first_name)       
-        staff.annual_leave_remaining = staff.annual_leave_remaining + annual.days
-        staff.save()
-        annual.delete()
-        return redirect(reverse('annual_leave_taken', args={annual.staff.id}))
+        staff = get_object_or_404(Staff, first_name=annual.staff.first_name)
+        if actual_year == annual.start_date.strftime("%y"):       
+            staff.annual_leave_remaining = staff.annual_leave_remaining + annual.days
+            staff.save()
+            annual.delete()
+            messages.success(request, 'Leave deleted!')
+            return redirect(reverse('annual_leave_taken', args={annual.staff.id}))
+        else:            
+            annual.delete()
+            messages.success(request, 'Leave deleted!')
+            return redirect(reverse('annual_leave_taken', args={annual.staff.id}))
 
 
 def sick_data(request):
