@@ -8,12 +8,12 @@
 
 {% block content %}
     <div class="text-center h1 mb-2">Annual leave: {{ staff.first_name }}</div>
-    <div class="col-12 text-center">Annual Leave Remaining: {{ staff.annual_leave_remaining }}</div>   
+    <div class="col-12 text-center">Annual Leave Remaining for 20{{ actual_year }}: {{ staff.annual_leave_remaining }}</div>   
     <a href="{% url 'staff_details' staff_id=staff.id %}" class="btn bg-dark text-light sick-back-button button mb-2">Back</a>
     <div class="year-form p-2">   
         <form action="#" method="GET" class="border-dark rounded-0 mx-auto" id="data-year" placeholder="{{ year }}">            
             <select id="year" name="q">
-                <option>year</option>
+                <option value="All">All</option>
                 <option value="2020">2020</option>
                 <option value="2021">2021</option>
                 <option value="2022">2022</option>

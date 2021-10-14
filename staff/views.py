@@ -353,7 +353,6 @@ def annual_leave(request, staff_id):
                             annual.save()                    
                             messages.success(request, 'Annual leave added!')
                             return redirect(reverse('staff_details', args=[staff_id]))
-
             else:                
                 messages.error(
                     request, 'Sick leave could not be added. \
@@ -380,11 +379,14 @@ def sick_leave_taken(request, staff_id):
         if 'q' in request.GET:
             query = request.GET['q']
         else:
-            query="2021"
+            query ='All'
 
         staff = get_object_or_404(Staff, id=staff_id)
         sick_leave = SickLeave.objects.all()
-        sick_leave = sick_leave.filter(staff__id=staff_id, start_date__year=query).order_by('start_date') 
+        if query == "All":
+            sick_leave = sick_leave.filter(staff__id=staff_id).order_by('start_date') 
+        else:
+            sick_leave = sick_leave.filter(staff__id=staff_id, start_date__year=query).order_by('start_date') 
         actual_year = datetime.datetime.now().strftime("%y") 
         context = {
             'staff': staff,
@@ -405,11 +407,14 @@ def annual_leave_taken(request, staff_id):
         if 'q' in request.GET:
             query = request.GET['q']
         else:
-            query="2021"
+            query="All"
 
         staff = get_object_or_404(Staff, id=staff_id)
-        annual_leave = AnnualLeave.objects.all()       
-        annual_leave = annual_leave.filter(staff__id=staff_id, start_date__year=query).order_by('start_date') 
+        annual_leave = AnnualLeave.objects.all()
+        if query == 'All':
+            annual_leave = annual_leave.filter(staff__id=staff_id).order_by('start_date') 
+        else:
+            annual_leave = annual_leave.filter(staff__id=staff_id, start_date__year=query).order_by('start_date') 
         actual_year = datetime.datetime.now().strftime("%y")        
         context = {
             'staff': staff,

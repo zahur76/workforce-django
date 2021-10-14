@@ -20,8 +20,7 @@ $(document).ready(function(){
         $('#id_management_level').css('color', 'black');   
     });
 
-    $('.add_staff-form-input').change(function(){
-        console.log('zahur')
+    $('.add_staff-form-input').change(function(){        
         $(this).css('color', 'black');   
     });
 
@@ -64,10 +63,8 @@ $(document).ready(function(){
     $('.close-modal').click(function(){
         $('.confirm-modal').hide();
     })   
-    
-    
+        
     // Sick leave charts 
-
     $(".close-data").hide();
     $('.close-data').click(function(){       
         $('#myChart').hide();
@@ -78,11 +75,12 @@ $(document).ready(function(){
     
     form = $('#data-year')
     $('#data-year').change(function(){
-       form.submit();
-    });
-
-    let dataYear = $('#data-year').attr('placeholder');    
-    $('#data-year option:selected').html(dataYear);
+      form.submit();
+        
+    });  
+    let dataYear = $('#data-year').attr('placeholder');     
+    console.log(dataYear)  
+    $(`select[name^="q"] option[value=${dataYear}]`).attr("selected","selected");     
 
     let dataMonth = $('#month').attr('placeholder');
     let monthArray =  {1:'Jan', 2:'Feb', 3:'Mar', 4:'Apr', 5:'May', 6:'Jun', 7:'Jul', 8:'Aug', 9:"Sep", 10:'Oct', 11:'Nov', 12:"Dec"}
