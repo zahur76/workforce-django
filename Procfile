@@ -1,1 +1,1 @@
-web: gunicorn workforce.wsgi.application
+web: gunicorn workforce.wsgi:application
