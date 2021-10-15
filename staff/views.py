@@ -800,8 +800,7 @@ def leave_planner(request):
         for x in range(1,32):
             month_dates[x]=0                     
         for leave in month_leave:
-            start = int(leave.start_date.strftime("%d"))
-            print(start)            
+            start = int(leave.start_date.strftime("%d"))                      
             end = int(leave.end_date.strftime("%d"))
             if end < start:                
                 end=monthrange(int(query), month)[1] 
@@ -819,9 +818,14 @@ def leave_planner(request):
         return render(request, 'staff/leave_planner.html', context)
 
 def sick_reset(request):
-    staff_sick = Staff.objects.all()      
-    for sick in staff_sick:        
-        sick.sick_leave_remaining = sick.sick_leave        
+    staff_sick = Staff.objects.all()
+    actual_year = datetime.datetime.now().strftime("%Y")            
+    for sick in staff_sick:
+        total_sick = 0 
+        total_sick_current_year = SickLeave.objects.all().filter(staff__id=sick.id, start_date__year=actual_year)
+        for sick_days in total_sick_current_year:            
+            total_sick += sick_days.days        
+        sick.sick_leave_remaining = sick.sick_leave - total_sick
         sick.save()    
     return redirect(reverse('sick_data'))
 

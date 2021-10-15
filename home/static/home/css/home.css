@@ -1,7 +1,11 @@
 .login-text {
+    background: rgba(240, 237, 237, 0.7);
     font-weight: 800;
     font-size: 50px;
-    padding-top: 175px !important;
+    position: absolute;
+    left: 50%;
+    margin-left: -153px;
+    top: 175px !important;
 }
 
 .login-text:hover {
