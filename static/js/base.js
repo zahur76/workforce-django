@@ -1,9 +1,7 @@
-$(document).ready(function(){
-    
+$(document).ready(function(){    
     $(".login-button").click(function(){             
         $("#loginModal").show();                          
     });
-
 
     $(".close").click(function(){        
         $("#loginModal").hide();        
