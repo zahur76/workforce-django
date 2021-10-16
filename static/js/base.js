@@ -21,5 +21,5 @@ $(document).ready(function(){
         } else {
           input.attr("type", "password");
         }
-    });  
+    });
 });
