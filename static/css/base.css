@@ -99,4 +99,8 @@ input {
     .append-eye {        
         height: 25px;        
     } 
+
+    .nav-text {        
+        font-size: 14px;        
+    } 
 }

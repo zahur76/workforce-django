@@ -34,14 +34,15 @@
     </head>
     <body>        
         <nav class="row m-0 bg-dark">
-            <div class="col-2"></div>
-            <div class="p-2 col-8 text-center h1">
+            <div class="d-none d-sm-block col-md-2"></div>
+            <div class="p-2 col-8 col-md-8 text-center h1">
                 <a class="text-info" href="{% url 'home' %}">Workforce</a>
             </div>
+            <a class="p-0 col-2 col-md-1 text-center my-auto text-light nav-text" href="{% url 'home' %}">Home</a>
             {% if request.user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="p-0 col-2 text-center my-auto text-light logout-button">Logout</a>
+                <a href="{% url 'logout' %}" class="p-0 col-2 col-md-1 text-center my-auto text-light logout-button nav-text">Logout</a>
             {% else %}
-                <a href="#" class="p-0 col-2 text-center my-auto text-light login-button">Login</a>
+                <a href="#" class="p-0 col-2 col-md-1 text-center my-auto text-light login-button nav-text">Login</a>
             {% endif %}
         </nav>            
         <!-- Message template -->  
