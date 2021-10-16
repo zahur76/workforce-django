@@ -26,19 +26,6 @@ nav a {
     color: rgb(187, 184, 184) !important;   
 }
 
-.password-bar {
-    width: 100% !important;
-}
-
-.append-eye {
-    text-align: right;
-    border: 1px solid #ced4da;
-    border-left: none;
-    height: 30px;
-    line-height: 22px;
-    padding-right: 5px;      
-} 
-
 /* Modal */
 
 .modal { 
@@ -51,6 +38,19 @@ nav a {
 input {
     height: 30px;    
 }
+
+.password-bar {
+    width: 100% !important;
+}
+
+.append-eye {
+    text-align: right;
+    border: 1px solid #ced4da;
+    border-left: none;
+    height: 30px;
+    line-height: 20px;
+    padding-right: 5px;      
+} 
 
 /* Flash messages */
 .flash-message {
