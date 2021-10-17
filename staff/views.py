@@ -224,7 +224,7 @@ def sick_leave(request, staff_id):
                 'form': form,
                 'staff': staff,
             }
-        return render(request, 'staff/sick_leave.html', context)
+    return render(request, 'staff/sick_leave.html', context)
 
 
 def annual_leave(request, staff_id):
@@ -329,18 +329,15 @@ def annual_leave(request, staff_id):
                 return redirect(reverse('staff_details', args={staff_id}))
         else:          
             form = add_annual_leaveForm(instance=staff)
-
             context = {
                 'form': form,
                 'staff': staff,
             }
-
     return render(request, 'staff/annual_leave.html', context)
 
 
 def sick_leave_taken(request, staff_id):
     """ A view for sick leave taken"""
-
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
@@ -349,7 +346,6 @@ def sick_leave_taken(request, staff_id):
             query = request.GET['q']
         else:
             query ='All'
-
         staff = get_object_or_404(Staff, id=staff_id)
         sick_leave = SickLeave.objects.all()
         if query == "All":
@@ -368,7 +364,6 @@ def sick_leave_taken(request, staff_id):
 
 def annual_leave_taken(request, staff_id):
     """ A view for sick leave taken"""
-
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
@@ -377,7 +372,6 @@ def annual_leave_taken(request, staff_id):
             query = request.GET['q']
         else:
             query="All"
-
         staff = get_object_or_404(Staff, id=staff_id)
         annual_leave = AnnualLeave.objects.all()
         if query == 'All':
@@ -396,7 +390,6 @@ def annual_leave_taken(request, staff_id):
 
 def sick_modify(request, sick_id):
     """ A view for sick leave taken"""
-
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
@@ -415,7 +408,7 @@ def sick_modify(request, sick_id):
                 sick_applied_year_end = modified_sick.end_date.strftime("%y")               
                 if sick_applied_year_start != sick_applied_year_end:
                     messages.error(request, f'Entry allowed for 1 year only! e.g 20{actual_year}')
-                    return redirect(reverse('staff_details', args=[sick.staff_id]))
+                    return redirect(reverse('sick_leave_taken', args=[sick.staff.id]))
                 elif modified_sick.end_date<modified_sick.start_date:
                     messages.error(request, 'Start date Incorrect!')
                     return redirect(reverse('sick_leave_taken', args=[sick.staff.id]))

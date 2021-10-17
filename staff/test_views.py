@@ -14,7 +14,7 @@ class StaffTestViews(TestCase):
                     gender='Male', management_level='1', entry_date='2021-01-01', 
                     position_held='Manager', basic_salary='50000', transport_allowance='5000',
                     annual_leave=30, annual_leave_remaining=15, sick_leave=20, sick_leave_remaining=10)
-        self.actual_year = datetime.datetime.now().strftime("%y")
+        self.actual_year = datetime.datetime.now().strftime("%y")        
 
     def test_staff_page_with_super_no_user(self):
         response = self.client.get(reverse('staff'))
@@ -340,7 +340,7 @@ class StaffTestViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/staff/1')
     
-    def test_sick_leave_with_superuser(self):
+    def test_sick_leave_view_with_superuser(self):
         self.user = User.objects.create_superuser(
                     username='superuser', password='zahur')
         self.client.login(
@@ -354,7 +354,7 @@ class StaffTestViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/')
     
-    def test_annuak_leave_view_with_superuser_invalid_dates(self):
+    def test_annual_leave_view_with_superuser_invalid_dates(self):
         self.user = User.objects.create_superuser(
                     username='superuser', password='zahur')
         self.client.login(
@@ -515,7 +515,7 @@ class StaffTestViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/staff/1')
 
-    def test_sick_leave_view_with_superuser_invalid_form(self):
+    def test_annual_leave_view_with_superuser_invalid_form(self):
         self.user = User.objects.create_superuser(
                     username='superuser', password='zahur')
         self.client.login(
@@ -536,5 +536,277 @@ class StaffTestViews(TestCase):
         response = self.client.get(reverse('annual_leave', args=[1]))
         self.assertEqual(response.status_code, 200)        
         self.assertTemplateUsed(response, 'staff/annual_leave.html')
+    
+    def test_sick_leave_taken_view_with_no_superuser(self):        
+        response = self.client.get(reverse('sick_leave_taken', args=[1]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/')
+    
+    def test_sick_leave_taken_view_with_superuser_query_All(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')         
+        response = self.client.get(reverse('sick_leave_taken', args=[1]), {'q':"All"})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'staff/sick_leave_taken.html')
+    
+    def test_sick_leave_taken_view_with_superuser_query_year(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')         
+        response = self.client.get(reverse('sick_leave_taken', args=[1]), {'q':"2021"})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'staff/sick_leave_taken.html')
+    
+    def test_sick_leave_taken_view_with_superuser_no_query(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')         
+        response = self.client.get(reverse('sick_leave_taken', args=[1]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'staff/sick_leave_taken.html')
+    
+    def test_annual_leave_taken_view_with_no_superuser(self):        
+        response = self.client.get(reverse('annual_leave_taken', args=[1]))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/')
+    
+    def test_annual_leave_taken_view_with_superuser_query_All(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')         
+        response = self.client.get(reverse('annual_leave_taken', args=[1]), {'q':"All"})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'staff/annual_leave_taken.html')
+    
+    def test_annual_leave_taken_view_with_superuser_query_year(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')         
+        response = self.client.get(reverse('annual_leave_taken', args=[1]), {'q':"2021"})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'staff/annual_leave_taken.html')
+    
+    def test_annual_leave_taken_view_with_superuser_no_query(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')         
+        response = self.client.get(reverse('annual_leave_taken', args=[1]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'staff/annual_leave_taken.html')
+    
+    def test_sick_leave_modify_view_with_no_superuser(self):      
+        response = self.client.get(reverse('sick_modify', args=[1]))  
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/')
+    
+    def test_sick_leave_modify_view_with_superuser_invalid_dates(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        sick = SickLeave.objects.create(
+                    id=1, staff_id=1, start_date="2021-01-01", end_date='2021-01-05', 
+                    days=6)
+        data = {
+            'start_date': '10/01/2021',
+            'end_date': '10/01/2022',
+        }        
+        response = self.client.post(reverse('sick_modify', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/sick_leave_taken/1')
+    
+    def test_sick_leave_modify_view_with_superuser_invalid_start_date(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        sick = SickLeave.objects.create(
+                    id=1, staff_id=1, start_date="2021-01-01", end_date='2021-01-05', 
+                    days=6)
+        data = {
+            'start_date': '10/05/2021',
+            'end_date': '10/01/2021',
+        }        
+        response = self.client.post(reverse('sick_modify', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/sick_leave_taken/1')
+    
+    def test_sick_leave_modify_view_with_superuser_different_year_with_overlap(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        sick = SickLeave.objects.create(
+                    id=1, staff_id=1, start_date="2022-01-01", end_date='2022-01-05', 
+                    days=6)
+        sick_two = SickLeave.objects.create(
+                    id=2, staff_id=1, start_date="2022-05-01", end_date='2022-05-05', 
+                    days=6) 
+        leave = AnnualLeave.objects.create(
+                    id=2, staff_id=1, start_date="2022-05-01", end_date='2022-05-05', 
+                    days=6)         
+        data = {
+            'start_date': '05/01/2022',
+            'end_date': '05/01/2022',
+        }        
+        response = self.client.post(reverse('sick_modify', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/sick_leave_taken/1')    
+
+    def test_sick_leave_modify_view_with_superuser_different_year_with_no_overlap(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        sick = SickLeave.objects.create(
+                    id=1, staff_id=1, start_date="2022-01-01", end_date='2022-01-05', 
+                    days=6)
+        sick_two = SickLeave.objects.create(
+                    id=2, staff_id=1, start_date="2022-05-01", end_date='2022-05-05', 
+                    days=6) 
+        leave = AnnualLeave.objects.create(
+                    id=2, staff_id=1, start_date="2022-05-01", end_date='2022-05-05', 
+                    days=6)         
+        data = {
+            'start_date': '05/01/2023',
+            'end_date': '05/01/2023',
+        }        
+        response = self.client.post(reverse('sick_modify', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/sick_leave_taken/1')
+    
+    def test_sick_leave_modify_view_with_superuser_different_year_no_leave(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        sick = SickLeave.objects.create(
+                    id=1, staff_id=1, start_date="2022-01-01", end_date='2022-01-05', 
+                    days=6)          
+        data = {
+            'start_date': '05/01/2023',
+            'end_date': '05/01/2023',
+        }        
+        response = self.client.post(reverse('sick_modify', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/sick_leave_taken/1')
+    
+    def test_sick_leave_modify_view_with_superuser_same_year_with_overlap(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        sick = SickLeave.objects.create(
+                    id=1, staff_id=1, start_date="2021-01-01", end_date='2021-01-05', 
+                    days=6)
+        sick_two = SickLeave.objects.create(
+                    id=2, staff_id=1, start_date="2021-05-01", end_date='2021-05-05', 
+                    days=6) 
+        leave = AnnualLeave.objects.create(
+                    id=2, staff_id=1, start_date="2021-05-01", end_date='2021-05-05', 
+                    days=6)         
+        data = {
+            'start_date': '05/01/2021',
+            'end_date': '05/01/2021',
+        }        
+        response = self.client.post(reverse('sick_modify', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/sick_leave_taken/1')
+    
+
+    def test_sick_leave_modify_view_with_superuser_same_year_with_no_overlap(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        sick = SickLeave.objects.create(
+                    id=1, staff_id=1, start_date="2021-01-01", end_date='2021-01-05', 
+                    days=6)
+        sick_two = SickLeave.objects.create(
+                    id=2, staff_id=1, start_date="2021-05-01", end_date='2021-05-05', 
+                    days=6) 
+        leave = AnnualLeave.objects.create(
+                    id=2, staff_id=1, start_date="2021-05-01", end_date='2021-05-05', 
+                    days=6)         
+        data = {
+            'start_date': '05/01/2021',
+            'end_date': '05/01/2021',
+        }        
+        response = self.client.post(reverse('sick_modify', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/sick_leave_taken/1')
+    
+    def test_sick_leave_modify_view_with_superuser_same_year_leave_no_overlapping(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        leave = AnnualLeave.objects.create(
+                    id=2, staff_id=1, start_date="2021-04-01", end_date='2021-04-05', 
+                    days=6) 
+        sick = SickLeave.objects.create(
+                    id=1, staff_id=1, start_date="2021-05-01", end_date='2021-05-01', 
+                    days=6)          
+        data = {
+            'start_date': '06/10/2021',
+            'end_date': '06/10/2021',
+        }        
+        response = self.client.post(reverse('sick_modify', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/sick_leave_taken/1')
+    
+    def test_sick_leave_modify_view_with_superuser_same_year_no_leave(self):
+            self.user = User.objects.create_superuser(
+                        username='superuser', password='zahur')
+            self.client.login(
+                        username='superuser', password='zahur')            
+            sick = SickLeave.objects.create(
+                        id=1, staff_id=1, start_date="2021-05-01", end_date='2021-05-01', 
+                        days=6)          
+            data = {
+                'start_date': '06/10/2021',
+                'end_date': '06/10/2021',
+            }        
+            response = self.client.post(reverse('sick_modify', args=[1]), data)         
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, '/staff/sick_leave_taken/1') 
+    
+    def test_sick_leave_modify_view_with_superuser(self):
+            self.user = User.objects.create_superuser(
+                        username='superuser', password='zahur')
+            self.client.login(
+                        username='superuser', password='zahur')            
+            sick = SickLeave.objects.create(
+                        id=1, staff_id=1, start_date="2021-05-01", end_date='2021-05-01', 
+                        days=6)          
+                 
+            response = self.client.get(reverse('sick_modify', args=[1]))         
+            self.assertEqual(response.status_code, 200)
+            self.assertTemplateUsed(response, 'staff/sick_modify.html')
+    
+    def test_sick_leave_modify_view_with_superuser_invalid_form(self):
+            self.user = User.objects.create_superuser(
+                        username='superuser', password='zahur')
+            self.client.login(
+                        username='superuser', password='zahur')            
+            sick = SickLeave.objects.create(
+                        id=1, staff_id=1, start_date="2021-05-01", end_date='2021-05-01', 
+                        days=6)          
+            data = {
+                'start_date': ' ',
+                'end_date': '06/10/2021',
+            }        
+            response = self.client.post(reverse('sick_modify', args=[1]), data)         
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, '/staff/sick_leave_taken/1')
+    
+    
     
     
