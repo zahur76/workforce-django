@@ -82,8 +82,7 @@ def update_staff(request, staff_id):
 
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
-            return redirect(reverse('home'))
-    
+            return redirect(reverse('home'))    
     else:
         staff = get_object_or_404(Staff, id=staff_id)          
         if request.method == 'POST':        
@@ -104,13 +103,11 @@ def update_staff(request, staff_id):
                 'form': form,
                 'staff': staff,
                 }
-
     return render(request, 'staff/update_staff.html', context)
 
 
 def delete_staff(request, staff_id):
     """ A view to update staff details"""
-
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
@@ -223,13 +220,11 @@ def sick_leave(request, staff_id):
                 return redirect(reverse('staff_details', args={staff_id}))
         else:          
             form = add_sick_leaveForm(instance=staff)
-
             context = {
                 'form': form,
                 'staff': staff,
             }
-
-    return render(request, 'staff/sick_leave.html', context)
+        return render(request, 'staff/sick_leave.html', context)
 
 
 def annual_leave(request, staff_id):

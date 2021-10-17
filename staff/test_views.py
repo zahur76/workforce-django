@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.shortcuts import reverse, get_object_or_404
 from django.contrib.auth.models import User
-from .models import Staff
+from .models import Staff, AnnualLeave,SickLeave
 import datetime
 
 # Create your tests here.
@@ -191,4 +191,350 @@ class StaffTestViews(TestCase):
         response = self.client.post(reverse('sick_leave', args=[1]), data)         
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/staff/1')
+
+    def test_sick_leave_view_with_superuser_for_incorrect_start_date(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        data = {
+            'start_date': '10/05/2021',
+            'end_date': '10/01/2021',
+        }        
+        response = self.client.post(reverse('sick_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_sick_leave_view_with_superuser_for_different_year_existing_leave_dates(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        leave = AnnualLeave.objects.create(
+                    id=2, staff_id=1, start_date='2022-10-5', end_date='2022-10-6', 
+                    days=5)
+        data = {
+            'start_date': '10/05/2022',
+            'end_date': '10/10/2022',
+        }        
+        response = self.client.post(reverse('sick_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+
+    def test_sick_leave_view_with_superuser_for_different_year_existing_sick_dates_with_overlap(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        leave = SickLeave.objects.create(
+                    id=2, staff_id=1, start_date='2022-10-5', end_date='2022-10-6', 
+                    days=5)
+        data = {
+            'start_date': '10/05/2022',
+            'end_date': '10/10/2022',
+        }        
+        response = self.client.post(reverse('sick_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_sick_leave_view_with_superuser_for_different_year_existing_sick_dates_no_overlap(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        leave = SickLeave.objects.create(
+                    id=2, staff_id=1, start_date='2022-10-5', end_date='2022-10-6', 
+                    days=5)
+        data = {
+            'start_date': '9/03/2022',
+            'end_date': '9/06/2022',
+        }        
+        response = self.client.post(reverse('sick_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_sick_leave_view_with_superuser_for_different_with_no_existing_leave(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')        
+        data = {
+            'start_date': '10/05/2022',
+            'end_date': '10/10/2022',
+        }        
+        response = self.client.post(reverse('sick_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_sick_leave_view_with_superuser_for_actual_year_existing_leave_dates(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        leave = AnnualLeave.objects.create(
+                    id=2, staff_id=1, start_date='2021-10-5', end_date='2021-10-6', 
+                    days=5)
+        data = {
+            'start_date': '10/05/2021',
+            'end_date': '10/10/2021',
+        }        
+        response = self.client.post(reverse('sick_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_sick_leave_view_with_superuser_for_actual_year_existing_sick_dates(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        sick = SickLeave.objects.create(
+                    id=2, staff_id=1, start_date='2021-10-5', end_date='2021-10-6', 
+                    days=5)
+        data = {
+            'start_date': '10/05/2021',
+            'end_date': '10/10/2021',
+        }        
+        response = self.client.post(reverse('sick_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_sick_leave_view_with_superuser_for_actual_year_existing_sick_dates_no_overlap(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        sick = SickLeave.objects.create(
+                    id=2, staff_id=1, start_date='2021-10-5', end_date='2021-10-6', 
+                    days=5)
+        data = {
+            'start_date': '9/05/2021',
+            'end_date': '9/10/2021',
+        }        
+        response = self.client.post(reverse('sick_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_sick_leave_view_with_superuser_for_actual_year_no_leave(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')        
+        data = {
+            'start_date': '9/05/2021',
+            'end_date': '9/10/2021',
+        }        
+        response = self.client.post(reverse('sick_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+
+    def test_sick_leave_view_with_superuser_invalid_form(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')        
+        data = {
+            'start_date': ' ',
+            'end_date': '9/10/2021',
+        }        
+        response = self.client.post(reverse('sick_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_sick_leave_with_superuser(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur') 
+        response = self.client.get(reverse('sick_leave', args=[1]))
+        self.assertEqual(response.status_code, 200)        
+        self.assertTemplateUsed(response, 'staff/sick_leave.html')    
+    
+    def test_annual_leave_view_with_no_superuser(self):      
+        response = self.client.get(reverse('annual_leave', args=[1]))  
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/')
+    
+    def test_annuak_leave_view_with_superuser_invalid_dates(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        data = {
+            'start_date': '10/01/2021',
+            'end_date': '10/01/2022',
+        }        
+        response = self.client.post(reverse('annual_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+
+    def test_annual_leave_view_with_superuser_for_different_year(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        data = {
+            'start_date': '10/01/2022',
+            'end_date': '10/01/2022',
+        }        
+        response = self.client.post(reverse('annual_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+
+    def test_annual_leave_view_with_superuser_for_incorrect_start_date(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        data = {
+            'start_date': '10/05/2021',
+            'end_date': '10/01/2021',
+        }        
+        response = self.client.post(reverse('annual_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_annual_leave_view_with_superuser_for_different_year_existing_leave_dates(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        leave = AnnualLeave.objects.create(
+                    id=2, staff_id=1, start_date='2022-10-5', end_date='2022-10-6', 
+                    days=5)
+        data = {
+            'start_date': '10/05/2022',
+            'end_date': '10/10/2022',
+        }        
+        response = self.client.post(reverse('annual_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+
+    def test_annual_leave_view_with_superuser_for_different_year_existing_sick_dates_with_overlap(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        leave = SickLeave.objects.create(
+                    id=2, staff_id=1, start_date='2022-10-5', end_date='2022-10-6', 
+                    days=5)
+        data = {
+            'start_date': '10/05/2022',
+            'end_date': '10/10/2022',
+        }        
+        response = self.client.post(reverse('annual_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_annual_leave_view_with_superuser_for_different_year_existing_sick_dates_no_overlap(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        leave = SickLeave.objects.create(
+                    id=2, staff_id=1, start_date='2022-10-5', end_date='2022-10-6', 
+                    days=5)
+        data = {
+            'start_date': '9/03/2022',
+            'end_date': '9/06/2022',
+        }        
+        response = self.client.post(reverse('annual_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_annual_leave_view_with_superuser_for_different_with_no_existing_leave(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')        
+        data = {
+            'start_date': '10/05/2022',
+            'end_date': '10/10/2022',
+        }        
+        response = self.client.post(reverse('annual_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_annual_leave_view_with_superuser_for_actual_year_existing_leave_dates(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        leave = AnnualLeave.objects.create(
+                    id=2, staff_id=1, start_date='2021-10-5', end_date='2021-10-6', 
+                    days=5)
+        data = {
+            'start_date': '10/05/2021',
+            'end_date': '10/10/2021',
+        }        
+        response = self.client.post(reverse('annual_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_annual_leave_view_with_superuser_for_actual_year_existing_sick_dates(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        sick = SickLeave.objects.create(
+                    id=2, staff_id=1, start_date='2021-10-5', end_date='2021-10-6', 
+                    days=5)
+        data = {
+            'start_date': '10/05/2021',
+            'end_date': '10/10/2021',
+        }        
+        response = self.client.post(reverse('annual_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_annual_leave_view_with_superuser_for_actual_year_existing_sick_dates_no_overlap(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')
+        sick = SickLeave.objects.create(
+                    id=2, staff_id=1, start_date='2021-10-5', end_date='2021-10-6', 
+                    days=5)
+        data = {
+            'start_date': '9/05/2021',
+            'end_date': '9/10/2021',
+        }        
+        response = self.client.post(reverse('annual_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_annual_leave_view_with_superuser_for_actual_year_no_leave(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')        
+        data = {
+            'start_date': '9/05/2021',
+            'end_date': '9/10/2021',
+        }        
+        response = self.client.post(reverse('annual_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+
+    def test_sick_leave_view_with_superuser_invalid_form(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur')        
+        data = {
+            'start_date': ' ',
+            'end_date': '9/10/2021',
+        }        
+        response = self.client.post(reverse('annual_leave', args=[1]), data)         
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/staff/1')
+    
+    def test_annual_leave_view_with_superuser(self):
+        self.user = User.objects.create_superuser(
+                    username='superuser', password='zahur')
+        self.client.login(
+                    username='superuser', password='zahur') 
+        response = self.client.get(reverse('annual_leave', args=[1]))
+        self.assertEqual(response.status_code, 200)        
+        self.assertTemplateUsed(response, 'staff/annual_leave.html')
+    
     
