@@ -513,7 +513,7 @@ def annual_modify(request, annual_id):
                 annual_end_year = modified_annual.end_date.strftime("%y")                
                 if annual_start_year != annual_end_year:
                     messages.error(request, f'Entry allowed for 1 year only!. e.g 20{actual_year}')
-                    return redirect(reverse('staff_details', args=[annual.staff_id]))
+                    return redirect(reverse('annual_leave_taken', args=[annual.staff.id]))
                 elif modified_annual.end_date<modified_annual.start_date:
                     messages.error(request, 'Start date Incorrect!')
                     return redirect(reverse('annual_leave_taken', args=[annual.staff.id]))
@@ -748,27 +748,35 @@ def leave_planner(request):
         return render(request, 'staff/leave_planner.html', context)
 
 def sick_reset(request):
-    staff_sick = Staff.objects.all()
-    actual_year = datetime.datetime.now().strftime("%Y")            
-    for sick in staff_sick:
-        total_sick = 0 
-        total_sick_current_year = SickLeave.objects.all().filter(staff__id=sick.id, start_date__year=actual_year)
-        for sick_days in total_sick_current_year:            
-            total_sick += sick_days.days        
-        sick.sick_leave_remaining = sick.sick_leave - total_sick
-        sick.save()    
-    return redirect(reverse('sick_data'))
+    if not request.user.is_superuser:
+            messages.error(request, 'Access Denied!')
+            return redirect(reverse('home'))
+    else:
+        staff_sick = Staff.objects.all()
+        actual_year = datetime.datetime.now().strftime("%Y")            
+        for sick in staff_sick:
+            total_sick = 0 
+            total_sick_current_year = SickLeave.objects.all().filter(staff__id=sick.id, start_date__year=actual_year)
+            for sick_days in total_sick_current_year:            
+                total_sick += sick_days.days        
+            sick.sick_leave_remaining = sick.sick_leave - total_sick
+            sick.save()    
+        return redirect(reverse('sick_data'))
 
 
 def leave_reset(request):
-    staff_leave = Staff.objects.all()
-    actual_year = datetime.datetime.now().strftime("%Y")          
-    for leave in staff_leave:
-        total_leave = 0 
-        total_leave_current_year = AnnualLeave.objects.all().filter(staff__id=leave.id, start_date__year=actual_year)
-        for leave_days in total_leave_current_year:            
-            total_leave += leave_days.days
-        print(total_leave)        
-        leave.annual_leave_remaining = leave.annual_leave - total_leave
-        leave.save()         
-    return redirect(reverse('annual_leave_data'))
+    if not request.user.is_superuser:
+            messages.error(request, 'Access Denied!')
+            return redirect(reverse('home'))
+    else:
+        staff_leave = Staff.objects.all()
+        actual_year = datetime.datetime.now().strftime("%Y")          
+        for leave in staff_leave:
+            total_leave = 0 
+            total_leave_current_year = AnnualLeave.objects.all().filter(staff__id=leave.id, start_date__year=actual_year)
+            for leave_days in total_leave_current_year:            
+                total_leave += leave_days.days
+            print(total_leave)        
+            leave.annual_leave_remaining = leave.annual_leave - total_leave
+            leave.save()         
+        return redirect(reverse('annual_leave_data'))

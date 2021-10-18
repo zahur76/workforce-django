@@ -5,6 +5,8 @@
 * [UX](#ux)
     * [UX design work overview](#ux-design-work-overview)    
 * [Development cycle](#development-cycle)
+* [Testing](#testing)
+
 
 ## INTRODUCTION 
 
@@ -26,3 +28,10 @@ By using this site as the site owner:
 * be able to view sick and annual leave data graphically for management purposes
 * be able to generate, modify and store monthly pay for staff
 * be able control access to the store management page and features.
+
+## DEVELOPMENT CYCLE
+
+## TESTING
+
+Unitest was done with TestCase giving a coverage of 98%.
+
