@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'home',
     'login',
     'staff',
+    'pay_management',
 ]
 
 MIDDLEWARE = [
