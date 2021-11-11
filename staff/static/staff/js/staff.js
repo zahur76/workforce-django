@@ -91,6 +91,7 @@ $(document).ready(function(){
     let monthArray =  {1:'Jan', 2:'Feb', 3:'Mar', 4:'Apr', 5:'May', 6:'Jun', 7:'Jul', 8:'Aug', 9:"Sep", 10:'Oct', 11:'Nov', 12:"Dec"}
     $('#month option:selected').html(monthArray[dataMonth]);
     $('#month option:selected').val(dataMonth);
+    
 
     $('.show-data').click(function(){
         $(".close-data").show();

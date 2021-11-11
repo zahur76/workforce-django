@@ -5,6 +5,11 @@ body, html {
     height: 100vh;      
 } 
 
+/* navbar */
+.bg-nav {    
+    background-image: linear-gradient(to right, rgb(0, 0, 0) , rgb(168, 168, 154));
+}
+
 nav a {
     text-decoration: none !important;
 }
@@ -14,8 +19,8 @@ nav a {
     flex: 1;              
 }
 
-.button {        
-    background: black;
+.button {
+    background: black;  
     color: white;
     border-radius: 0;
     text-decoration: none;
