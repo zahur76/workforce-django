@@ -11,7 +11,7 @@ class Staff(models.Model):
     email_address = models.EmailField()
     phone_number = models.IntegerField()
     address = models.CharField(max_length=254)
-    birth_date = models.DateField()  
+    birth_date = models.DateField()
     GENDER = [
                 ('Male', 'Male'),
                 ('Female', 'Female'),
@@ -21,25 +21,25 @@ class Staff(models.Model):
                 ('1', '1'),
                 ('2', '2'),
                 ('3', '3'),
-                ('4', '4'), 
-                ('5', '5'),   
+                ('4', '4'),
+                ('5', '5'),
                 ]
     management_level = models.CharField(max_length=26, choices=management_level_choices, null=False)
     entry_date = models.DateField()
-    termination_date = models.DateField(null=True, blank=True)  
+    termination_date = models.DateField(null=True, blank=True)
     position_held = models.CharField(max_length=254)
     basic_salary = models.IntegerField()
     transport_allowance = models.IntegerField()
     annual_leave = models.IntegerField()
-    annual_leave_remaining = models.IntegerField()    
+    annual_leave_remaining = models.IntegerField()
     sick_leave = models.IntegerField()
     sick_leave_remaining = models.IntegerField()
     image = models.ImageField(null=True, blank=True)
 
     def __str__(self):
-        return self.first_name  
+        return self.first_name 
 
-  
+
 class SickLeave(models.Model):
 
     class Meta:
@@ -50,7 +50,7 @@ class SickLeave(models.Model):
             related_name='sickleave')
     start_date = models.DateField()
     end_date = models.DateField()
-    days = models.IntegerField()    
+    days = models.IntegerField()
 
     def __str__(self):
         return self.staff.first_name
