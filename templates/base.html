@@ -37,9 +37,9 @@
             <div class="d-none d-sm-block col-md-2"></div>
             <div class="p-2 col-8 col-md-8 text-center h1">
                 <a class="text-info" href="{% url 'home' %}">Workforce</a>
-            </div>
-            <a class="p-0 col-2 col-md-1 text-center my-auto text-light nav-text" href="{% url 'home' %}">Home</a>
-            {% if request.user.is_authenticated %}
+            </div>            
+            {% if request.user.is_superuser%}
+                <a class="p-0 col-2 col-md-1 text-center my-auto text-light nav-text dropdown" href="#">Menu <i class="fas fa-caret-down"></i></a>
                 <a href="{% url 'logout' %}" class="p-0 col-2 col-md-1 text-center my-auto text-light logout-button nav-text">Logout</a>
             {% else %}
                 <a href="#" class="p-0 col-2 col-md-1 text-center my-auto text-light login-button nav-text">Login</a>
@@ -95,6 +95,14 @@
                     </form>                                                     
                 </div> 
             </div>            
-        </div>        
+        </div>
+        <!-- Dropdown Menu -->    
+        <div id="drop-down" class="modal dropdown-modal" data-backdrop="true">
+            <div class="modal-content-dropdown mt-0 modal-text">
+                <a href="{% url 'home' %}">Home</a></br>                
+                <a href="{% url 'pay' %}">Pay Management</a></br>
+                <a href="{% url 'staff' %}">Staff Management</a>                
+            </div>
+        </div>
     </body>     
 </html>

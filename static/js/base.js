@@ -22,4 +22,17 @@ $(document).ready(function(){
           input.attr("type", "password");
         }
     });
+
+    $(".dropdown").click(function(){        
+        $("#drop-down").show();
+        $("#drop-down").addClass('open');
+        console.log($("#drop-down").attr("style"))             
+    });        
+    
+    var drop_modal = document.getElementById('drop-down');
+    window.onclick = function(event) {
+        if (event.target == drop_modal) {     
+           drop_modal.style.display = "none";     
+         }   
+     }          
 });

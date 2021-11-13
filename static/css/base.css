@@ -32,8 +32,7 @@ nav a {
 }
 
 /* Modal */
-
-.modal { 
+#loginModal { 
     width: 40%;      
     left: 30%;
     top: 25%; 
@@ -55,13 +54,27 @@ input {
     height: 30px;
     line-height: 20px;
     padding-right: 5px;      
-} 
+}
+
+.modal-content-dropdown {
+    top: 60px;
+    position: absolute;
+    right: 5% !important;    
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.7);    
+}
+
+.modal-text a {
+    text-decoration: none;
+    color: white;
+    font-weight: 200;
+}
 
 /* Flash messages */
 .flash-message {
     position: absolute;
     top: 75px;
-    right: 10px;
+    right: 20px !important;
 }
 
 .box {     
@@ -72,22 +85,26 @@ input {
     color:rgb(92, 136, 202);
 }
 
-
 /* Media screen */
 @media screen and (max-width: 768px){
-
-    .modal { 
+    #loginModal { 
         width: 60% !important;      
         left: 20%;        
-    }   
+    }
+    .modal-text a {
+        font-size: 14px;
+    }
+    
+    .modal-content-dropdown {        
+        right: 15% !important;
+    }
 }
 
 @media screen and (max-width: 560px){    
-    .modal { 
+    #loginModal { 
         width: 90% !important;      
         left: 5%;        
-    }
-    
+    }    
     .button {
         font-size: 12px;
     }
