@@ -39,6 +39,10 @@ nav a {
     z-index: 1;          
 }
 
+.bg-modal {
+    background:rgba(0, 0, 0, 0.7);
+}
+
 input {
     height: 30px;    
 }
@@ -68,6 +72,7 @@ input {
     text-decoration: none;
     color: white;
     font-weight: 200;
+    font-size: 14px;
 }
 
 /* Flash messages */

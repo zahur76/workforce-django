@@ -59,6 +59,14 @@ img {
     height: 30px;
 }
 
+/*delete Modal */
+.confirm-modal { 
+    width: 40%;      
+    left: 30%;
+    top: 25%; 
+    z-index: 1;          
+}
+
 /* forms */
 .add_staff-form-input, .add_leave-form-input {
     height: 30px;
@@ -154,6 +162,11 @@ img {
     .sick-table-text {
         font-size: 14px;
     }
+
+    .confirm-modal { 
+        width: 60% !important;      
+        left: 20%;        
+    }
     
 } 
 
@@ -164,6 +177,10 @@ img {
     
     .sick-table-text {
         font-size: 12px;    
+    }
+    .confirm-modal { 
+        width: 90% !important;      
+        left: 5%;        
     }
 }
     
