@@ -13,26 +13,26 @@ def staff(request):
     """ A view to return staff info """
     if not request.user.is_superuser:
         messages.error(request, 'Permision Denied!.')
-        return redirect(reverse('home')) 
+        return redirect(reverse('home'))
 
     elif 'q' in request.GET:
         query = request.GET['q']
         if not query:
             return redirect(reverse('staff'))
-        else:                
+        else:
             all_staff = Staff.objects.all()
-            queries = Q(first_name__icontains=query) | Q(last_name__icontains=query)                
-            query_staff = all_staff.filter(queries)              
+            queries = Q(first_name__icontains=query) | Q(last_name__icontains=query)
+            query_staff = all_staff.filter(queries)
             context = {
                 'staff': query_staff,
             }
             return render(request, 'staff/staff.html', context)
-    else:        
+    else:
         staff = Staff.objects.all()
         context = {
             'staff': staff,
         }
-    
+
     return render(request, 'staff/staff.html', context)
 
 

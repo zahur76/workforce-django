@@ -8,6 +8,54 @@
 
 {% block content %}
     <div class="text-center h1 mb-2">Pay Management</div>
+    <!-- Search Bar -->
+    <div class="row m-0 border-top d-flex justify-content-left">
+        <div class="col-10 col-md-4 col-lg-3 mt-2">
+            <form action="{% url 'pay' %}" method="GET" id="characterForm">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="search" class="form-control custom-select rounded-0 border-2 border-dark" name="q" placeholder="Search Staff">
+                    <button class="btn btn-outline-dark bg-dark text-light rounded-0 input-group-append ml-auto search-button" type="submit"><div class="text">Search</div></button>
+                </div>                
+            </form> 
+        </div>      
+    </div>
+    <div class="row m-0 mt-3 bg-dark text-light">
+        <div class="col-1">                
+        </div> 
+        <div class="col-3 text-center">
+            Employee No
+        </div>
+        <div class="col-8 col-md-4">
+            <div>Name</div>
+        </div>
+        <div class="d-none d-md-block col-md-4"></div>          
+    </div>    
+    <div class="row m-0 mt-3 staff-column">
+        {% for staff in staff %}
+            {% if forloop.counter|divisibleby:2 %}
+                <div class="col-1">                
+                </div> 
+                <div class="col-3 text-center">
+                    {{  staff.id }}
+                </div>
+                <div class="col-8 col-md-4">
+                    <a href="#">{{  staff.first_name }} {{  staff.last_name }}</a>
+                </div>
+                <div class="d-none d-md-block col-md-4"></div>             
+            {% else %}
+                <div class="col-1">                
+                </div> 
+                <div class="col-3 bg-secondary text-center">
+                    {{  staff.id }}
+                </div>
+                <div class="col-8 col-md-4 bg-secondary">
+                    <a href="#">{{  staff.first_name }} {{  staff.last_name }}</a>
+                </div>
+                <div class="d-none d-md-block col-md-4"></div>                 
+            {% endif %}            
+        {% endfor %}   
+    </div>
     
 {% endblock %}
 

@@ -2,3 +2,23 @@
     background: linear-gradient(to right, rgb(212, 212, 212) , rgb(255, 255, 255));
     background-size: cover;
 }
+
+.bg-secondary {
+    background-color: rgb(179, 176, 176) !important;
+}
+
+.search-button {
+    height: 30px;
+    line-height: 14px;
+}
+
+@media screen and (max-width: 576px){
+    .search-button {
+        height: 28px;
+        line-height: 14px;
+    }
+
+    .form-control {
+        height: 28px;
+    }
+}
