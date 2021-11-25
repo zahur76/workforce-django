@@ -6,7 +6,7 @@ class add_staffForm(forms.ModelForm):
     class Meta:
         model = Staff
         fields = '__all__'
-            
+
     def __init__(self, *args, **kwargs):
         """
         Add placeholders and classes, remove auto-generated
@@ -21,37 +21,37 @@ class add_staffForm(forms.ModelForm):
             'phone_number': 'Phone Number',
             'address': 'Home address',
             'birth_date': 'Birthday',
-            'gender': 'Gender', 
+            'gender': 'Gender',
             'management_level': 'Management Level',
             'entry_date': 'Date of entry',
-            'termination_date': 'Date of termination', 
+            'termination_date': 'Date of termination',
             'position_held': 'Position held',
             'basic_salary': 'Basic Salary',
             'transport_allowance': 'Transport allowance',
-            'annual_leave': 'Annual Leave', 
+            'annual_leave': 'Annual Leave',
             'annual_leave_remaining': 'Annual Leave Remaining',
-            'sick_leave': 'Sick Leave', 
+            'sick_leave': 'Sick Leave',
             'sick_leave_remaining': 'Sick Leave Remaining',
-            'image': 'Image',              
+            'image': 'Image',
         }
 
         self.fields['first_name'].widget.attrs['autofocus'] = True
         for field in self.fields:
-            if field != 'gender' and field != 'management_level':                 
+            if field != 'gender' and field != 'management_level':
                 self.fields[field].widget.attrs[
                     'placeholder'] = placeholders[field]
-            
-            if field in ['birth_date', 'entry_date', 'termination_date']:                  
+
+            if field in ['birth_date', 'entry_date', 'termination_date']:
                 self.fields[field].widget = DatePickerInput()
                 self.fields[field].widget.attrs[
-                'class'] = 'border-dark rounded-0 mx-auto add_staff-form-input m-1' 
+                'class'] = 'border-dark rounded-0 mx-auto add_staff-form-input m-1'
             else:
                 self.fields[field].widget.attrs[
-                'class'] = 'border-dark m-1 rounded-0 mx-auto add_staff-form-input' 
-                        
+                'class'] = 'border-dark m-1 rounded-0 mx-auto add_staff-form-input'
+
             if field == 'image':
                 self.fields['image'].label = 'Upload Image'
-            else:                       
+            else:
                 self.fields[field].label = False
 
 

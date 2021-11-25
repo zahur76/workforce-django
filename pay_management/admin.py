@@ -7,7 +7,7 @@ class SalarySlipAdmin(admin.ModelAdmin):
     # Admin display
     list_display = (
         'staff',
-        'created_at'            
+        'created_at'
     )
     # Ordering in admin
     ordering = ('id',)
