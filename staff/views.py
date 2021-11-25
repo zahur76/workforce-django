@@ -55,7 +55,7 @@ def add_staff(request):
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))
-            
+
     if request.method == 'POST':
         form = add_staffForm(request.POST, request.FILES)
         if form.is_valid():
@@ -67,7 +67,7 @@ def add_staff(request):
                 request, 'Staff could not be added. \
                     Please ensure the form is valid.')
             return redirect(reverse('add_staff'))
-    else: 
+    else:
         form = add_staffForm()
 
         context = {
@@ -84,8 +84,8 @@ def update_staff(request, staff_id):
             messages.error(request, 'Access Denied!')
             return redirect(reverse('home'))    
     else:
-        staff = get_object_or_404(Staff, id=staff_id)          
-        if request.method == 'POST':        
+        staff = get_object_or_404(Staff, id=staff_id)
+        if request.method == 'POST':
             form = add_staffForm(request.POST, request.FILES, instance=staff)
             if form.is_valid():
                 form.save()
@@ -132,8 +132,8 @@ def sick_leave(request, staff_id):
             if form.is_valid():                                               
                 sick = form.save(commit=False)                
                 actual_year = datetime.datetime.now().strftime("%y")
-                sick_start_year = sick.start_date.strftime("%y")                
-                sick_end_year = sick.end_date.strftime("%y")                
+                sick_start_year = sick.start_date.strftime("%y")
+                sick_end_year = sick.end_date.strftime("%y")
                 if sick_start_year != sick_end_year:
                     messages.error(request, f'Entry allowed for 1 year only!, e.g 20{actual_year}')
                     return redirect(reverse('staff_details', args=[staff_id]))
@@ -154,17 +154,17 @@ def sick_leave(request, staff_id):
                                 day_list.append(leave.start_date + datetime.timedelta(days = x))                                                      
                         for x in range (0,(sick.end_date-sick.start_date).days+1):                        
                             if (sick.start_date + datetime.timedelta(days = x)) in day_list:                            
-                                count += 1                           
+                                count += 1
                             else:
-                                count += 0                                          
+                                count += 0
                         if count !=0:
                             messages.error(request, 'Error Duplicate dates!')
                             return redirect(reverse('staff_details', args=[staff_id]))
                         else:                         
                             difference = (sick.end_date - sick.start_date).days + 1
                             sick.staff = staff
-                            sick.days = difference                                
-                            sick.save()                    
+                            sick.days = difference
+                            sick.save()
                             messages.success(request, 'Sick leave added!')
                             return redirect(reverse('staff_details', args=[staff_id]))
                     else:

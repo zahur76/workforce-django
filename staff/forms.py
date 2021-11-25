@@ -75,8 +75,8 @@ class add_sick_leaveForm(forms.ModelForm):
         for field in self.fields:                          
             self.fields[field].widget = DatePickerInput()
             self.fields[field].widget.attrs[
-            'class'] = 'border-dark rounded-0 mx-auto add_leave-form-input m-1' 
-                              
+            'class'] = 'border-dark rounded-0 mx-auto add_leave-form-input m-1'
+
             self.fields[field].label = False
 
 
