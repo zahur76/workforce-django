@@ -71,9 +71,9 @@ def add_staff(request):
         form = add_staffForm()
 
         context = {
-            'form': form,        
-            }    
-    
+            'form': form,
+            }
+
     return render(request, 'staff/add_staff.html', context)
 
 
@@ -96,7 +96,7 @@ def update_staff(request, staff_id):
                     request, 'Staff could not be added. \
                         Please ensure the form is valid.')
                 return redirect(reverse('update_staff', args={staff_id}))
-        else:                    
+        else:
             form = add_staffForm(instance=staff)
 
             context = {

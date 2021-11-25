@@ -9,6 +9,17 @@
 {% block content %}
     <h1>Add Salary</h1>
     <h1>{{staff.first_name}}</h1>
+    <div class="col-12 mx-auto mb-2 add-staff-form w-50">
+        <form id="mysalaryForm" action="#" method="POST" enctype="multipart/form-data" class="addStaff">
+            {% csrf_token %}
+            {% crispy form %}
+        
+            <div>
+                <button class="btn button mt-2" type="submit" form="mysalaryForm">submit</button>
+                <a href="{% url 'staff' %}" class="btn button mt-2">Back</a>
+            </div>             
+        </form>
+    </div>
 {% endblock %}
 
 {% block extra_js %}              
