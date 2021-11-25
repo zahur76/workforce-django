@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import get_object_or_404, render, redirect, reverse
 from staff.models  import Staff
 from django.contrib import messages
 from django.db.models import Q
@@ -30,3 +30,17 @@ def pay(request):
         }
 
     return render(request, 'pay_management/pay.html', context)
+
+
+def add_salary(request, staff_id):
+    """ A view to return the main pay management page """
+    if not request.user.is_superuser:
+        messages.error(request, 'Permision Denied!.')
+        return redirect(reverse('home'))
+
+    staff = get_object_or_404(Staff, id=staff_id)
+    context =  {
+        'staff': staff,
+    }
+
+    return render(request, 'pay_management/add_salary.html', context)
