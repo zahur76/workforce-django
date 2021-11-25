@@ -38,7 +38,7 @@ class Staff(models.Model):
     image = models.ImageField(null=True, blank=True)
 
     def __str__(self):
-        return self.first_name 
+        return self.first_name
 
 
 class SickLeave(models.Model):

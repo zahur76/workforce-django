@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class salarySlip(models.Model):
+class SalarySlip(models.Model):
 
     class Meta:
         verbose_name_plural = "Salary slip"
@@ -17,7 +17,7 @@ class salarySlip(models.Model):
     tax_deduction = models.IntegerField()
     gross_salary = models.IntegerField()
     net_salary = models.IntegerField()
-    json_salary = models.CharField(max_length=1000)
+    json_salary = models.CharField(max_length=1000, null=True, blank=True)
 
     def __str__(self):
         return self.staff.first_name
