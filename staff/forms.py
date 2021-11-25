@@ -59,16 +59,16 @@ class add_sick_leaveForm(forms.ModelForm):
     class Meta:
         model = SickLeave
         exclude = ('staff', 'days', 'sick_reset',)
-            
+
     def __init__(self, *args, **kwargs):
         """
         Add placeholders and classes, remove auto-generated
         labels and set autofocus on first field
         """
         super().__init__(*args, **kwargs)
-        placeholders = {            
+        placeholders = {
             'start_date': 'Start date',
-            'end_date': 'End date',                         
+            'end_date': 'End date',
         }
 
         self.fields['start_date'].widget.attrs['autofocus'] = True
