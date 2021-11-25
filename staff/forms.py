@@ -16,6 +16,7 @@ class add_staffForm(forms.ModelForm):
         placeholders = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
+            'tax_number': 'Tax number',
             'email_address': 'Email Address',
             'phone_number': 'Phone Number',
             'address': 'Home address',

@@ -8,6 +8,7 @@ class Staff(models.Model):
 
     first_name = models.CharField(max_length=254)
     last_name = models.CharField(max_length=254)
+    tax_number = models.IntegerField(default=99999)
     email_address = models.EmailField()
     phone_number = models.IntegerField()
     address = models.CharField(max_length=254)
