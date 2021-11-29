@@ -14,8 +14,8 @@ class SalarySlip(models.Model):
     tax_number = models.IntegerField()
     basic_salary = models.IntegerField()
     transport_allowance = models.IntegerField()
-    non_taxable_additional_allowances = models.IntegerField()
-    taxable_additional_allowances = models.IntegerField()
+    non_taxable_additional_allowances = models.IntegerField(default=0)
+    taxable_additional_allowances = models.IntegerField(default=0)
     tax_deduction = models.IntegerField(default=1,
         validators=[
             MaxValueValidator(100),

@@ -40,7 +40,7 @@
                     {{  staff.id }}
                 </div>
                 <div class="col-8 col-md-4">
-                    <a href="#">{{  staff.first_name }} {{  staff.last_name }}</a>
+                    <a href="{% url 'salary_details' staff_id=staff.id %}">{{  staff.first_name }} {{  staff.last_name }}</a>
                 </div>
                 <div class="d-none d-md-block col-md-4"></div>             
             {% else %}
@@ -50,7 +50,7 @@
                     {{  staff.id }}
                 </div>
                 <div class="col-8 col-md-4 bg-secondary">
-                    <a href="#">{{  staff.first_name }} {{  staff.last_name }}</a>
+                    <a href="{% url 'salary_details' staff_id=staff.id %}">{{  staff.first_name }} {{  staff.last_name }}</a>
                 </div>
                 <div class="d-none d-md-block col-md-4"></div>                 
             {% endif %}            

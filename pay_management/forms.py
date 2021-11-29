@@ -33,10 +33,10 @@ class add_salaryForm(forms.ModelForm):
                 self.fields[field].widget.attrs[
                         'placeholder'] = placeholders[field]
             self.fields[field].widget.attrs[
-            'class'] = 'border-dark rounded-0 mx-auto add_salary-form-input m-1'
-            if field in ['basic_salary', 'transport_allowance', 'tax_deduction']:
-                self.fields['basic_salary'].label = 'Basic Salary'
-                self.fields['transport_allowance'].label = 'Transport Allowance'
-                self.fields['tax_deduction'].label = '% Tax Deduction'
-            else:
-                self.fields[field].label = False
+            'class'] = 'border-dark rounded-0 mx-auto add-salary-form-input m-1'
+            
+            self.fields['basic_salary'].label = 'Basic Salary'
+            self.fields['transport_allowance'].label = 'Transport Allowance'
+            self.fields['tax_deduction'].label = '% Tax Deduction'
+            self.fields['non_taxable_additional_allowances'].label = 'Non taxable additional allowances'
+            self.fields['taxable_additional_allowances'].label = 'Taxable additional allowances'            

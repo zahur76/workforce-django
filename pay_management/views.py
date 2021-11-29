@@ -49,8 +49,13 @@ def add_salary(request, staff_id):
                 salary.staff = staff
                 salary.created_at = time.strftime("%Y%m%d-%H%M%S")
                 salary.tax_number = staff.tax_number
-                salary.gross_salary = salary.basic_salary + salary.transport_allowance + salary.non_taxable_additional_allowances + salary.taxable_additional_allowances
-                salary.total_deduction = (salary.basic_salary + salary.taxable_additional_allowances) * (salary.tax_deduction/100)
+                salary.gross_salary = (salary.basic_salary + 
+                                        salary.transport_allowance + 
+                                        salary.non_taxable_additional_allowances + 
+                                        salary.taxable_additional_allowances)
+                salary.total_deduction = (
+                    salary.basic_salary + salary.taxable_additional_allowances) * (
+                        salary.tax_deduction/100)
                 salary.net_salary = salary.gross_salary - salary.total_deduction
                 salary_dictionary = {
                     'staff': staff.first_name + " " + staff.last_name,
@@ -80,3 +85,16 @@ def add_salary(request, staff_id):
             'staff': staff,
             }
         return render(request, 'pay_management/add_salary.html', context)
+
+def salary_details(request, staff_id):
+    """ A view to return salary details """
+    if not request.user.is_superuser:
+        messages.error(request, 'Permision Denied!.')
+        return redirect(reverse('home'))
+
+    staff = get_object_or_404(Staff, id=staff_id)
+
+    context = {
+        'staff' : staff,
+        }
+    return render(request, 'pay_management/salary_details.html', context)

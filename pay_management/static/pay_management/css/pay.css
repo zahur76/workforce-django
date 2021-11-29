@@ -12,6 +12,17 @@
     line-height: 14px;
 }
 
+.add-salary-form {
+    width: 25%;
+}
+
+
+@media screen and (max-width: 992px){
+    .add-salary-form {
+        width: 40%;
+    }   
+}
+
 @media screen and (max-width: 576px){
     .search-button {
         height: 28px;
@@ -21,4 +32,8 @@
     .form-control {
         height: 28px;
     }
+
+    .add-salary-form {
+        width: 75% !important;
+    }    
 }
