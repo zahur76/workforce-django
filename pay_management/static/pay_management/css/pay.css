@@ -4,7 +4,7 @@
 }
 
 .bg-secondary {
-    background-color: rgb(179, 176, 176) !important;
+    background-color: rgb(209, 205, 205) !important;
 }
 
 .search-button {
@@ -15,7 +15,6 @@
 .add-salary-form {
     width: 25%;
 }
-
 
 @media screen and (max-width: 992px){
     .add-salary-form {

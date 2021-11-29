@@ -11,11 +11,11 @@ a {
 }
 
 .bg-secondary, .text-custom{
-    background-color: rgb(170, 168, 168) !important;
+    background-color: rgb(196, 194, 194) !important;
 }
 
 .text-custom {
-    color: rgb(170, 168, 168);
+    color: rgb(196, 194, 194);
 }
 
 .staff-name {
