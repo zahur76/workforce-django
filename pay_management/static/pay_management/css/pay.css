@@ -15,11 +15,17 @@
 .add-salary-form {
     width: 25%;
 }
+ /* modal */
+.confirm-modal {
+    width: 50%;
+    left: 25%;
+    top: 33%;
+}
 
 @media screen and (max-width: 992px){
     .add-salary-form {
         width: 40%;
-    }   
+    }       
 }
 
 @media screen and (max-width: 576px){
@@ -38,5 +44,10 @@
 
     .add-salary-form {
         width: 75% !important;
-    }    
+    }
+    
+    .confirm-modal {
+        width: 75%;
+        left: 12.5%;        
+    }
 }
