@@ -16,7 +16,7 @@ def pay(request):
     elif 'q' in request.GET:
         query = request.GET['q']
         if not query:
-            return redirect(reverse('pay'))        
+            return redirect(reverse('pay'))
         all_staff = Staff.objects.all()
         queries = Q(first_name__icontains=query) | Q(last_name__icontains=query)
         query_staff = all_staff.filter(queries)
@@ -71,7 +71,7 @@ def add_salary(request, staff_id):
                 salary.json_salary = json.dumps(salary_dictionary)
                 salary.save()
                 messages.success(request, 'Salary Added!')
-                return redirect(reverse('staff_details', args=[staff_id]))
+                return redirect(reverse('salary_details', args=[staff_id]))
             else:
                 messages.error(
                     request, 'Staff could not be added. \
@@ -99,3 +99,15 @@ def salary_details(request, staff_id):
         'salaries': salary,
         }
     return render(request, 'pay_management/salary_details.html', context)
+
+
+def salary_delete(request, salary_id):
+    """ A view to return salary details """
+    if not request.user.is_superuser:
+        messages.error(request, 'Permision Denied!.')
+        return redirect(reverse('home'))
+
+    salary = get_object_or_404(SalarySlip, id=salary_id)    
+    salary.delete()
+    messages.success(request, 'Salary Deleted!')
+    return redirect(reverse('salary_details', args=[salary.staff.id]))

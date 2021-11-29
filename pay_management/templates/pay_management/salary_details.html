@@ -35,7 +35,7 @@
                             <a href="#" class="text-primary">View</a>
                         </div>
                         <div class="col-4 text-danger">
-                            <a href="#" class="text-danger">Delete</a>
+                            <a href="{% url 'salary_delete' salary_id=salary.id %}" class="text-danger">Delete</a>
                         </div>
                         <div class="col-4 text-success">
                             <a href="#" class="text-success">Update</a>
@@ -60,7 +60,7 @@
                         <a href="#" class="text-primary">View</a>
                     </div>
                     <div class="col-4 text-danger">
-                        <a href="#" class="text-danger">Delete</a>
+                        <a href="{% url 'salary_delete' salary_id=salary.id %}" class="text-danger">Delete</a>
                     </div>
                     <div class="col-4 text-success">
                         <a href="#" class="text-success">Update</a>
