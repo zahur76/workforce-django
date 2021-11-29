@@ -29,6 +29,10 @@
         line-height: 14px;
     }
 
+    .salary {
+        font-size: 12px;
+    }
+
     .form-control {
         height: 28px;
     }

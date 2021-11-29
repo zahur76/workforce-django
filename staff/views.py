@@ -231,18 +231,18 @@ def annual_leave(request, staff_id):
     """ A view to input annual leave details"""
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
-            return redirect(reverse('home'))    
-    else:        
+            return redirect(reverse('home'))
+    else:
         staff = get_object_or_404(Staff, id=staff_id)
         sick_leave_periods =  SickLeave.objects.all().filter(staff__id=staff_id)
-        annual_leave_periods =  AnnualLeave.objects.all().filter(staff__id=staff_id)                  
-        if request.method == 'POST':                    
-            form = add_annual_leaveForm(request.POST)            
-            if form.is_valid():                                
+        annual_leave_periods =  AnnualLeave.objects.all().filter(staff__id=staff_id)
+        if request.method == 'POST':
+            form = add_annual_leaveForm(request.POST)
+            if form.is_valid():
                 annual = form.save(commit=False)
                 actual_year = datetime.datetime.now().strftime("%y")
-                annual_start_year = annual.start_date.strftime("%y")                
-                annual_end_year = annual.end_date.strftime("%y")                
+                annual_start_year = annual.start_date.strftime("%y")
+                annual_end_year = annual.end_date.strftime("%y")
                 if annual_start_year != annual_end_year:
                     messages.error(request, f'Entry allowed for 1 year, e.g 20{actual_year}!')
                     return redirect(reverse('staff_details', args=[staff_id]))
@@ -352,7 +352,7 @@ def sick_leave_taken(request, staff_id):
             sick_leave = sick_leave.filter(staff__id=staff_id).order_by('start_date') 
         else:
             sick_leave = sick_leave.filter(staff__id=staff_id, start_date__year=query).order_by('start_date') 
-        actual_year = datetime.datetime.now().strftime("%y") 
+        actual_year = datetime.datetime.now().strftime("%y")
         context = {
             'staff': staff,
             'sick_leave': sick_leave,

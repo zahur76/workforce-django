@@ -6,10 +6,70 @@
 {% endblock %}
 
 
-{% block content %}
-    <h1 class="text-center">Add Details</h1>
-    <a href="{% url 'pay' %}" class="btn text-light bg-dark m-2 rounded-0">Back</a>
-    <h1 class="text-center">{{staff.first_name}}</h1>    
+{% block content %}    
+    <h1 class="text-center">Salary Details: {{staff.first_name}} </h1>
+    <a href="{% url 'pay' %}" class="btn button p-1 m-2">Back</a>    
+    <a href="{% url 'add_salary' staff_id=staff.id %}" class="btn button p-1 m-2">+ Salary</a>    
+    <div class="row m-0 text-center salary">
+        <div class="col-1">No</div>
+        <div class="col-3">Date</div>
+        <div class="col-2">Gross Salary</div>
+        <div class="col-6"></div>  
+    </div>
+    <div class="col-12 border-bottom border-dark"></div>      
+    {% for salary in salaries %}
+        {% if forloop.counter|divisibleby:2 %}
+            <div class="row m-0 text-center salary">
+                <div class="col-1 ml-2 bg-secondary">
+                    {{salary.id}}
+                </div>
+                <div class="col-3 bg-secondary">
+                    {{salary.created_at|date:"M-Y"}}
+                </div>
+                <div class="col-2 bg-secondary">
+                    {{salary.gross_salary}}
+                </div>
+                <div class="col-6 bg-secondary">
+                    <div class="row m-0">
+                        <div class="col-4">
+                            View
+                        </div>
+                        <div class="col-4">
+                            Delete
+                        </div>
+                        <div class="col-4">
+                            Update
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+        <div class="row m-0 text-center salary">
+            <div class="col-1 ml-2">
+                {{salary.id}}
+            </div>
+            <div class="col-3">
+                {{salary.created_at|date:"M-Y"}}
+            </div>
+            <div class="col-2">
+                {{salary.gross_salary}}
+            </div>
+            <div class="col-6">
+                <div class="row m-0">
+                    <div class="col-4">
+                        View
+                    </div>
+                    <div class="col-4">
+                        Delete
+                    </div>
+                    <div class="col-4">
+                        Update
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}        
+    {% endfor %}    
 {% endblock %}
 
 {% block extra_js %}              

@@ -1,11 +1,10 @@
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from staff.models  import Staff
+from .models import SalarySlip
 from django.contrib import messages
 from django.db.models import Q
 from .forms import add_salaryForm
-import time
-import json
-
+import time, json, datetime
 
 # Create your views here
 def pay(request):
@@ -93,8 +92,10 @@ def salary_details(request, staff_id):
         return redirect(reverse('home'))
 
     staff = get_object_or_404(Staff, id=staff_id)
+    salary = SalarySlip.objects.all().filter(staff=staff_id)
 
     context = {
-        'staff' : staff,
+        'staff': staff,
+        'salaries': salary,
         }
     return render(request, 'pay_management/salary_details.html', context)

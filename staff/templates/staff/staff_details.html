@@ -16,8 +16,6 @@
         <a href="{% url 'sick_leave_taken' staff_id=staff.id %}" class="btn p-1"><i class="fas fa-eye h4"></i></a>
         <a href="{% url 'annual_leave' staff_id=staff.id %}" class="btn button p-1">+ Annual Leave</a>
         <a href="{% url 'annual_leave_taken' staff_id=staff.id %}" class="btn p-1"><i class="fas fa-eye h4"></i></a><br>   
-        <a href="{% url 'add_salary' staff_id=staff.id %}" class="btn button p-1 mt-2">+ Salary</a>
-        <a href="#" class="btn p-1 mt-2"><i class="fas fa-eye h4"></i></a>
     </div>
     <div class="row m-0 mt-2">
         {% if staff.image %}
