@@ -26,6 +26,12 @@
     top: 33%;
 }
 
+.view-modal {
+    top: 20%;
+    width: 90%;
+    left: 5%;    
+}
+
 @media screen and (max-width: 992px){
     .add-salary-form {
         width: 40%;

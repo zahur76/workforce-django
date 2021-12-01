@@ -85,14 +85,50 @@
         </div>
         <!-- View salary modal -->
         <div id="view-salary-modal-{{ salary.id }}" class="modal view-modal mx-auto">
-            <div class="modal-content mt-2 pb-2 pt-1">                
-                <div class="row m-0">                                 
-                    <div class="col-12 text-center text-dark delete">{{salary.staff}}</div>                       
-                </div>              
-                <div class="row w-25 mx-auto text-center mt-3">
+            <div class="modal-content mt-2 pb-2 pt-1">
+                <div class="col-12 text-danger h1 p-3 m-0">WorkForce Ltd</div>                
+                <div class="row m-0 delete">
+                    <div class="col-12 text-dark border-bottom border-secondary"><b>Staff Details</b></div>                                 
+                    <div class="col-sm-12 col-md-4 text-dark">Employee Name: {{salary.staff.first_name}} {{salary.staff.last_name}}</div>
+                    <div class="col-sm-12 col-md-4 text-dark">Employee No: {{salary.staff.id}}</div>
+                    <div class="col-sm-12 col-md-4 text-dark">Tax number: {{salary.staff.tax_number}}</div>                       
+                </div>
+                <div class="row m-0 delete">
+                    <div class="col-12 text-dark border-bottom border-secondary"><b>Salary Details</b></div>                                 
+                    <div class="col-12 text-dark">Date: {{salary.created_at|date:"M-Y"}}</div>
+                    <div class="d-none d-md-block col-md-4"></div>
+                    <div class="col-6 col-md-4 text-dark text-end">Basic Salary</div>
+                    <div class="col-6 col-md-4 text-dark text-end">{{salary.basic_salary}}</div>
+                    <div class="d-none d-md-block col-md-4"></div>
+                    <div class="col-6 col-md-4 text-dark text-end">Transport Allowance</div>
+                    <div class="col-6 col-md-4 text-dark text-end">{{salary.transport_allowance}}</div>
+                    <div class="d-none d-md-block col-md-4"></div>
+                    <div class="col-6 col-md-4 text-dark text-end">Non Taxable Allowance</div>
+                    <div class="col-6 col-md-4 text-dark text-end">{{salary.non_taxable_additional_allowances}}</div>
+                    <div class="d-none d-md-block col-md-4"></div>
+                    <div class="col-6 col-md-4 text-dark text-end">Taxable Allowance</div>
+                    <div class="col-6 col-md-4 text-dark text-end">{{salary.taxable_additional_allowances}}</div>                                              
+                    <div class="d-none d-md-block col-md-4"></div>
+                    <div class="col-6 col-md-4 text-dark text-end">Tax Rate (%)</div>
+                    <div class="col-6 col-md-4 text-dark text-end">{{salary.tax_deduction}}</div>
+                    <div class="col-10"></div>                    
+                    <div class="col-2 border-bottom border-secondary"></div>
+                    <div class="d-none d-md-block col-md-4"></div>
+                    <div class="col-6 col-md-4 text-dark text-end">Gross salary</div>
+                    <div class="col-6 col-md-4 text-dark text-end">{{salary.gross_salary}}</div>
+                    <div class="d-none d-md-block col-md-4"></div>
+                    <div class="col-6 col-md-4 text-dark text-end">Total Deductions</div>
+                    <div class="col-6 col-md-4 text-dark text-end">{{salary.total_deduction}}</div>
+                    <div class="d-none d-md-block col-md-4"></div>
+                    <div class="col-10"></div>                    
+                    <div class="col-2 border-bottom border-secondary"></div>
+                    <div class="d-none d-md-block col-md-4"></div>
+                    <div class="col-6 col-md-4 text-dark text-end">Net Salary</div>
+                    <div class="col-6 col-md-4 text-dark text-end">{{salary.net_salary}}</div>
+                </div>                
+                <div class="row mx-auto text-center mt-3">
                     <a href="#" class="col-6 confirm btn button border border-light text-light">Confirm</a>            
                     <a href="#" class="col-6 confirm btn button border border-light text-light close-button">Close</a>            
-                
                 </div>
             </div>    
         </div>          
