@@ -32,7 +32,7 @@
                 <div class="col-6 p-0 bg-secondary">
                     <div class="row m-0">
                         <div class="col-4">
-                            <a href="#" class="text-primary">View</a>
+                            <a href="#" id="open-view-salary-modal-{{ salary.id }}" class="text-primary view-salary-modal">View</a>
                         </div>
                         <div class="col-4 text-danger">
                             <a href="#" id="open-salary-deletion-modal-{{ salary.id }}" class="text-danger salary-deletion-modal">Delete</a>
@@ -57,7 +57,7 @@
             <div class="col-6 p-0">
                 <div class="row m-0">
                     <div class="col-4">
-                        <a href="#" class="text-primary">View</a>
+                        <a href="#" id="open-view-salary-modal-{{ salary.id }}" class="text-primary view-salary-modal">View</a>
                     </div>
                     <div class="col-4 text-danger">
                         <a href="#" id="open-salary-deletion-modal-{{ salary.id }}" class="text-danger salary-deletion-modal">Delete</a>
@@ -82,7 +82,20 @@
                     <a href="{% url 'salary_delete' salary_id=salary.id %}" class="col-12 confirm btn button border border-light text-light">Confirm</a>            
                 </div>
             </div>    
-        </div>         
+        </div>
+        <!-- View salary modal -->
+        <div id="view-salary-modal-{{ salary.id }}" class="modal view-modal mx-auto">
+            <div class="modal-content mt-2 pb-2 pt-1">                
+                <div class="row m-0">                                 
+                    <div class="col-12 text-center text-dark delete">{{salary.staff}}</div>                       
+                </div>              
+                <div class="row w-25 mx-auto text-center mt-3">
+                    <a href="#" class="col-6 confirm btn button border border-light text-light">Confirm</a>            
+                    <a href="#" class="col-6 confirm btn button border border-light text-light close-button">Close</a>            
+                
+                </div>
+            </div>    
+        </div>          
     {% endfor %}    
 {% endblock %}
 
