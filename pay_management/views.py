@@ -73,9 +73,8 @@ def add_salary(request, staff_id):
                 return redirect(reverse('salary_details', args=[staff_id]))
             else:
                 messages.error(
-                    request, 'Staff could not be added. \
-                        Please ensure the form is valid.')
-                return redirect(reverse('update_staff', args={staff_id}))
+                    request, 'Error, Try again!')
+                return redirect(reverse('salary_details', args={staff_id}))
 
         form = add_salaryForm(instance=staff)
         context = {
