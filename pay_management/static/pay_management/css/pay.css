@@ -7,6 +7,10 @@
     background-color: rgb(209, 205, 205) !important;
 }
 
+.bg-danger {
+    background: rgba(255, 0, 0, 0.7) !important;
+}
+
 .search-button {
     height: 30px;
     line-height: 14px;
@@ -17,21 +21,30 @@
 }
  /* modal */
 .confirm-modal {
-    width: 50%;
-    left: 25%;
+    width: 40%;
+    left: 30%;
     top: 33%;
 }
 
 @media screen and (max-width: 992px){
     .add-salary-form {
         width: 40%;
-    }       
+    }
+    
+    .confirm-modal {
+        width: 50%;
+        left: 25%;        
+    }
 }
 
 @media screen and (max-width: 576px){
     .search-button {
         height: 28px;
         line-height: 14px;
+    }
+    
+    .delete {
+        font-size: 12px;
     }
 
     .salary {

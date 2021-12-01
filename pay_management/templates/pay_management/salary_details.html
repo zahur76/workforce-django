@@ -38,7 +38,7 @@
                             <a href="#" id="open-salary-deletion-modal-{{ salary.id }}" class="text-danger salary-deletion-modal">Delete</a>
                         </div>
                         <div class="col-4 text-success">
-                            <a href="#" class="text-success">Update</a>
+                            <a href="{% url 'salary_update' salary_id=salary.id %}" class="text-success">Update</a>
                         </div>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                         <a href="#" id="open-salary-deletion-modal-{{ salary.id }}" class="text-danger salary-deletion-modal">Delete</a>
                     </div>
                     <div class="col-4 text-success">
-                        <a href="#" class="text-success">Update</a>
+                        <a href="{% url 'salary_update' salary_id=salary.id %}" class="text-success">Update</a>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     <div class="col-12 close-modal"><div class="close-button btn p-0 text-light">X</div></div>
                 </div> 
                 <div class="row m-0">                                 
-                    <div class="col-12 bg-danger text-center text-light delete">Do you want to delete {{ staff.first_name }} salary?</div>                       
+                    <div class="col-12 text-center text-light delete">Do you want to delete {{ staff.first_name }} salary?</div>                       
                 </div>              
                 <div class="row w-25 mx-auto text-center mt-3">
                     <a href="{% url 'salary_delete' salary_id=salary.id %}" class="col-12 confirm btn button border border-light text-light">Confirm</a>            

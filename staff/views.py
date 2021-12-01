@@ -82,7 +82,7 @@ def update_staff(request, staff_id):
 
     if not request.user.is_superuser:
             messages.error(request, 'Access Denied!')
-            return redirect(reverse('home'))    
+            return redirect(reverse('home'))
     else:
         staff = get_object_or_404(Staff, id=staff_id)
         if request.method == 'POST':

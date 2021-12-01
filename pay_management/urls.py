@@ -6,5 +6,6 @@ urlpatterns = [
     path('', views.pay, name='pay'),
     path('add_salary/<int:staff_id>', views.add_salary, name='add_salary'),
     path('salary_details/<int:staff_id>', views.salary_details, name='salary_details'),
-    path('salary_delete/<int:salary_id>', views.salary_delete, name='salary_delete'),
+    path('salary_delete/<int:salary_id>', views.salary_delete, name='salary_delete'),    
+    path('salary_update/<int:salary_id>', views.salary_update, name='salary_update'),
 ]

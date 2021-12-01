@@ -102,7 +102,7 @@ def salary_details(request, staff_id):
 
 
 def salary_delete(request, salary_id):
-    """ A view to return salary details """
+    """ A view to delete salary details """
     if not request.user.is_superuser:
         messages.error(request, 'Permision Denied!.')
         return redirect(reverse('home'))
@@ -111,3 +111,18 @@ def salary_delete(request, salary_id):
     salary.delete()
     messages.success(request, 'Salary Deleted!')
     return redirect(reverse('salary_details', args=[salary.staff.id]))
+
+
+def salary_update(request, salary_id):
+    """ A view to update salary details """
+    if not request.user.is_superuser:
+        messages.error(request, 'Permision Denied!.')
+        return redirect(reverse('home'))
+
+    salary = get_object_or_404(SalarySlip, id=salary_id)
+    form = add_salaryForm(instance=salary)
+    context = {
+        'form': form,
+        'salary': salary,
+        }
+    return render(request, 'pay_management/salary_update.html', context)
