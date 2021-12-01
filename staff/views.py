@@ -46,7 +46,7 @@ def staff_details(request, staff_id):
         context = {
             'staff': staff,
         }
-    
+
     return render(request, 'staff/staff_details.html', context)
 
 

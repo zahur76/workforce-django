@@ -57,7 +57,6 @@ def add_salary(request, staff_id):
                         salary.tax_deduction/100)
                 salary.net_salary = salary.gross_salary - salary.total_deduction
                 salary_dictionary = {
-                    'staff': staff.first_name + " " + staff.last_name,
                     'Created at': time.strftime("%Y%m%d-%H%M%S"),
                     'Basic Salary': salary.basic_salary,
                     'transport_allowance': salary.transport_allowance,
@@ -118,11 +117,42 @@ def salary_update(request, salary_id):
     if not request.user.is_superuser:
         messages.error(request, 'Permision Denied!.')
         return redirect(reverse('home'))
+    else:
+        salary = get_object_or_404(SalarySlip, id=salary_id)
+        staff = get_object_or_404(Staff, id=salary.staff.id)
+        if request.method == 'POST':
+            form = add_salaryForm(request.POST , instance=salary)
+            if form.is_valid():
+                form_salary = form.save(commit=False)
+                form_salary.gross_salary = (form_salary.basic_salary +
+                                        form_salary.transport_allowance +
+                                        form_salary.non_taxable_additional_allowances +
+                                        form_salary.taxable_additional_allowances)
+                form_salary.total_deduction = (
+                    form_salary.basic_salary + form_salary.taxable_additional_allowances) * (
+                        form_salary.tax_deduction/100)
+                form_salary.net_salary = form_salary.gross_salary - form_salary.total_deduction
+                salary_dictionary = {
+                    'Created at': time.strftime("%Y%m%d-%H%M%S"),
+                    'Basic Salary': form_salary.basic_salary,
+                    'transport_allowance': form_salary.transport_allowance,
+                    'non_taxable additional allowances': form_salary.non_taxable_additional_allowances,
+                    'taxable additional allowances': form_salary.taxable_additional_allowances,
+                    'tax deduction': form_salary.tax_deduction,
+                    'gross salary':salary.gross_salary,
+                    'total deduction': form_salary.total_deduction,
+                    'net_salary':form_salary.net_salary,
+                }
+                form_salary.json_salary = json.dumps(salary_dictionary)
+                form_salary.save()
+                messages.success(request, 'Salary updated!.')
+                return redirect(reverse('salary_details', args=[salary.staff.id]))
+            messages.success(request, 'Error try again!.')
+            return redirect(reverse('salary_details', args=[salary.staff.id]))
 
-    salary = get_object_or_404(SalarySlip, id=salary_id)
-    form = add_salaryForm(instance=salary)
-    context = {
-        'form': form,
-        'salary': salary,
-        }
-    return render(request, 'pay_management/salary_update.html', context)
+        form = add_salaryForm(instance=salary)
+        context = {
+            'form': form,
+            'salary': salary,
+            }
+        return render(request, 'pay_management/salary_update.html', context)
