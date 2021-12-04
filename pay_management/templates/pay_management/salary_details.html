@@ -68,6 +68,7 @@
                 </div>
             </div>
         </div>
+        <a href="{% url 'employee_salary' salary_id=salary.id %}" class="text-success">PDF VIEW</a>
         {% endif %}
         <!-- Confirm salary deletion modal -->
         <div id="delete-salary-modal-{{ salary.id }}" class="modal confirm-modal mx-auto">

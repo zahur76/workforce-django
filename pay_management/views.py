@@ -155,3 +155,17 @@ def salary_update(request, salary_id):
             'salary': salary,
             }
         return render(request, 'pay_management/salary_update.html', context)
+
+def employee_salary(request, salary_id):
+    """ A view to create employee salary """
+    if not request.user.is_superuser:
+        messages.error(request, 'Permision Denied!.')
+        return redirect(reverse('home'))
+
+    
+    salary = get_object_or_404(SalarySlip, id=salary_id)
+
+    context = {        
+        'salary': salary,
+        }
+    return render(request, 'pay_management/employee_salary.html', context)
