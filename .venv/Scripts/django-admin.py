@@ -1,4 +1,4 @@
-#!c:\users\mmeerun\codeacademy\workforce-django\.venv\scripts\python.exe
+#!c:\users\mmeerun\codeacademy\django\workforce-django\.venv\scripts\python.exe
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
