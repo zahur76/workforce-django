@@ -172,10 +172,6 @@ def employee_salary(request, salary_id):
         }
 
     html = template.render(context)    
-    pdf = render_to_pdf('pay_management/employee_salary.html', context)      
-    # filename = f'{salary.staff}'
-
-    # with open(f'/data/{filename}.pdf', 'w') as out:
-    #     out.write(pdf)
+    pdf = render_to_pdf('pay_management/employee_salary.html', context)
     return HttpResponse (pdf,
                 content_type='application/pdf')

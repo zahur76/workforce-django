@@ -43,6 +43,9 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12 bg-secondary">
+                <a href="{% url 'employee_salary' salary_id=salary.id %}" class="text-success p-1 m-1 btn btn-success text-light text-center" download>Download PDF</a>
+            </div>
         {% else %}
         <div class="row m-0 text-center salary">
             <div class="col-1 ml-2">
@@ -68,7 +71,9 @@
                 </div>
             </div>
         </div>
-        <a href="{% url 'employee_salary' salary_id=salary.id %}" class="text-success">PDF VIEW</a>
+        <div class="col-12">
+            <a href="{% url 'employee_salary' salary_id=salary.id %}" class="text-success p-1 m-1 btn btn-success text-light text-center" download>Download PDF</a>
+        </div>
         {% endif %}
         <!-- Confirm salary deletion modal -->
         <div id="delete-salary-modal-{{ salary.id }}" class="modal confirm-modal mx-auto">
