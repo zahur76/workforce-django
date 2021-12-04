@@ -1,10 +1,13 @@
+from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from staff.models  import Staff
 from .models import SalarySlip
 from django.contrib import messages
 from django.db.models import Q
 from .forms import add_salaryForm
-import time, json, datetime
+import time, json
+from django.template.loader import get_template
+from .utils import render_to_pdf
 
 # Create your views here
 def pay(request):
@@ -161,11 +164,18 @@ def employee_salary(request, salary_id):
     if not request.user.is_superuser:
         messages.error(request, 'Permision Denied!.')
         return redirect(reverse('home'))
-
-    
+        
+    template = get_template('pay_management/employee_salary.html')
     salary = get_object_or_404(SalarySlip, id=salary_id)
-
     context = {        
         'salary': salary,
         }
-    return render(request, 'pay_management/employee_salary.html', context)
+
+    html = template.render(context)    
+    pdf = render_to_pdf('pay_management/employee_salary.html', context)      
+    # filename = f'{salary.staff}'
+
+    # with open(f'/data/{filename}.pdf', 'w') as out:
+    #     out.write(pdf)
+    return HttpResponse (pdf,
+                content_type='application/pdf')
