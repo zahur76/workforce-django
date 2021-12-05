@@ -10,7 +10,7 @@ class StaffTestViews(TestCase):
 
     def setUp(self):
         staff = Staff.objects.create(
-                    id=1, first_name="zahur", last_name='meerun', email_address='z@gmail.com', 
+                    id=1, first_name="zahur", last_name='meerun', tax_number=9999, email_address='z@gmail.com', 
                     phone_number=1234565, address='vacoas', birth_date='1976-05-06',
                     gender='Male', management_level='1', entry_date='2021-01-01', 
                     position_held='Manager', basic_salary='50000', transport_allowance='5000',
@@ -69,7 +69,7 @@ class StaffTestViews(TestCase):
         self.client.login(
                     username='superuser', password='zahur')          
         data = {
-                'first_name': 'zahur', 'last_name': 'meerun', 'email_address':'z@gmail.com', 
+                'first_name': 'zahur', 'last_name': 'meerun', 'tax_number': 9999, 'email_address':'z@gmail.com', 
                 'phone_number': 1234565, 'address': 'vacoas', 'birth_date': '1976-05-06',
                 'gender': 'Male', 'management_level': '1', 'entry_date': '2021-01-01', 
                 'position_held': 'Manager', 'basic_salary': '50000', 'transport_allowance': '5000',
@@ -85,7 +85,7 @@ class StaffTestViews(TestCase):
         self.client.login(
                     username='superuser', password='zahur')          
         data = {
-                'first_name': ' ', 'last_name': 'meerun', 'email_address':'z@gmail.com', 
+                'first_name': ' ', 'last_name': 'meerun', 'tax_number': 9999, 'email_address':'z@gmail.com', 
                 'phone_number': 1234565, 'address': 'vacoas', 'birth_date': '1976-05-06',
                 'gender': 'Male', 'management_level': '1', 'entry_date': '2021-01-01', 
                 'position_held': 'Manager', 'basic_salary': '50000', 'transport_allowance': '5000',
@@ -109,7 +109,7 @@ class StaffTestViews(TestCase):
         self.client.login(
                     username='superuser', password='zahur')                  
         data = {
-                'first_name': 'fally', 'last_name': 'meerun', 'email_address':'z@gmail.com', 
+                'first_name': 'fally', 'last_name': 'meerun', 'tax_number': 9999, 'email_address':'z@gmail.com', 
                 'phone_number': 1234565, 'address': 'vacoas', 'birth_date': '1976-05-06',
                 'gender': 'Male', 'management_level': '1', 'entry_date': '2021-01-01', 
                 'position_held': 'Manager', 'basic_salary': '50000', 'transport_allowance': '5000',
