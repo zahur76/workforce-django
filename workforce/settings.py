@@ -145,9 +145,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 # used for static folders within apps
-# my_app/static/my_app/example.jpg
+# path to static root. Static root automatically set within app
 STATIC_URL = '/static/'
-# For main static file not tied up to app and in base_dir/Required for base.css
+# For main static file not tied up to app and in base_dir/Required for base.css so django will look here too
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 # This will add the file to the media folder and not to another url
