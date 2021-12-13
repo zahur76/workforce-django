@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pay_management', '0005_alter_salaryslip_tax_number'),
+        ("pay_management", "0005_alter_salaryslip_tax_number"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='salaryslip',
-            name='total_deduction',
+            model_name="salaryslip",
+            name="total_deduction",
             field=models.IntegerField(default=100),
         ),
     ]

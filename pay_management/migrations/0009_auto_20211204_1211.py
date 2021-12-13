@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pay_management', '0008_auto_20211125_1447'),
+        ("pay_management", "0008_auto_20211125_1447"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='salaryslip',
-            name='non_taxable_additional_allowances',
+            model_name="salaryslip",
+            name="non_taxable_additional_allowances",
             field=models.IntegerField(default=0),
         ),
         migrations.AlterField(
-            model_name='salaryslip',
-            name='taxable_additional_allowances',
+            model_name="salaryslip",
+            name="taxable_additional_allowances",
             field=models.IntegerField(default=0),
         ),
     ]

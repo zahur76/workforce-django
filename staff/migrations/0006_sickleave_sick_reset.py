@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('staff', '0005_annualleave'),
+        ("staff", "0005_annualleave"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='sickleave',
-            name='sick_reset',
+            model_name="sickleave",
+            name="sick_reset",
             field=models.BooleanField(default=False),
         ),
     ]

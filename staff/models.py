@@ -2,7 +2,6 @@ from django.db import models
 
 
 class Staff(models.Model):
-
     class Meta:
         verbose_name_plural = "Staff"
 
@@ -14,18 +13,21 @@ class Staff(models.Model):
     address = models.CharField(max_length=254)
     birth_date = models.DateField()
     GENDER = [
-                ('Male', 'Male'),
-                ('Female', 'Female'),
-                ('Other', 'Other'), ]
+        ("Male", "Male"),
+        ("Female", "Female"),
+        ("Other", "Other"),
+    ]
     gender = models.CharField(max_length=6, choices=GENDER, null=False)
     management_level_choices = [
-                ('1', '1'),
-                ('2', '2'),
-                ('3', '3'),
-                ('4', '4'),
-                ('5', '5'),
-                ]
-    management_level = models.CharField(max_length=26, choices=management_level_choices, null=False)
+        ("1", "1"),
+        ("2", "2"),
+        ("3", "3"),
+        ("4", "4"),
+        ("5", "5"),
+    ]
+    management_level = models.CharField(
+        max_length=26, choices=management_level_choices, null=False
+    )
     entry_date = models.DateField()
     termination_date = models.DateField(null=True, blank=True)
     position_held = models.CharField(max_length=254)
@@ -42,13 +44,16 @@ class Staff(models.Model):
 
 
 class SickLeave(models.Model):
-
     class Meta:
         verbose_name_plural = "Sick leave"
 
     staff = models.ForeignKey(
-            'Staff', null=False, blank=False, on_delete=models.CASCADE,
-            related_name='sickleave')
+        "Staff",
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+        related_name="sickleave",
+    )
     start_date = models.DateField()
     end_date = models.DateField()
     days = models.IntegerField()
@@ -58,13 +63,16 @@ class SickLeave(models.Model):
 
 
 class AnnualLeave(models.Model):
-
     class Meta:
         verbose_name_plural = "Annual leave"
 
     staff = models.ForeignKey(
-            'Staff', null=False, blank=False, on_delete=models.CASCADE,
-            related_name='annuallleave')
+        "Staff",
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+        related_name="annuallleave",
+    )
     start_date = models.DateField()
     end_date = models.DateField()
     days = models.IntegerField()

@@ -1,11 +1,13 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.contrib import messages
-from .models import AnnualLeave, SickLeave, Staff
-from .forms import add_staffForm, add_sick_leaveForm, add_annual_leaveForm
-from django.db.models import Q
 import datetime
 import json
 from calendar import monthrange
+
+from django.contrib import messages
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render, reverse
+
+from .forms import add_annual_leaveForm, add_sick_leaveForm, add_staffForm
+from .models import AnnualLeave, SickLeave, Staff
 
 
 # Create your views here

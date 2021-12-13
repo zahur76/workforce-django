@@ -1,13 +1,18 @@
-from django.http.response import HttpResponse
-from django.shortcuts import get_object_or_404, render, redirect, reverse
-from staff.models import Staff
-from .models import SalarySlip
+import json
+import time
+
 from django.contrib import messages
 from django.db.models import Q
-from .forms import add_salaryForm
-import time, json
+from django.http.response import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.template.loader import get_template
+
+from staff.models import Staff
+
+from .forms import add_salaryForm
+from .models import SalarySlip
 from .utils import render_to_pdf
+
 
 # Create your views here
 def pay(request):

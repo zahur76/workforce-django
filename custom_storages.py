@@ -3,7 +3,9 @@ from storages.backends.s3boto3 import S3Boto3Storage
 
 
 class StaticStorage(S3Boto3Storage):
-    location = settings.STATICFILES_LOCATION # store files under directory `static/` in bucket `my-app-bucket
+    location = (
+        settings.STATICFILES_LOCATION
+    )  # store files under directory `static/` in bucket `my-app-bucket
 
 
 class MediaStorage(S3Boto3Storage):

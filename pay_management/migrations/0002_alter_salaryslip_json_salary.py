@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pay_management', '0001_initial'),
+        ("pay_management", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='salaryslip',
-            name='json_salary',
+            model_name="salaryslip",
+            name="json_salary",
             field=models.CharField(blank=True, max_length=1000, null=True),
         ),
     ]
