@@ -13,10 +13,12 @@
         <div class="col-10 col-md-4 col-lg-3 mt-2">
             <form action="{% url 'pay' %}" method="GET" id="characterForm">
                 {% csrf_token %}
-                <div class="input-group">
-                    <input type="search" class="form-control custom-select rounded-0 border-2 border-dark" name="q" placeholder="Search Staff">
-                    <button class="btn btn-outline-dark bg-dark text-light rounded-0 input-group-append ml-auto search-button" type="submit"><div class="text">Search</div></button>
-                </div>                
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <button type="submit" class="btn btn-outline-secondary btn-dark text-light">Button</button>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Staff Name" name="q" aria-describedby="basic-addon1">
+                </div>              
             </form> 
         </div>      
     </div>

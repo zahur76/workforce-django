@@ -11,11 +11,6 @@
     background: rgba(255, 0, 0, 0.7) !important;
 }
 
-.search-button {
-    height: 30px;
-    line-height: 14px;
-}
-
 .add-salary-form {
     width: 25%;
 }
@@ -56,11 +51,6 @@
     .salary {
         font-size: 12px;
     }
-
-    .form-control {
-        height: 28px;
-    }
-
     .add-salary-form {
         width: 75% !important;
     }
