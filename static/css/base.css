@@ -40,11 +40,7 @@ nav a {
 }
 
 .bg-modal {
-    background:rgba(0, 0, 0, 0.7);
-}
-
-input {
-    height: 30px;    
+    background:rgba(0, 0, 0, 0.8);
 }
 
 .password-bar {
@@ -116,11 +112,6 @@ input {
 
     .modal-title {
         font-size: 14px;
-    }
-
-    input {
-        height: 25px;
-        font-size: 14px !important;
     }
 
     .append-eye {        
